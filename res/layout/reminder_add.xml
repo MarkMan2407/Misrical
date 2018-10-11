@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <EditText
+        android:id="@+id/reminder_add_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/reminder_text_label">
+        <requestFocus />
+    </EditText>
+    
+   <LinearLayout
+        android:id="@+id/reminder_add_button_row"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reminder_add_title"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp" >
+
+        <Button
+            android:id="@+id/reminder_add_gregorian_set"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2dp"
+            android:text="@string/set_gregorian_label"
+            android:background="@drawable/green_button_selector" />
+
+        <Button
+            android:id="@+id/reminder_add_misri_set"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="2dp"
+            android:text="@string/set_misri_label" 
+             android:background="@drawable/green_button_selector" />
+    </LinearLayout>
+    
+
+    <RadioGroup
+        android:id="@+id/driver_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/reminder_add_misri_text"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/gregorian_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/reminder_add_fix_gregorian" />
+
+        <RadioButton
+            android:id="@+id/misri_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reminder_add_fix_misri" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/reminder_add_gregorian_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reminder_add_button_row"
+        android:layout_marginTop="20dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/reminder_add_misri_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reminder_add_gregorian_text"
+        android:layout_marginTop="10dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/driver_group"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/reminder_add_fix_explanation"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>

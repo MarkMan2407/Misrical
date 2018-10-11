@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+     android:orientation="vertical">
+
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+    
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/dayMinus"
+                android:layout_width="40dip"
+                android:layout_height="50dip"
+                android:text="@string/symbol_minus"/>
+            
+            <EditText
+                android:id="@+id/dayText"
+                android:layout_width="40dip"
+                android:layout_height="50dip"/>
+
+            <Button
+                android:id="@+id/dayPlus"
+                android:layout_width="40dip"
+                android:layout_height="50dip"
+                android:text="@string/symbol_plus"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="0dip">
+
+           <Button
+                android:id="@+id/monthMinus"
+                android:layout_width="40dip"
+                android:layout_height="50dip"
+                android:text="@string/symbol_minus"/>
+
+
+            <EditText  
+                android:id="@+id/monthText"
+                android:layout_width="205dip"
+                android:layout_height="50dip"/>
+
+                        <Button
+                android:id="@+id/monthPlus"
+                android:layout_width="40dip"
+                android:layout_height="50dip"
+                android:text="@string/symbol_plus"/>
+        </TableRow>
+ 
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|clip_vertical"
+            android:paddingTop="0dip">
+
+            <Button
+                android:id="@+id/yearMinus"
+                android:layout_width="40dip"
+                android:layout_height="50dip"
+                android:text="@string/symbol_minus"/>
+            
+             <EditText
+                android:id="@+id/yearText"
+                android:layout_width="60dip"
+                android:layout_height="50dip">
+            </EditText>
+
+            <Button
+                android:id="@+id/yearPlus"
+                android:layout_width="40dip"
+                android:layout_height="50dip"
+                android:text="@string/symbol_plus"/>
+            
+
+        </TableRow>
+        
+    </TableLayout>
+</LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <Button
+        android:id="@+id/misriCancel"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="50dp"
+        android:layout_marginLeft="0dp"
+        android:text="@string/word_cancel"/>
+    
+        <Button
+        android:id="@+id/misriSet"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="50dp"
+        android:layout_marginLeft="0dp"
+        android:text="@string/word_set"/>
+</LinearLayout>
+</LinearLayout>

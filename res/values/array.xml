@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <string-array name="bearingArrayValues">
+     <item>1</item>
+     <item>2</item>
+     <item>3</item>
+ </string-array>
+ <string-array name="bearingArray">
+     <item>Auto Bearing</item>
+     <item>Bearing on Touch</item>
+     <item>Bearings Off</item>
+ </string-array>
+</resources>

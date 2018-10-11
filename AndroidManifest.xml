@@ -1,0 +1,49 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.squizzard.MisriCalendar" android:versionCode="11"
+	android:versionName="2.0">
+	<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="19"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.LOCATION" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<application android:icon="@drawable/ic_launcher1"
+		android:label="@string/app_name"
+		android:allowBackup="false">
+		<activity android:name=".CalendarConvert" android:theme="@style/CustomActionBarTheme"
+			android:label="@string/app_name" android:launchMode="singleInstance">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".BearingPrefs" android:label="@string/settings_title"/>
+		<activity android:name=".About" android:label="@string/about_title" android:noHistory="false" android:theme="@style/Theme.AppCompat.Light"/>
+		<activity android:name=".Miqaat" android:label="@string/miqaat_title" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
+	    <activity android:name=".MiqaatMonthView" android:noHistory="true" android:theme="@style/CustomActionBarTheme"/>
+		<activity android:name="com.squizzard.Reminder.ReminderList" android:theme="@style/CustomActionBarTheme" android:noHistory="false" />
+		<activity android:name="com.squizzard.Reminder.ReminderAdd" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
+		<activity android:name="com.squizzard.Reminder.ReminderDisplay" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
+		<receiver android:name=".AlarmCoordinator">
+          <intent-filter>
+            	<action android:name="android.intent.action.BOOT_COMPLETED"/>
+       	 </intent-filter>
+	    </receiver>
+	    <receiver android:name="com.squizzard.MisriCalendar.AlarmReceiver"
+	        android:exported="false">
+			<intent-filter>
+			    <action android:name="com.squizzard.MisriCalendar.MORNING_CHECK_MIQAAT_INTENT" />
+			    <action android:name="com.squizzard.MisriCalendar.EVENING_CHECK_MIQAAT_INTENT" />
+			</intent-filter>
+	    </receiver>
+		<receiver android:name="com.squizzard.MisriCalendar.MisriAppWidgetProvider">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+				<action android:name="FLIP_DATE_ACTION" />
+			</intent-filter>
+			<meta-data android:name="android.appwidget.provider"
+				android:resource="@xml/misri_widget" />
+		</receiver>
+	</application>
+</manifest>

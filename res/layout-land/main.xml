@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1,2,3" >
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/setGregorianButton"
+                android:background="@drawable/green_button_selector"
+                android:textColor="@drawable/button_text_color"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:text="@string/set_gregorian_label" />
+
+            <Button
+                android:id="@+id/setMisriButton"
+                android:background="@drawable/green_button_selector"
+                android:textColor="@drawable/button_text_color"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:text="@string/set_misri_label" />
+            
+            <Button
+                android:id="@+id/todayButton"
+                android:background="@drawable/green_button_selector"
+                android:textColor="@drawable/button_text_color"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:text="@string/Today" />
+
+            <Button
+                android:id="@+id/dayMinusButton"
+                android:background="@drawable/green_button_selector"
+                android:textColor="@drawable/button_text_color"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:text="@string/DayMinus" />
+
+            <Button
+                android:id="@+id/dayPlusButton"
+                android:background="@drawable/green_button_selector"
+                android:textColor="@drawable/button_text_color"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:text="@string/DayPlus" />
+            
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp" >
+
+        <Button
+            android:id="@+id/sunButton"
+            style="@style/notTodayButton"
+            android:text="@string/Su" />
+
+        <Button
+            android:id="@+id/monButton"
+            style="@style/notTodayButton"
+            android:text="@string/Mo" />
+
+        <Button
+            android:id="@+id/tueButton"
+            style="@style/notTodayButton"
+            android:text="@string/Tu" />
+
+        <Button
+            android:id="@+id/wedButton"
+            style="@style/notTodayButton"
+            android:text="@string/We" />
+
+        <Button
+            android:id="@+id/thuButton"
+            style="@style/notTodayButton"
+            android:text="@string/Th" />
+
+        <Button
+            android:id="@+id/friButton"
+            style="@style/notTodayButton"
+            android:text="@string/Fr" />
+
+        <Button
+            android:id="@+id/satButton"
+            style="@style/notTodayButton"
+            android:text="@string/Sa" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/arrow_icon_mecca"
+            android:layout_width="125dip"
+            android:layout_height="125dip"
+            android:layout_alignParentRight="true"
+            android:adjustViewBounds="true"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/arr2" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/arrow_label_mecca"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/arrow_icon_mecca"
+            android:layout_alignRight="@+id/arrow_icon_mecca"
+            android:layout_below="@+id/arrow_icon_mecca"
+            android:gravity="center"
+            android:padding="5dip"
+            android:text="@string/mecca"
+            android:textSize="12sp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <ImageView
+            android:id="@+id/arrow_icon_north"
+            android:layout_width="125dip"
+            android:layout_height="125dip"
+            android:layout_alignBottom="@+id/arrow_icon_mecca"
+            android:layout_alignTop="@+id/arrow_icon_mecca"
+            android:layout_toLeftOf="@+id/arrow_icon_mecca"
+            android:adjustViewBounds="true"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/arr2" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/northLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/arrow_icon_north"
+            android:layout_alignRight="@+id/arrow_icon_north"
+            android:layout_below="@+id/arrow_icon_north"
+            android:gravity="center"
+            android:padding="5dip"
+            android:text="@string/north"
+            android:textSize="12sp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/dateGregorian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/convertedDate"
+            android:layout_marginTop="15dip"
+            android:padding="5dip"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/convertedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dip"
+            android:padding="5dip"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/eventText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/northLabel"
+            android:layout_alignParentLeft="true"
+            android:maxWidth="300sp"
+            android:paddingLeft="5dip"
+            android:textColor="@color/monthListNumber"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>

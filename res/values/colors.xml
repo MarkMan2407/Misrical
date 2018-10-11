@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <color name = "notTodayButton">#625D5D</color>
+     <color name = "todayButton">#C0C0C0</color>
+     <color name = "monthListNumber">#41A317</color>
+     <color name = "white">#FFFFFF</color>
+     <color name = "black">#000000</color>
+     <color name = "green_button">#369b39</color>
+     <color name = "green_button_pressed">#56e15a</color>
+</resources>

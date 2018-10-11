@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_version">2.0</string>
+    <string name="app_version_string">Version 2.0</string>
+    <string name="app_name">MisriCal</string>
+    <string name="ouikka_email">misrical@ouikka.com</string>
+    <string name="bearing_opt_label">Settings</string>
+    <string name="set_gregorian_label">Set Gregorian</string>
+    <string name="set_misri_label">Set Misri</string>
+    <string name="about_opt_label">About</string>
+    <string name="share_opt_label">Share</string>
+    <string name="reminder_label">My Reminders</string>
+    <string name="miqaat_opt_label">Miqaat</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_check_today">Check Today\'s Events</string>
+    <string name="settings_check_tomorrow">Check Tomorrow\'s Events</string>
+    <string name="settings_bearing_due_north">Mecca bearing from due north: </string>
+    <string name="settings_provider">Provider: </string>
+    
+    <string name="miqaat_title">Miqaat</string>  
+    <string name="about_title">MisriCal from OUIKKA</string> 
+    <string name="copyright_string">"Copyright \u00A9 2014 Ouikka Apps"</string>
+
+    <string name="miqaat_alert_preference">alerts</string>
+    <string name="aboutIconDesc">Misri Icon</string>
+    <string name="aboutLabel1">Misri/Gregorian Calendar Converter</string>
+    <string name="aboutEmailButtonLabel">Contact Developer</string>
+    <string name="aboutContactLabel">Contact/Feedback/Help</string>
+    <string name="aboutWidgetLabel">Use the MisriCal Widget to see the date on your home screen!</string>
+    <string name="mecca">Mecca</string>
+    <string name="north">North</string>
+    <string name="Su">Su</string>
+    <string name="Mo">Mo</string>
+    <string name="Tu">Tu</string>
+    <string name="We">We</string>
+    <string name="Th">Th</string>
+    <string name="Fr">Fr</string>
+    <string name="Sa">Sa</string>
+    <string name="Today">Today</string>
+    <string name="DayPlus">Day+</string>
+    <string name="DayMinus">Day-</string>
+    <string name="tips">In order for the Mecca pointer to function correctly location data is required. This can be sourced from your network provider, WIFI or GPS. It may be necessary to enable the use of wireless networks in your location settings to use your network provider.</string>
+    <string name="tips2">If your accelerometer is not calibrated correctly then the pointers will not be correct. If the North pointer does not point where you expect then it may be necessary to recalibrate your device by holding it parallel to the ground and moving it in a figure-8.</string>
+             
+    <string name="reminder_text_label">Enter Reminder Text</string>
+    <string name="reminder_add_fix_misri">Fix date as Misri</string>
+    <string name="reminder_add_fix_gregorian">Fix date as Gregorian</string>
+    <string name="reminder_add_fix_explanation">If the reminder is fixed to one calendar then the reminder will always be tied to that calendar in future years, meaning the date on the other calendar can vary.</string>
+    
+    <string name="reminder_delete_confirm">Do you want to delete this reminder?</string>
+    
+    <string name="word_save">Save</string>
+    <string name="word_ok">OK</string>
+    <string name="word_add">Add</string>
+    <string name="word_delete">Delete</string>
+    <string name="word_edit">Edit</string>
+    <string name="word_cancel">Cancel</string>
+    <string name="word_menu">Menu</string>
+    <string name="word_set">Set</string>
+    
+    <string name="symbol_plus">+</string>
+    <string name="symbol_minus">-</string>
+    
+</resources>

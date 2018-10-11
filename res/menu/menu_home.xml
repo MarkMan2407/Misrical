@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+     <item android:id="@+id/action_preferences"
+        android:title="@string/word_menu" 
+        android:icon="@drawable/ic_action_overflow"
+        yourapp:showAsAction="always"
+        android:showAsAction="always">
+        <menu>
+     <item android:id="@+id/reminders" 
+        android:title="@string/reminder_label"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_event"
+        yourapp:icon="@drawable/ic_action_event"
+        yourapp:showAsAction="always"/>
+    <item android:id="@+id/miqaat" 
+        android:title="@string/miqaat_opt_label" 
+        android:icon="@android:drawable/ic_menu_month"
+        yourapp:icon="@android:drawable/ic_menu_month"
+        android:showAsAction="always"
+        yourapp:showAsAction="always"/>
+    <item android:id="@+id/bearings" 
+        android:title="@string/bearing_opt_label" 
+        android:icon="@android:drawable/ic_menu_preferences"
+        yourapp:icon="@android:drawable/ic_menu_preferences"
+        android:showAsAction="always"
+        yourapp:showAsAction="always"/>
+    <item android:id="@+id/about" 
+        android:icon="@android:drawable/ic_menu_info_details" 
+        android:title="@string/about_opt_label"
+        android:showAsAction="always"
+         yourapp:showAsAction="always"/>
+    <item android:id="@+id/share" 
+        android:icon="@android:drawable/ic_menu_share" 
+        yourapp:icon="@android:drawable/ic_menu_share" 
+        android:title="@string/share_opt_label"
+        android:showAsAction="always"
+        yourapp:showAsAction="always"/>
+    </menu>
+    </item>
+</menu> 
