@@ -218,7 +218,7 @@ public class DateUtil {
 
 		eventMap.put(Integer.valueOf(304), new String[]{"Urus Syedna Fir Khan Shujahuddin AQ [33rd Dai] Ahmedabad"});
 		eventMap.put(Integer.valueOf(306), new String[]{"Urus Syedi Hasan bin Nuh Bharuji Yemen, Masaar","Urus Syedna Ali bin Mohammed Sulayhi RA Yemen"});
-		eventMap.put(Integer.valueOf(307), new String[]{"Urus Syedna Abdul Tayyib Zakiyuddin bin Syedna Ismail Badruddin AQ  [35th Dai] Jamnagar"});
+		eventMap.put(Integer.valueOf(307), new String[]{"Urus Syedna Abdul Tayyib Zakiyuddin bin Syedna Ismail Badruddin AQ [35th Dai] Jamnagar"});
 		priorityEventMap.put(Integer.valueOf(307), new String[]{"Urus Syedna Abdeali Saifuddin AQ [43rd Dai] Surat"});
 		eventMap.put(Integer.valueOf(308), new String[]{"Urus Syedna Ali bin Syedna Husain [9th Dai] Yemen"});
 		eventMap.put(Integer.valueOf(310), new String[]{"Urus Syedna Tayyib Zainuddin bin Syedi Jewanji [45th Dai] Surat","Urus Bai Saheba Raani Baisaheba binte Syedna Ismail Badruddin AQ Mundra"});

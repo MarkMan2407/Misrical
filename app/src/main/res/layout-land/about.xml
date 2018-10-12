@@ -5,14 +5,14 @@
     android:layout_gravity="center"
     android:background="#fff"
     android:orientation="vertical"
-    android:paddingTop="10dip">
+    android:paddingTop="10dp">
 
     <ImageView
         android:id="@+id/aboutIcon"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/aboutIconDesc"
-        android:src="@drawable/ic_launcher1">
+        android:src="@drawable/ic_launcher1"
+        android:contentDescription="@string/aboutIconDesc">
     </ImageView>
 
     <TextView
@@ -31,32 +31,16 @@
         android:text="@string/copyright_string">
     </TextView>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/app_version_string">
-    </TextView>
-    
-        <TextView
-        android:id="@+id/aboutWidgetText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="20dip"
-        android:text="@string/aboutWidgetLabel"/>
-
     <Button
         android:id="@+id/emailButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="65dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="40dip"
+        android:layout_marginRight="40dip"
+        android:layout_marginTop="40dip"
         android:autoLink="email"
+        android:textColor="@color/white"
         android:background="@drawable/green_button_selector"
-        android:textColor="@drawable/button_text_color"
         android:text="@string/aboutEmailButtonLabel">
     </Button>
 
@@ -67,4 +51,14 @@
         android:gravity="center"
         android:text="@string/aboutContactLabel">
     </TextView>
+    
+    <TextView
+        android:id="@+id/aboutWidgetText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/aboutWidgetLabel"
+        android:paddingTop="20dip"/>
+    <!-- >Button android:autoLink="web" android:layout_width="match_parent" android:id="@+id/webButton" android:text="ouikka.com" android:layout_marginTop="10dip" android:layout_height="wrap_content" android:layout_marginLeft="90dip" android:layout_marginRight="90dip"></Button> -->
+
 </LinearLayout>

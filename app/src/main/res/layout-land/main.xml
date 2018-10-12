@@ -15,7 +15,7 @@
             <Button
                 android:id="@+id/setGregorianButton"
                 android:background="@drawable/green_button_selector"
-                android:textColor="@drawable/button_text_color"
+                android:textColor="@color/white"
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:text="@string/set_gregorian_label" />
@@ -23,7 +23,7 @@
             <Button
                 android:id="@+id/setMisriButton"
                 android:background="@drawable/green_button_selector"
-                android:textColor="@drawable/button_text_color"
+                android:textColor="@color/white"
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:text="@string/set_misri_label" />
@@ -31,7 +31,7 @@
             <Button
                 android:id="@+id/todayButton"
                 android:background="@drawable/green_button_selector"
-                android:textColor="@drawable/button_text_color"
+                android:textColor="@color/white"
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:text="@string/Today" />
@@ -39,7 +39,7 @@
             <Button
                 android:id="@+id/dayMinusButton"
                 android:background="@drawable/green_button_selector"
-                android:textColor="@drawable/button_text_color"
+                android:textColor="@color/white"
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:text="@string/DayMinus" />
@@ -47,7 +47,7 @@
             <Button
                 android:id="@+id/dayPlusButton"
                 android:background="@drawable/green_button_selector"
-                android:textColor="@drawable/button_text_color"
+                android:textColor="@color/white"
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:text="@string/DayPlus" />
