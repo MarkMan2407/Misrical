@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.squizzard.MisriCalendar" android:versionCode="11"
+	package="com.squizzard.MisriCalendar" android:versionCode="12"
 	android:versionName="2.0">
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
