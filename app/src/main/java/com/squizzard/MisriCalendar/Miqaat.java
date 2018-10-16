@@ -2,7 +2,7 @@ package com.squizzard.MisriCalendar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Miqaat extends ActionBarActivity{
+public class Miqaat extends AppCompatActivity {
 
 	final static String[] months = new String[] {"Muharram al-Haraam","Safar al-Muzaffar","Rabi al-Awwal","Rabi al-Aakhar",
 		"Jumada al-Ula","Jumada al-Ukhra","Rajab al-Asab","Shaban al-Karim","Ramadan al-Moazzam",

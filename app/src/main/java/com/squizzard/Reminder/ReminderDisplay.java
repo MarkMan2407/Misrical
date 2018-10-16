@@ -9,13 +9,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class ReminderDisplay extends ActionBarActivity{
+public class ReminderDisplay extends AppCompatActivity{
 	public static final String REMINDER_ID = "reminder_id";
 	private DatabaseHelper databaseHelper;
 	private int reminderId = -1;

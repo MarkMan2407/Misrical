@@ -28,7 +28,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,7 +44,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CalendarConvert extends ActionBarActivity implements OnClickListener, SensorEventListener, LocationListener{//make the location listener into an inner class
+public class CalendarConvert extends AppCompatActivity implements OnClickListener, SensorEventListener, LocationListener{//make the location listener into an inner class
 
 	private static final int DATE_DIALOG_ID = 0;
 	private static final int MISRI_DIALOG_ID = 1;

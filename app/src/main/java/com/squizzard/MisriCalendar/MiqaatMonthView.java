@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import com.squizzard.util.DateUtil;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MiqaatMonthView extends ActionBarActivity {
+public class MiqaatMonthView extends AppCompatActivity {
 
 
 	private MiqaatListAdapter adapter;

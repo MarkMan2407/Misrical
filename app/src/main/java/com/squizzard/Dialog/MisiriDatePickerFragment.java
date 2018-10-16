@@ -4,6 +4,7 @@ import com.squizzard.MisriCalendar.Misri;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.util.DateUtil;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,53 +23,43 @@ public class MisiriDatePickerFragment extends DialogFragment implements OnClickL
 	private int monthCode;
 	private int dayCode;//30,29,30,29
 	private int yearCode;
-	private Button dayMinusButton;
-	private Button dayPlusButton;
-	private Button monthMinusButton;
-	private Button monthPlusButton;
-	private Button yearMinusButton;
-	private Button yearPlusButton;
-	private Button setButton;
-	private Misri misriConverter;
-	private View view;
-	
+
 	public static MisiriDatePickerFragment newInstance(){
-		MisiriDatePickerFragment misriDatePicker = new MisiriDatePickerFragment();
-		return misriDatePicker;
+		return new MisiriDatePickerFragment();
 	}
 	
 	
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup,
-            Bundle savedInstanceState) {
-    	view = inflater.inflate(R.layout.misri_datepicker, viewGroup);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup viewGroup,
+							 Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.misri_datepicker, viewGroup);
 
         getDialog().setTitle("Set Date");
-        misriConverter = new Misri();
-        
-		dayMinusButton = (Button)view.findViewById(R.id.dayMinus);
+		Misri misriConverter = new Misri();
+
+		Button dayMinusButton = view.findViewById(R.id.dayMinus);
 		dayMinusButton.setOnClickListener(this);
-		dayPlusButton = (Button)view.findViewById(R.id.dayPlus);
+		Button dayPlusButton = view.findViewById(R.id.dayPlus);
 		dayPlusButton.setOnClickListener(this);
-		monthMinusButton = (Button)view.findViewById(R.id.monthMinus);
+		Button monthMinusButton = view.findViewById(R.id.monthMinus);
 		monthMinusButton.setOnClickListener(this);
-		monthPlusButton = (Button)view.findViewById(R.id.monthPlus);
+		Button monthPlusButton = view.findViewById(R.id.monthPlus);
 		monthPlusButton.setOnClickListener(this);
-		yearMinusButton = (Button)view.findViewById(R.id.yearMinus);
+		Button yearMinusButton = view.findViewById(R.id.yearMinus);
 		yearMinusButton.setOnClickListener(this);
-		yearPlusButton = (Button)view.findViewById(R.id.yearPlus);
+		Button yearPlusButton = view.findViewById(R.id.yearPlus);
 		yearPlusButton.setOnClickListener(this);
-		setButton = (Button)view.findViewById(R.id.misriSet);
+		Button setButton = view.findViewById(R.id.misriSet);
 		setButton.setOnClickListener(this);
 		
-		dayText = (EditText)view.findViewById(R.id.dayText);
-		monthText = (EditText)view.findViewById(R.id.monthText);
-		yearText = (EditText)view.findViewById(R.id.yearText);
-		dayCode = Integer.valueOf(misriConverter.getTodayMisriDay());
+		dayText = view.findViewById(R.id.dayText);
+		monthText = view.findViewById(R.id.monthText);
+		yearText = view.findViewById(R.id.yearText);
+		dayCode = misriConverter.getTodayMisriDay();
 		dayText.setText(String.valueOf(dayCode));
 		monthText.setText(misriConverter.getTodayMisriMonth().trim());
 		monthCode = misriConverter.getTodayMisriMonthCode();
-		yearCode = Integer.valueOf(misriConverter.getTodayMisriYear());
+		yearCode = misriConverter.getTodayMisriYear();
 		yearText.setText(String.valueOf(yearCode));
 
         return view;

@@ -3,7 +3,7 @@ package com.squizzard.Reminder;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,7 +26,7 @@ import com.squizzard.MisriCalendar.Misri;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.util.DateUtil;
 
-public class ReminderAdd extends ActionBarActivity implements DatePickerDialog.OnDateSetListener{
+public class ReminderAdd extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
 	private static final char TYPE_GREGORIAN = 'G';
 	private static final char TYPE_MISRI = 'M';
