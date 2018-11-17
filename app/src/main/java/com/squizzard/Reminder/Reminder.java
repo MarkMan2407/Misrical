@@ -53,68 +53,44 @@ public class Reminder {
 		this.active = true;
 	}
 
-	public int getGregorianDay() {
+	int getGregorianDay() {
 		return gregorianDay;
 	}
 
-	public void setGregorianDay(int gregorianDay) {
+	void setGregorianDay(int gregorianDay) {
 		this.gregorianDay = gregorianDay;
 	}
 
-	public int getGregorianMonth() {
+	int getGregorianMonth() {
 		return gregorianMonth;
 	}
 
-	public void setGregorianMonth(int gregorianMonth) {
+	void setGregorianMonth(int gregorianMonth) {
 		this.gregorianMonth = gregorianMonth;
 	}
 
-	public int getMisriDay() {
+	int getMisriDay() {
 		return misriDay;
 	}
 
-	public void setMisriDay(int misriDay) {
+	void setMisriDay(int misriDay) {
 		this.misriDay = misriDay;
 	}
 
-	public int getMisriMonth() {
+	int getMisriMonth() {
 		return misriMonth;
 	}
 
-	public void setMisriMonth(int misriMonth) {
+	void setMisriMonth(int misriMonth) {
 		this.misriMonth = misriMonth;
 	}
 
-	public int getHour() {
-		return hour;
-	}
-
-	public void setHour(int hour) {
-		this.hour = hour;
-	}
-
-	public int getMinute() {
-		return minute;
-	}
-
-	public void setMinute(int minute) {
-		this.minute = minute;
-	}
-
-	public char getType() {
+	char getType() {
 		return type;
 	}
 
-	public void setType(char type) {
+	void setType(char type) {
 		this.type = type;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public int getId() {
@@ -129,15 +105,15 @@ public class Reminder {
 		return reminderText;
 	}
 
-	public void setReminderText(String reminderText) {
+	void setReminderText(String reminderText) {
 		this.reminderText = reminderText;
 	}
 	
-	public String getMisriDateText(){
+	String getMisriDateText(){
 		return DateUtil.getMisriDateString(getMisriDay(), getMisriMonth());
 	}
 	
-	public String getGregorianDateText(){
+	String getGregorianDateText(){
 		return DateUtil.getGregorianDateString(getGregorianDay(), getGregorianMonth());
 	}
 }
