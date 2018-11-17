@@ -46,7 +46,7 @@ import com.squizzard.Reminder.Reminder;
 		@Override
 		public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion,int newVersion) {}
 		
-		public RuntimeExceptionDao<Reminder, Integer> getReminderDao() {
+		private RuntimeExceptionDao<Reminder, Integer> getReminderDao() {
 			if (reminderRuntimeDao == null) {
 				reminderRuntimeDao = getRuntimeExceptionDao(Reminder.class);
 			}
@@ -63,27 +63,17 @@ import com.squizzard.Reminder.Reminder;
 		}
 		
 		public ArrayList<Reminder> getReminders(){
-			ArrayList<Reminder> reminders = (ArrayList<Reminder>) getReminderDao().queryForAll();
-			return reminders;
+			return (ArrayList<Reminder>) getReminderDao().queryForAll();
 		}
 		
-		public boolean deleteReminder(int id){
+		public void deleteReminder(int id){
 			DeleteBuilder<Reminder, Integer> deleteBuilder = getReminderDao().deleteBuilder();
 			try {
 				deleteBuilder.where().eq("id", id);
 				getReminderDao().delete(deleteBuilder.prepare());
 			} catch (SQLException e) {
 				e.printStackTrace();
-				return false;
 			}
-			return true;
-		}
-		
-		public boolean saveReminders(ArrayList<Reminder> reminders){
-			for(Reminder reminder: reminders){
-				saveReminder(reminder);
-			}
-			return true;
 		}
 		
 		public void saveReminder(Reminder reminder){
@@ -92,14 +82,13 @@ import com.squizzard.Reminder.Reminder;
 		
 		//Should be in a database service class
 		public ArrayList<Reminder> getReminderEvents(int daysToAdd){
-			ArrayList<Reminder> events = new ArrayList<Reminder>();
-			events = getEventsGregorian(daysToAdd);
-			events.addAll(getEventsMisri(daysToAdd));
+			ArrayList<Reminder> events = getEventsGregorian(daysToAdd);
+			events.addAll(getEventsMisri());
 			return events;
 		}
 		
 		private ArrayList<Reminder> getEventsGregorian(int daysToAdd){
-			ArrayList<Reminder> events = new ArrayList<Reminder>();
+			ArrayList<Reminder> events = new ArrayList<>();
 			Calendar c = Calendar.getInstance();
 			int day = c.get(Calendar.DAY_OF_MONTH) + daysToAdd;
 			int month = c.get(Calendar.MONTH) + 1;
@@ -116,8 +105,8 @@ import com.squizzard.Reminder.Reminder;
 			return events;
 		}
 		
-		private ArrayList<Reminder> getEventsMisri(int daysToAdd){
-			ArrayList<Reminder> events = new ArrayList<Reminder>();
+		private ArrayList<Reminder> getEventsMisri(){
+			ArrayList<Reminder> events = new ArrayList<>();
 			Misri misri = new Misri();
 			Calendar c = Calendar.getInstance();
 			int[] dates = misri.getMisriDate(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
