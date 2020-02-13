@@ -15,7 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,8 +36,6 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 	private ReminderAdapter adapter;
 	private ArrayList<Reminder> reminders;
 	private DatabaseHelper databaseHelper;
-	private Button btnCheckToday;
-	private Button btnCheckTomorrow;
 	private boolean isDeleteMode = false;
 	
 	private BroadcastReceiver todayReceiver = new BroadcastReceiver() {
@@ -78,13 +76,13 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.reminder_list);
 		
-		listView = (ListView)findViewById(R.id.reminder_list);
+		listView = findViewById(R.id.reminder_list);
 		adapter = new ReminderAdapter();
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(listClickListener);
-		btnCheckToday = (Button)findViewById(R.id.miqaatCheckToday);
+		Button btnCheckToday = findViewById(R.id.miqaatCheckToday);
 		btnCheckToday.setOnClickListener(this);
-		btnCheckTomorrow = (Button)findViewById(R.id.miqaatCheckTomorrow);
+		Button btnCheckTomorrow = findViewById(R.id.miqaatCheckTomorrow);
 		btnCheckTomorrow.setOnClickListener(this);
 	}
 	
@@ -168,7 +166,9 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 
 		@Override
 		public int getCount() {
-			return reminders.size();
+			if (reminders != null) {
+				return reminders.size();
+			} else return 0;
 		}
 
 		@Override

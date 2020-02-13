@@ -5,13 +5,13 @@ import java.util.Calendar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import android.widget.DatePicker;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 	
-	public static final int DIALOG_ID_GREGORIAN_PICKER = 1;
+	private static final int DIALOG_ID_GREGORIAN_PICKER = 1;
 
 	public DatePickerFragment() {
 
