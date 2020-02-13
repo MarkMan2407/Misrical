@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squizzard.Database.DatabaseHelper;
+import com.squizzard.Database.GetRemindersUseCase;
 import com.squizzard.Dialog.DatePickerFragment;
 import com.squizzard.Dialog.MisiriDatePickerFragment;
 import com.squizzard.MisriCalendar.Misri;
@@ -69,7 +70,7 @@ public class ReminderAdd extends AppCompatActivity implements DatePickerDialog.O
 		
 		reminderId = getIntent().getIntExtra(ReminderDisplay.REMINDER_ID, -1);
 		if(reminderId != -1){
-			savedReminder = getHelper().getReminder(reminderId);
+			savedReminder = new GetRemindersUseCase(getApplicationContext()).getReminder(reminderId);
 			if(savedReminder != null){
 				etReminder.setText(savedReminder.getReminderText());
 				tvGregorian.setText(savedReminder.getGregorianDateText());

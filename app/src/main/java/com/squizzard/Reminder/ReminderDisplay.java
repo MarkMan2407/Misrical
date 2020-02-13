@@ -3,6 +3,7 @@ package com.squizzard.Reminder;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squizzard.Database.DatabaseHelper;
+import com.squizzard.Database.GetRemindersUseCase;
 import com.squizzard.MisriCalendar.R;
 
 import android.app.AlertDialog;
@@ -38,7 +39,7 @@ public class ReminderDisplay extends AppCompatActivity{
 		if(reminderId == -1){
 			finish();
 		}else{
-			Reminder reminder = getHelper().getReminder(reminderId);
+			Reminder reminder = new GetRemindersUseCase(getApplicationContext()).getReminder(reminderId);
 			if(reminder != null){
 				setContentView(R.layout.reminder_display);
 				((TextView)findViewById(R.id.reminder_display_title)).setText(reminder.getReminderText());

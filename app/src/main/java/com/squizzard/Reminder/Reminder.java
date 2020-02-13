@@ -1,43 +1,61 @@
 package com.squizzard.Reminder;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.squizzard.util.DateUtil;
 
+@Entity (tableName = "reminders")
 @DatabaseTable(tableName = "reminders")
 public class Reminder {
 
+    @PrimaryKey
 	@DatabaseField(generatedId=true)
+    @ColumnInfo(name = "id")
 	private int id;
 
 	@DatabaseField
+    @ColumnInfo(name = "reminderText")
 	private String reminderText;
 
 	@DatabaseField
+    @ColumnInfo(name = "gregorianDay")
 	private int gregorianDay;
 
 	@DatabaseField
+    @ColumnInfo(name = "gregorianMonth")
 	private int gregorianMonth;
 
 	@DatabaseField
+    @ColumnInfo(name = "misriDay")
 	private int misriDay;
 
 	@DatabaseField
+    @ColumnInfo(name = "misriMonth")
 	private int misriMonth;
 	
 	@DatabaseField
+    @ColumnInfo(name = "hour")
 	private int hour;
 	
 	@DatabaseField
+    @ColumnInfo(name = "minute")
 	private int minute;
 	
 	@DatabaseField
+    @ColumnInfo(name = "type")
 	private char type;
 	
-	@DatabaseField 
+	@DatabaseField
+    @ColumnInfo(name = "active")
 	private boolean active;
 
 
+	@Ignore
 	public Reminder(){
 	}
 

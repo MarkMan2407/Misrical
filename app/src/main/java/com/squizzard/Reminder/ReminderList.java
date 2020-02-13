@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squizzard.Database.DatabaseHelper;
+import com.squizzard.Database.GetRemindersUseCase;
 import com.squizzard.MisriCalendar.Attributes;
 import com.squizzard.MisriCalendar.R;
 
@@ -79,7 +80,6 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 		
 		listView = (ListView)findViewById(R.id.reminder_list);
 		adapter = new ReminderAdapter();
-		reminders = getHelper().getReminders();
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(listClickListener);
 		btnCheckToday = (Button)findViewById(R.id.miqaatCheckToday);
@@ -119,7 +119,7 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 		isDeleteMode = false;
 		
 		if(adapter != null){
-			reminders = getHelper().getReminders();
+			reminders = new GetRemindersUseCase(getApplicationContext()).getReminders();
 			adapter.notifyDataSetChanged();
 		}
 	}
@@ -200,7 +200,7 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 			            @Override
 			            public void onClick(View clickedButton) {
 			            	getHelper().deleteReminder(((Reminder)clickedButton.getTag()).getId());
-			            	reminders = getHelper().getReminders();
+			            	reminders = new GetRemindersUseCase(getBaseContext()).getReminders();
 			            	notifyDataSetChanged();
 			            }
 			        });
