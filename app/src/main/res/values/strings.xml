@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_version_string">Version 2.0</string>
+    <string name="app_version_string">Version 2.1</string>
     <string name="app_name">MisriCal</string>
     <string name="ouikka_email">ouikka@gmail.com</string>
     <string name="bearing_opt_label">Settings</string>
@@ -18,7 +18,7 @@
     
     <string name="miqaat_title">Miqaat</string>  
     <string name="about_title">MisriCal from OUIKKA</string> 
-    <string name="copyright_string">"Copyright \u00A9 2014 Ouikka Apps"</string>
+    <string name="copyright_string">"Copyright \u00A9 2020 Ouikka Apps"</string>
 
     <string name="miqaat_alert_preference">alerts</string>
     <string name="aboutIconDesc">Misri Icon</string>

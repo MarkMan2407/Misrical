@@ -23,11 +23,11 @@ public class BearingPrefs extends PreferenceActivity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setTheme(R.style.CustomActionBarTheme);
-		setContentView(R.layout.bearinginfo);
+		setContentView(R.layout.bearing_settings_info);
 		
 		addPreferencesFromResource(R.xml.settings);
-		TextView providerText = findViewById(R.id.provider);
-		TextView meccaBearingText = findViewById(R.id.meccaBearing);
+		TextView providerText = findViewById(R.id.providerValue);
+		TextView meccaBearingText = findViewById(R.id.meccaBearingValue);
 		providerText.setText(getIntent().getStringExtra("PROVIDER"));
 		meccaBearingText.setText(getIntent().getStringExtra("BEARING_TO_MECCA"));
 		Preference alertPreference = getPreferenceManager().findPreference(Attributes.MIQAATS_ALERT_PREFERENCE);
@@ -59,7 +59,7 @@ public class BearingPrefs extends PreferenceActivity{
 	public static BearingOptions getBearingMode(Context context){
 		String prefString = PreferenceManager.getDefaultSharedPreferences(context).getString("listPref", "1");//Default to first in list
 		int i = Integer.valueOf(prefString);
-		switch(i){
+		switch(i) {
 		case 1:
 			return BearingOptions.ALWAYS_ON;
 		case 2:
