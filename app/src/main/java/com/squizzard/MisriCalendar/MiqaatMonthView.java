@@ -28,7 +28,7 @@ public class MiqaatMonthView extends AppCompatActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.miqaat_event_display);
 		int month =  getIntent().getIntExtra("MONTH", 0);
-		list = (ListView)findViewById(R.id.miqaat_list);
+		list = findViewById(R.id.miqaat_list);
 		adapter = new MiqaatListAdapter();
 		list.setAdapter(adapter);
 		
@@ -44,17 +44,17 @@ public class MiqaatMonthView extends AppCompatActivity {
 
 		for(int x=eventsStart;x<eventsEnd;x++){
 			if(DateUtil.priorityEventMap.containsKey(x)){
-				String arr[] = DateUtil.priorityEventMap.get(x);
+                String[] arr = DateUtil.priorityEventMap.get(x);
 				for(int y=0;y<arr.length;y++){
 					events.add(arr[y]);
-					dates.add(Integer.toString(x-eventsStart+1)  + DateUtil.getDaySuffix(x-eventsStart+1) + " - Notification Event");
+					dates.add((x - eventsStart + 1) + DateUtil.getDaySuffix(x-eventsStart+1) + " - Notification Event");
 				}
 			}
 			if(DateUtil.eventMap.containsKey(x)){
-				String arr2[] = DateUtil.eventMap.get(x);
+                String[] arr2 = DateUtil.eventMap.get(x);
 				for(int y=0;y<arr2.length;y++){
 					events.add(arr2[y]);
-					dates.add(Integer.toString(x-eventsStart+1) + DateUtil.getDaySuffix(x-eventsStart+1));
+					dates.add((x - eventsStart + 1) + DateUtil.getDaySuffix(x-eventsStart+1));
 				}
 			}			
 		}

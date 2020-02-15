@@ -15,11 +15,7 @@ import android.widget.TextView;
 
 public class BearingPrefs extends PreferenceActivity{
 
-	public enum BearingOptions{ON_TOUCH, ALWAYS_ON, OFF};
-	private TextView meccaBearingText;
-	private TextView providerText;
-	private Preference alertPreference;
-	private Preference locationPreference;
+	public enum BearingOptions{ON_TOUCH, ALWAYS_ON, OFF}
 	private DatabaseHelper databaseHelper = null;
 
 	@SuppressWarnings("deprecation")
@@ -30,12 +26,12 @@ public class BearingPrefs extends PreferenceActivity{
 		setContentView(R.layout.bearinginfo);
 		
 		addPreferencesFromResource(R.xml.settings);
-		providerText = (TextView) findViewById(R.id.provider);
-		meccaBearingText = (TextView) findViewById(R.id.meccaBearing);
+		TextView providerText = findViewById(R.id.provider);
+		TextView meccaBearingText = findViewById(R.id.meccaBearing);
 		providerText.setText(getIntent().getStringExtra("PROVIDER"));
 		meccaBearingText.setText(getIntent().getStringExtra("BEARING_TO_MECCA"));
-		alertPreference = getPreferenceManager().findPreference(Attributes.MIQAATS_ALERT_PREFERENCE);
-		locationPreference = getPreferenceManager().findPreference(Attributes.LOCATION_SETTINGS_PREFERENCE);
+		Preference alertPreference = getPreferenceManager().findPreference(Attributes.MIQAATS_ALERT_PREFERENCE);
+		Preference locationPreference = getPreferenceManager().findPreference(Attributes.LOCATION_SETTINGS_PREFERENCE);
 
 		alertPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			public boolean onPreferenceClick(Preference preference) {
@@ -63,19 +59,15 @@ public class BearingPrefs extends PreferenceActivity{
 	public static BearingOptions getBearingMode(Context context){
 		String prefString = PreferenceManager.getDefaultSharedPreferences(context).getString("listPref", "1");//Default to first in list
 		int i = Integer.valueOf(prefString);
-		BearingOptions retVal = null;
 		switch(i){
 		case 1:
-			retVal = BearingOptions.ALWAYS_ON;
-			break;
+			return BearingOptions.ALWAYS_ON;
 		case 2:
-			retVal =  BearingOptions.ON_TOUCH;
-			break;
+			return BearingOptions.ON_TOUCH;
 		case 3: 
-			retVal =  BearingOptions.OFF;
-			break;
+			return BearingOptions.OFF;
+			default: return BearingOptions.ALWAYS_ON;
 		}
-		return retVal;
 	}
 
 	public static boolean miqaatAlertsEnabled(Context context){

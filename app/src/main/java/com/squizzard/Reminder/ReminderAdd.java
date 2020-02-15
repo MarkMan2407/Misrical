@@ -33,8 +33,6 @@ public class ReminderAdd extends AppCompatActivity implements DatePickerDialog.O
 	private static final char TYPE_MISRI = 'M';
 
 	private EditText etReminder;
-	private Button btnSetMisri;
-	private Button btnSetGregorian;
 	private FragmentManager fragmentManager;
 	private RadioButton rbGregorian;
 	private RadioButton rbMisri;
@@ -55,18 +53,18 @@ public class ReminderAdd extends AppCompatActivity implements DatePickerDialog.O
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reminder_add);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		etReminder = (EditText)findViewById(R.id.reminder_add_title);
-		btnSetMisri = (Button)findViewById(R.id.reminder_add_misri_set);
-		btnSetGregorian = (Button)findViewById(R.id.reminder_add_gregorian_set);
+		etReminder = findViewById(R.id.reminder_add_title);
+		Button btnSetMisri = findViewById(R.id.reminder_add_misri_set);
+		Button btnSetGregorian = findViewById(R.id.reminder_add_gregorian_set);
 		btnSetMisri.setOnClickListener(buttonClickListener);
 		btnSetGregorian.setOnClickListener(buttonClickListener);
-		rbGregorian = (RadioButton)findViewById(R.id.gregorian_radio_button);
+		rbGregorian = findViewById(R.id.gregorian_radio_button);
 		rbGregorian.setChecked(false);
-		rbMisri = (RadioButton)findViewById(R.id.misri_radio_button);
+		rbMisri = findViewById(R.id.misri_radio_button);
 		rbMisri.setChecked(false);
-		tvGregorian = (TextView)findViewById(R.id.reminder_add_gregorian_text);
-		tvMisri = (TextView)findViewById(R.id.reminder_add_misri_text);
-		dateButtonRow = (LinearLayout)findViewById(R.id.reminder_add_button_row);
+		tvGregorian = findViewById(R.id.reminder_add_gregorian_text);
+		tvMisri = findViewById(R.id.reminder_add_misri_text);
+		dateButtonRow = findViewById(R.id.reminder_add_button_row);
 		
 		reminderId = getIntent().getIntExtra(ReminderDisplay.REMINDER_ID, -1);
 		if(reminderId != -1){

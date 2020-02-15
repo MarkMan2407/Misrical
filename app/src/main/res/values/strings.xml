@@ -2,7 +2,7 @@
 <resources>
     <string name="app_version_string">Version 2.0</string>
     <string name="app_name">MisriCal</string>
-    <string name="ouikka_email">misrical@gmail.com</string>
+    <string name="ouikka_email">ouikka@gmail.com</string>
     <string name="bearing_opt_label">Settings</string>
     <string name="set_gregorian_label">Set Gregorian</string>
     <string name="set_misri_label">Set Misri</string>

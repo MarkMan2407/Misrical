@@ -24,17 +24,13 @@ public class About extends AppCompatActivity implements OnClickListener{
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem)
-	{       
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
 	    onBackPressed();
 	    return true;
 	}
 
 	public void onClick(View v) {
-		switch(v.getId()){
-		case R.id.emailButton:
-
-			String version = "";
+		if (v.getId() == R.id.emailButton){
 
 			String messageString = "\n\n\n\n OS Version: " + System.getProperty("os.version");
 			messageString += "\n OS API Level: " + Build.VERSION.RELEASE;
@@ -48,7 +44,6 @@ public class About extends AppCompatActivity implements OnClickListener{
                     "MisriCal "+ Utility.getVersion(getApplicationContext()));
 			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, messageString);
 			startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-			break;
 		}	
 	}
 }

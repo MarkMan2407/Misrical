@@ -194,7 +194,7 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 				
 				view.setTag(reminder);
 				if(isDeleteMode){
-					ImageButton deleteButton = ((ImageButton)view.findViewById(R.id.reminder_list_discard));
+					ImageButton deleteButton = view.findViewById(R.id.reminder_list_discard);
 					deleteButton.setTag(reminder);
 					deleteButton.setOnClickListener(new View.OnClickListener() {
 			            @Override

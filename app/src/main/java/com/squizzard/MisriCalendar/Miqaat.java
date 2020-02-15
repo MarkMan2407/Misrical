@@ -27,7 +27,7 @@ public class Miqaat extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.miqaat_month_display);
-		list = (ListView)findViewById(R.id.month_list);
+		list = findViewById(R.id.month_list);
 		list.setOnItemClickListener(new OnItemClickListener()
 		{
 		    @Override 

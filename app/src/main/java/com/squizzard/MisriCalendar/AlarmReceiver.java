@@ -35,7 +35,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 		
 		if(mAction.equals(Attributes.MORNING_CHECK_MIQAAT_INTENT)){//check for today
 			databaseReminders = getHelper().getReminderEvents(ADD_DAYS_TODAY);
-			String miqaatList[] =  DateUtil.priorityEventMap.get(todayNumber);
+            String[] miqaatList = DateUtil.priorityEventMap.get(todayNumber);
 			
 			if((miqaatList != null && miqaatList.length > 0) || databaseReminders.size() > 0){
 				mBuilder.setSmallIcon(R.drawable.ic_launcher1)
@@ -61,7 +61,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 		}
 		else if(mAction.equals(Attributes.EVENING_CHECK_MIQAAT_INTENT)){//check for tomorrow
 			databaseReminders = getHelper().getReminderEvents(ADD_DAYS_TOMORROW);
-			String miqaatList[] =  DateUtil.priorityEventMap.get(todayNumber+1);
+            String[] miqaatList = DateUtil.priorityEventMap.get(todayNumber + 1);
 			
 			if((miqaatList != null && miqaatList.length > 0) || databaseReminders.size() > 0){
 				mBuilder.setSmallIcon(R.drawable.ic_launcher1)

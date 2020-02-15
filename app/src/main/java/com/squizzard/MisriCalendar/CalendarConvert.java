@@ -1,10 +1,12 @@
 package com.squizzard.MisriCalendar;
 
 import java.util.Calendar;
+
 import com.squizzard.MisriCalendar.BearingPrefs.BearingOptions;
 import com.squizzard.Reminder.ReminderList;
 import com.squizzard.util.DateUtil;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -12,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
@@ -28,12 +31,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
-import android.view.MenuInflater; 
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -44,19 +49,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CalendarConvert extends AppCompatActivity implements OnClickListener, SensorEventListener, LocationListener{//make the location listener into an inner class
+public class CalendarConvert extends AppCompatActivity implements OnClickListener, SensorEventListener, LocationListener {//make the location listener into an inner class
 
 	private static final int DATE_DIALOG_ID = 0;
 	private static final int MISRI_DIALOG_ID = 1;
 	private final String CALENDAR_STATE = "CALENDAR_STATE";
 	static Dialog returnDialog;
-	private TextView setGregorianButton; 
-    private TextView setMisriButton;
 	private TextView[] weekdayButtons = new TextView[7];//monButton, tueButton, wedButton, thuButton, friButton, satButton, sunButton;
 	static TextView misriText;
-	static TextView eventText;;
+	static TextView eventText;
 	static TextView gregorianText;
-	private TextView setTodayButton;
 	private ImageView arrowImageNorth;
 	private ImageView arrowImageMecca;
 	private Misri dateConverter;
@@ -65,31 +67,26 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 	private float endRotateNorth;
 	private float startRotateMecca;
 	private float endRotateMecca;
-	private GeomagneticField geoField;
 	private Location location;
 	private LocationManager locMgr;
-	private Criteria locationCriteria;
 	private Sensor magneticSensor;
 	private Sensor accelerometerSensor;
 	private SensorManager sensorManager;
 	private float[] accelerometerValues;
 	private float[] magneticValues;
 	private float declination;
-	private Display display;	
 	private BearingOptions bearingOptions = null;
 	private SharedPreferences sharedPreferences;
 	private OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
 	private Location mecca;
 	private String bearingToMeccaString;
 	private String providerString;
-	private View dayPlusButton;
-	private View dayMinusButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		if(savedInstanceState != null){
+
+		if (savedInstanceState != null) {
 			c = (Calendar) savedInstanceState.getSerializable(CALENDAR_STATE);
 		}
 		setContentView(R.layout.main);
@@ -97,15 +94,15 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 		misriText = findViewById(R.id.convertedDate);
 		eventText = findViewById(R.id.eventText);
 		gregorianText = findViewById(R.id.dateGregorian);
-		setGregorianButton = findViewById(R.id.setGregorianButton);
-		setMisriButton =findViewById(R.id.setMisriButton);
+		TextView setGregorianButton = findViewById(R.id.setGregorianButton);
+		TextView setMisriButton = findViewById(R.id.setMisriButton);
 		setGregorianButton.setOnClickListener(this);
 		setMisriButton.setOnClickListener(this);
-		setTodayButton = findViewById(R.id.todayButton);
+		TextView setTodayButton = findViewById(R.id.todayButton);
 		setTodayButton.setOnClickListener(this);
-		dayPlusButton=findViewById(R.id.dayPlusButton);
+		View dayPlusButton = findViewById(R.id.dayPlusButton);
 		dayPlusButton.setOnClickListener(this);
-		dayMinusButton=findViewById(R.id.dayMinusButton);
+		View dayMinusButton = findViewById(R.id.dayMinusButton);
 		dayMinusButton.setOnClickListener(this);
 		arrowImageNorth = findViewById(R.id.arrow_icon_north);
 		arrowImageMecca = findViewById(R.id.arrow_icon_mecca);
@@ -120,28 +117,28 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 		weekdayButtons[4] = findViewById(R.id.thuButton);
 		weekdayButtons[5] = findViewById(R.id.friButton);
 		weekdayButtons[6] = findViewById(R.id.satButton);
-	
-		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);   
+
+		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-		locationCriteria=new Criteria();
+		Criteria locationCriteria = new Criteria();
 		locationCriteria.setBearingRequired(true);
 		locationCriteria.setAccuracy(Criteria.ACCURACY_FINE);
 		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
-		
+
 		updateDisplay();
-		
-		startRotateNorth=endRotateNorth=startRotateMecca=endRotateMecca=0;
-		onSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener(){
+
+		startRotateNorth = endRotateNorth = startRotateMecca = endRotateMecca = 0;
+		onSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
 
 			public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 				bearingOptions = BearingPrefs.getBearingMode(getApplicationContext());
-				if(bearingOptions == BearingOptions.ON_TOUCH){
+				if (bearingOptions == BearingOptions.ON_TOUCH) {
 					//point arrows north  endRotationNorth/Mecca=0
 					makeRotation(arrowImageNorth, true);
 					makeRotation(arrowImageMecca, true);
 				}
-				if(bearingOptions == BearingOptions.OFF){ 
+				if (bearingOptions == BearingOptions.OFF) {
 					//point the arrow north: endRotationNorth/Mecca=0 
 					makeRotation(arrowImageNorth, true);
 					makeRotation(arrowImageMecca, true);
@@ -151,43 +148,40 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 		sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
 		bearingOptions = BearingPrefs.getBearingMode(getApplicationContext());
 
-		arrowImageNorth.setOnTouchListener(new OnTouchListener()
-		{
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				if((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)){
-					makeRotation(arrowImageNorth, false);
-					makeRotation(arrowImageMecca, false);
-				}
-				return false;
-			}	
-		}
+		arrowImageNorth.setOnTouchListener(new OnTouchListener() {
+											   public boolean onTouch(View arg0, MotionEvent arg1) {
+												   if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
+													   makeRotation(arrowImageNorth, false);
+													   makeRotation(arrowImageMecca, false);
+												   }
+												   return false;
+											   }
+										   }
 		);
 
-		arrowImageMecca.setOnTouchListener(new OnTouchListener()
-		{
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				if((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)){
-					makeRotation(arrowImageMecca, false);
-					makeRotation(arrowImageNorth, false);
-				}
-				return false;
-			}	
-		}
+		arrowImageMecca.setOnTouchListener(new OnTouchListener() {
+											   public boolean onTouch(View arg0, MotionEvent arg1) {
+												   if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
+													   makeRotation(arrowImageMecca, false);
+													   makeRotation(arrowImageNorth, false);
+												   }
+												   return false;
+											   }
+										   }
 		);
-	} 
+	}
 
 	@SuppressWarnings("deprecation")
 	private void highLightDay(Calendar c2) {
 		int today = c2.get(Calendar.DAY_OF_WEEK);//Sunday is 1
-		for(int d=0;d<7;d++){
-			if(d==today-1){
+		for (int d = 0; d < 7; d++) {
+			if (d == today - 1) {
 				//weekdayButtons[d].setBackgroundColor(getResources().getColor(R.color.green_button));
 				weekdayButtons[d].setBackgroundDrawable(getResources().getDrawable(R.drawable.day_selected_button));
-			}
-			else weekdayButtons[d].setBackgroundColor(getResources().getColor(R.color.black));
+			} else weekdayButtons[d].setBackgroundColor(getResources().getColor(R.color.black));
 		}
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -195,40 +189,82 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 	}
 
 	@Override
-	protected void onResume(){
+	protected void onResume() {
 		super.onResume();
-		location=null;
-		bearingToMeccaString="";
+		location = null;
+		bearingToMeccaString = "";
 
-		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
+		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		//get the latest location from the best sensor
+		if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			// TODO: Consider calling
+			//    Activity#requestPermissions
+			// here to request the missing permissions, and then overriding
+			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+			//                                          int[] grantResults)
+			// to handle the case where the user grants the permission. See the documentation
+			// for Activity#requestPermissions for more details.
+			return;
+		}
 		locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, this);
-		ConnectivityManager connectivityMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		NetworkInfo network = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		NetworkInfo wifi = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 		providerString = "No Location Available";
 
-		if(location==null && network!=null){
-			if(network.isConnected()){
+		if (location == null && network != null) {
+			if (network.isConnected()) {
+				if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+					// TODO: Consider calling
+					//    Activity#requestPermissions
+					// here to request the missing permissions, and then overriding
+					//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+					//                                          int[] grantResults)
+					// to handle the case where the user grants the permission. See the documentation
+					// for Activity#requestPermissions for more details.
+					return;
+				}
 				location = locMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 				providerString = network.getExtraInfo();
-				if(providerString.equals("No Provider Connection")||providerString==null||providerString.equals("")){
-					providerString="NETWORK";
+				if (providerString.equals("No Provider Connection") || providerString == null || providerString.equals("")) {
+					providerString = "NETWORK";
 				}
 			}
 		}
 
-		if(location==null && locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+		if (location == null && locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+				// TODO: Consider calling
+				//    Activity#requestPermissions
+				// here to request the missing permissions, and then overriding
+				//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+				//                                          int[] grantResults)
+				// to handle the case where the user grants the permission. See the documentation
+				// for Activity#requestPermissions for more details.
+				return;
+			}
 			location = locMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if (location!=null) {providerString = "GPS";}
+			if (location != null) {
+				providerString = "GPS";
+			}
 		}
 
-		if(location==null && wifi.isConnected()) {
-			providerString="WIFI";
+		if (location == null && wifi.isConnected()) {
+			providerString = "WIFI";
+			if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+				// TODO: Consider calling
+				//    Activity#requestPermissions
+				// here to request the missing permissions, and then overriding
+				//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+				//                                          int[] grantResults)
+				// to handle the case where the user grants the permission. See the documentation
+				// for Activity#requestPermissions for more details.
+				return;
+			}
 			location = locMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		}
 		if(location!=null){
@@ -376,7 +412,7 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 		float[] actual_orientation = new float[3];
 		try{
 			SensorManager.getRotationMatrix(R, I, accelerometerValues, magneticValues);
-			display = getWindowManager().getDefaultDisplay();
+			Display display = getWindowManager().getDefaultDisplay();
 			@SuppressWarnings("deprecation")
 			int phoneRotation = display.getOrientation();
 
@@ -437,7 +473,7 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 
 	private void getGeomagneticField() {
 		try{
-			geoField = new GeomagneticField(
+			GeomagneticField geoField = new GeomagneticField(
 					Double.valueOf(location.getLatitude()).floatValue(),
 					Double.valueOf(location.getLongitude()).floatValue(),
 					Double.valueOf(location.getAltitude()).floatValue(),

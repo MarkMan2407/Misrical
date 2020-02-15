@@ -35,26 +35,26 @@ public class MisriDialog extends Dialog implements OnClickListener{
 		setContentView(R.layout.misri_datepicker);
 		misriConverter = m;
 		
-		dayMinusButton = (Button)findViewById(R.id.dayMinus);
+		dayMinusButton = findViewById(R.id.dayMinus);
 		dayMinusButton.setOnClickListener(this);
-		dayPlusButton = (Button)findViewById(R.id.dayPlus);
+		dayPlusButton = findViewById(R.id.dayPlus);
 		dayPlusButton.setOnClickListener(this);
-		monthMinusButton = (Button)findViewById(R.id.monthMinus);
+		monthMinusButton = findViewById(R.id.monthMinus);
 		monthMinusButton.setOnClickListener(this);
-		monthPlusButton = (Button)findViewById(R.id.monthPlus);
+		monthPlusButton = findViewById(R.id.monthPlus);
 		monthPlusButton.setOnClickListener(this);
-		yearMinusButton = (Button)findViewById(R.id.yearMinus);
+		yearMinusButton = findViewById(R.id.yearMinus);
 		yearMinusButton.setOnClickListener(this);
-		yearPlusButton = (Button)findViewById(R.id.yearPlus);
+		yearPlusButton = findViewById(R.id.yearPlus);
 		yearPlusButton.setOnClickListener(this);
-		setButton = (Button)findViewById(R.id.misriSet);
+		setButton = findViewById(R.id.misriSet);
 		setButton.setOnClickListener(this);
-		cancelButton = (Button)findViewById(R.id.misriCancel);
+		cancelButton = findViewById(R.id.misriCancel);
 		cancelButton.setOnClickListener(this);
 		
-		dayText = (EditText)findViewById(R.id.dayText);
-		monthText = (EditText)findViewById(R.id.monthText);
-		yearText = (EditText)findViewById(R.id.yearText);
+		dayText = findViewById(R.id.dayText);
+		monthText = findViewById(R.id.monthText);
+		yearText = findViewById(R.id.yearText);
 		//get todays gregorian date and convert it to the 
 		dayCode = Integer.valueOf(m.getTodayMisriDay());
 		dayText.setText(dayCode.toString().trim());

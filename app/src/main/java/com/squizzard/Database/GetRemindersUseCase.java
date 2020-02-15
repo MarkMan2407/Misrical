@@ -6,7 +6,6 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squizzard.Reminder.Reminder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GetRemindersUseCase {
 
@@ -26,7 +25,7 @@ public class GetRemindersUseCase {
         return getHelper().getReminders();
     }
 
-    protected DatabaseHelper getHelper() {
+    private DatabaseHelper getHelper() {
         if (databaseHelper == null) {
             databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         }

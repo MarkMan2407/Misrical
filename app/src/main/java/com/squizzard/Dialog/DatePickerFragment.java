@@ -10,12 +10,6 @@ import androidx.fragment.app.DialogFragment;
 import android.widget.DatePicker;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-	
-	private static final int DIALOG_ID_GREGORIAN_PICKER = 1;
-
-	public DatePickerFragment() {
-
-	}
 
 	@NonNull
 	@Override
@@ -31,7 +25,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		DatePickerDialog.OnDateSetListener activity = (DatePickerDialog.OnDateSetListener) getActivity();
-		view.setId(DIALOG_ID_GREGORIAN_PICKER);
 		activity.onDateSet(view, year, month, day);
         this.dismiss();
 	}
