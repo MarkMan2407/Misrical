@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squizzard.data.DatabaseHelper;
 import com.squizzard.data.GetRemindersUseCase;
-import com.squizzard.MisriCalendar.Attributes;
+import com.squizzard.Attributes;
 import com.squizzard.MisriCalendar.R;
 
 import android.app.AlertDialog;

@@ -1,6 +1,6 @@
-package com.squizzard.Dialog;
+package com.squizzard.converter.ui;
 
-import com.squizzard.MisriCalendar.Misri;
+import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.util.DateUtil;
 

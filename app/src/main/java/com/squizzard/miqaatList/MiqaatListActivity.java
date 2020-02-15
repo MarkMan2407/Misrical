@@ -1,4 +1,4 @@
-package com.squizzard.MisriCalendar;
+package com.squizzard.miqaatList;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.squizzard.MisriCalendar.R;
 
 public class MiqaatListActivity extends AppCompatActivity {
 

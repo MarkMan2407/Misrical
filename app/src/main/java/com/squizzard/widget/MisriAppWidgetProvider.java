@@ -1,4 +1,4 @@
-package com.squizzard.MisriCalendar;
+package com.squizzard.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.RemoteViews;
+
+import com.squizzard.converter.model.Misri;
+import com.squizzard.MisriCalendar.R;
+import com.squizzard.converter.ui.ConverterActivity;
 
 public class MisriAppWidgetProvider extends AppWidgetProvider{
 

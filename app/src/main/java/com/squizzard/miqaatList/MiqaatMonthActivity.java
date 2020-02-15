@@ -1,6 +1,9 @@
-package com.squizzard.MisriCalendar;
+package com.squizzard.miqaatList;
 
 import java.util.ArrayList;
+
+import com.squizzard.converter.model.Misri;
+import com.squizzard.MisriCalendar.R;
 import com.squizzard.util.DateUtil;
 
 import android.os.Bundle;
@@ -36,7 +39,7 @@ public class MiqaatMonthActivity extends AppCompatActivity {
 		
 		//determine start and end days for displaying events
 		int eventsStart = 0, eventsEnd = 0;
-		eventsStart=Misri.misri_month[month]+1;
+		eventsStart= Misri.misri_month[month]+1;
 		if(month<11){
 		eventsEnd=Misri.misri_month[month+1]+1;}
 		else eventsEnd=355;

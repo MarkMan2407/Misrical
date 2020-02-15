@@ -1,6 +1,9 @@
-package com.squizzard.MisriCalendar;
+package com.squizzard.preferences;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.squizzard.Attributes;
+import com.squizzard.MisriCalendar.R;
+import com.squizzard.broadcast.AlarmCoordinator;
 import com.squizzard.data.DatabaseHelper;
 
 import android.content.Context;

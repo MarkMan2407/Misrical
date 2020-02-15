@@ -1,4 +1,4 @@
-package com.squizzard.Dialog;
+package com.squizzard.converter.ui;
 
 import java.util.Calendar;
 

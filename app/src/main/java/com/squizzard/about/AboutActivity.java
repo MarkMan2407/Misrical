@@ -1,4 +1,4 @@
-package com.squizzard.MisriCalendar;
+package com.squizzard.about;
 
 import android.content.Intent;
 import android.os.Build;
@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.squizzard.MisriCalendar.R;
 import com.squizzard.util.Utility;
 
 public class AboutActivity extends AppCompatActivity implements OnClickListener{

@@ -1,4 +1,4 @@
-package com.squizzard.MisriCalendar;
+package com.squizzard.broadcast;
 
 import java.util.Calendar;
 import android.app.AlarmManager; 
@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
+
+import com.squizzard.Attributes;
 
 public class AlarmCoordinator extends BroadcastReceiver {
 	

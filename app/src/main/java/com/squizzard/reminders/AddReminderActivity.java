@@ -21,9 +21,9 @@ import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squizzard.data.DatabaseHelper;
 import com.squizzard.data.GetRemindersUseCase;
-import com.squizzard.Dialog.DatePickerFragment;
-import com.squizzard.Dialog.MisiriDatePickerFragment;
-import com.squizzard.MisriCalendar.Misri;
+import com.squizzard.converter.ui.DatePickerFragment;
+import com.squizzard.converter.ui.MisiriDatePickerFragment;
+import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.util.DateUtil;
 

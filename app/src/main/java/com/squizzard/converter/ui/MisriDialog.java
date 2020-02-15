@@ -1,5 +1,8 @@
-package com.squizzard.MisriCalendar;
+package com.squizzard.converter.ui;
 
+import com.squizzard.converter.model.Misri;
+import com.squizzard.MisriCalendar.R;
+import com.squizzard.converter.ui.ConverterActivity;
 import com.squizzard.util.DateUtil;
 
 import android.app.Dialog;

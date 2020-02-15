@@ -1,8 +1,13 @@
-package com.squizzard.MisriCalendar;
+package com.squizzard.converter.ui;
 
 import java.util.Calendar;
 
-import com.squizzard.MisriCalendar.BearingPrefs.BearingOptions;
+import com.squizzard.miqaatList.MiqaatListActivity;
+import com.squizzard.converter.model.Misri;
+import com.squizzard.MisriCalendar.R;
+import com.squizzard.preferences.BearingPrefs;
+import com.squizzard.preferences.BearingPrefs.BearingOptions;
+import com.squizzard.about.AboutActivity;
 import com.squizzard.reminders.ReminderListActivity;
 import com.squizzard.util.DateUtil;
 
