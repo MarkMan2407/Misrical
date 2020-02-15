@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MiqaatMonthView extends AppCompatActivity {
+public class MiqaatMonthActivity extends AppCompatActivity {
 
 
 	private MiqaatListAdapter adapter;
@@ -32,7 +32,7 @@ public class MiqaatMonthView extends AppCompatActivity {
 		adapter = new MiqaatListAdapter();
 		list.setAdapter(adapter);
 		
-		getSupportActionBar().setTitle(Miqaat.months[month]);
+		getSupportActionBar().setTitle(MiqaatListActivity.months[month]);
 		
 		//determine start and end days for displaying events
 		int eventsStart = 0, eventsEnd = 0;

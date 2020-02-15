@@ -3,7 +3,7 @@ package com.squizzard.MisriCalendar;
 import java.util.Calendar;
 
 import com.squizzard.MisriCalendar.BearingPrefs.BearingOptions;
-import com.squizzard.Reminder.ReminderList;
+import com.squizzard.reminders.ReminderListActivity;
 import com.squizzard.util.DateUtil;
 
 import android.Manifest;
@@ -49,7 +49,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CalendarConvert extends AppCompatActivity implements OnClickListener, SensorEventListener, LocationListener {//make the location listener into an inner class
+public class ConverterActivity extends AppCompatActivity implements OnClickListener, SensorEventListener, LocationListener {//make the location listener into an inner class
 
 	private static final int DATE_DIALOG_ID = 0;
 	private static final int MISRI_DIALOG_ID = 1;
@@ -378,10 +378,10 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
 		case R.id.miqaat: 
-			startActivity(new Intent(this, Miqaat.class));
+			startActivity(new Intent(this, MiqaatListActivity.class));
 			break;
 		case R.id.about:
-			startActivity(new Intent(this, About.class));
+			startActivity(new Intent(this, AboutActivity.class));
 			break;
 		case R.id.bearings:
 			Intent bearingOptionIntent = new Intent(this, BearingPrefs.class);
@@ -397,7 +397,7 @@ public class CalendarConvert extends AppCompatActivity implements OnClickListene
 			startActivity(Intent.createChooser(intent, "Share using..."));
 			break;
 		case R.id.reminders:
-			Intent reminderIntent = new Intent(this, ReminderList.class);
+			Intent reminderIntent = new Intent(this, ReminderListActivity.class);
 			startActivity(reminderIntent);
 			break;
 		default: 

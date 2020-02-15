@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Miqaat extends AppCompatActivity {
+public class MiqaatListActivity extends AppCompatActivity {
 
 	final static String[] months = new String[] {"Muharram al-Haraam","Safar al-Muzaffar","Rabi al-Awwal","Rabi al-Aakhar",
 		"Jumada al-Ula","Jumada al-Ukhra","Rajab al-Asab","Shaban al-Karim","Ramadan al-Moazzam",
@@ -34,7 +34,7 @@ public class Miqaat extends AppCompatActivity {
 		    public void onItemClick(AdapterView<?> arg0, View v,int position, long id)
 		    { 
 				int intItem = (int)id;
-				Intent miqaatMonthIntent = new Intent(Miqaat.this, MiqaatMonthView.class);
+				Intent miqaatMonthIntent = new Intent(MiqaatListActivity.this, MiqaatMonthActivity.class);
 				miqaatMonthIntent.putExtra("MONTH", intItem);
 				startActivity(miqaatMonthIntent);
 		    }
@@ -53,7 +53,7 @@ public class Miqaat extends AppCompatActivity {
 	
 	private class MonthListAdapter extends BaseAdapter {
 		public int getCount() {
-			return Miqaat.months.length;
+			return MiqaatListActivity.months.length;
 		}
 
 		public Object getItem(int arg0) {

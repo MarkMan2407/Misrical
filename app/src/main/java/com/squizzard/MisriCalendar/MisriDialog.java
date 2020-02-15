@@ -141,11 +141,11 @@ public class MisriDialog extends Dialog implements OnClickListener{
 	private void setDate(){
 		int[] gregorianDateArray =  misriConverter.getGregorianDate(dayCode, monthCode-1, yearCode);
 		//int[] misriDateArray = misriConverter.getMisriDate(dayCode, monthCode-1, yearCode);
-		//CalendarConvert.misriText.setText(DateUtil.getMisriDateString(misriDateArray[0], misriDateArray[1], misriDateArray[2]));
-		CalendarConvert.misriText.setText(DateUtil.getMisriDateString(dayCode, monthCode, yearCode));
+		//ConverterActivity.misriText.setText(DateUtil.getMisriDateString(misriDateArray[0], misriDateArray[1], misriDateArray[2]));
+		ConverterActivity.misriText.setText(DateUtil.getMisriDateString(dayCode, monthCode, yearCode));
 		misriConverter.setEvent(monthCode, dayCode);
-		CalendarConvert.eventText.setText(misriConverter.getTodayEvent());
-		CalendarConvert.gregorianText.setText(DateUtil.getGregorianDateString(gregorianDateArray[0], gregorianDateArray[1], gregorianDateArray[2]));
+		ConverterActivity.eventText.setText(misriConverter.getTodayEvent());
+		ConverterActivity.gregorianText.setText(DateUtil.getGregorianDateString(gregorianDateArray[0], gregorianDateArray[1], gregorianDateArray[2]));
 		this.dismiss();
 	}
 

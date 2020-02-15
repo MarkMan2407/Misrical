@@ -1,4 +1,4 @@
-package com.squizzard.Database;
+package com.squizzard.data;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.squizzard.MisriCalendar.Misri;
 import com.squizzard.MisriCalendar.R;
-import com.squizzard.Reminder.Reminder;
+import com.squizzard.reminders.Reminder;
 
 	
 	public class DatabaseHelper extends OrmLiteSqliteOpenHelper{

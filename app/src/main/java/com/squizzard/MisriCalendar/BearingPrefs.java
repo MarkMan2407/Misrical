@@ -1,7 +1,7 @@
 package com.squizzard.MisriCalendar;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.Database.DatabaseHelper;
+import com.squizzard.data.DatabaseHelper;
 
 import android.content.Context;
 import android.content.Intent;

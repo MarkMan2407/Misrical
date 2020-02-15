@@ -1,9 +1,9 @@
-package com.squizzard.Database;
+package com.squizzard.data;
 
 import android.content.Context;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.Reminder.Reminder;
+import com.squizzard.reminders.Reminder;
 
 import java.util.ArrayList;
 

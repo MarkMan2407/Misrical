@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 
 import com.squizzard.util.Utility;
 
-public class About extends AppCompatActivity implements OnClickListener{
+public class AboutActivity extends AppCompatActivity implements OnClickListener{
 
 	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 

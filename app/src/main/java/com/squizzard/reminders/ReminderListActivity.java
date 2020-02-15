@@ -1,10 +1,10 @@
-package com.squizzard.Reminder;
+package com.squizzard.reminders;
 
 import java.util.ArrayList;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.Database.DatabaseHelper;
-import com.squizzard.Database.GetRemindersUseCase;
+import com.squizzard.data.DatabaseHelper;
+import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.MisriCalendar.Attributes;
 import com.squizzard.MisriCalendar.R;
 
@@ -31,7 +31,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ReminderList extends AppCompatActivity implements OnClickListener{
+public class ReminderListActivity extends AppCompatActivity implements OnClickListener{
 	private ListView listView;
 	private ReminderAdapter adapter;
 	private ArrayList<Reminder> reminders;
@@ -41,7 +41,7 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 	private BroadcastReceiver todayReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			new AlertDialog.Builder(ReminderList.this)
+			new AlertDialog.Builder(ReminderListActivity.this)
 		    .setTitle("No Events")
 		    .setMessage("You have no reminders or Miqaats for today")
 		    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -57,7 +57,7 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 	private BroadcastReceiver tomorrowReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			new AlertDialog.Builder(ReminderList.this)
+			new AlertDialog.Builder(ReminderListActivity.this)
 		    .setTitle("No Events")
 		    .setMessage("You have no reminders or Miqaats for tomorrow")
 		    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -92,8 +92,8 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
 	    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 	    	Reminder reminder = (Reminder) v.getTag();
 	    	if(reminder != null){
-	    		Intent displayReminderIntent = new Intent(ReminderList.this, ReminderDisplay.class);
-	    		displayReminderIntent.putExtra(ReminderDisplay.REMINDER_ID, reminder.getId());
+	    		Intent displayReminderIntent = new Intent(ReminderListActivity.this, DisplayReminderActivity.class);
+	    		displayReminderIntent.putExtra(DisplayReminderActivity.REMINDER_ID, reminder.getId());
 	    		startActivity(displayReminderIntent);
 	    	}
 	    }       
@@ -137,7 +137,7 @@ public class ReminderList extends AppCompatActivity implements OnClickListener{
             onBackPressed();
             break;
 		case R.id.reminder_list_add:
-			Intent addReminderIntent = new Intent(getApplicationContext(), ReminderAdd.class);
+			Intent addReminderIntent = new Intent(getApplicationContext(), AddReminderActivity.class);
 			startActivity(addReminderIntent);
 			break;
 		case R.id.reminder_list_discard:

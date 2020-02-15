@@ -1,9 +1,9 @@
-package com.squizzard.Reminder;
+package com.squizzard.reminders;
 
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.Database.DatabaseHelper;
-import com.squizzard.Database.GetRemindersUseCase;
+import com.squizzard.data.DatabaseHelper;
+import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.MisriCalendar.R;
 
 import android.app.AlertDialog;
@@ -16,7 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class ReminderDisplay extends AppCompatActivity{
+public class DisplayReminderActivity extends AppCompatActivity{
 	public static final String REMINDER_ID = "reminder_id";
 	private DatabaseHelper databaseHelper;
 	private int reminderId = -1;
@@ -66,7 +66,7 @@ public class ReminderDisplay extends AppCompatActivity{
     		onBackPressed();
     		return true;
 		case R.id.reminder_display_discard:
-			AlertDialog.Builder builder = new AlertDialog.Builder(ReminderDisplay.this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(DisplayReminderActivity.this);
 			builder.setMessage(R.string.reminder_delete_confirm);
 			builder.setNegativeButton(getString(R.string.word_cancel), new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
@@ -82,7 +82,7 @@ public class ReminderDisplay extends AppCompatActivity{
 			builder.show();
 			break;
 		case R.id.reminder_display_edit:
-			Intent addReminderIntent = new Intent(getApplicationContext(), ReminderAdd.class);
+			Intent addReminderIntent = new Intent(getApplicationContext(), AddReminderActivity.class);
 			addReminderIntent.putExtra(REMINDER_ID, reminderId);
 			startActivity(addReminderIntent);
 			break;

@@ -3,9 +3,9 @@ package com.squizzard.MisriCalendar;
 import java.util.ArrayList;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.Database.DatabaseHelper;
-import com.squizzard.Reminder.Reminder;
-import com.squizzard.Reminder.ReminderList;
+import com.squizzard.data.DatabaseHelper;
+import com.squizzard.reminders.Reminder;
+import com.squizzard.reminders.ReminderListActivity;
 import com.squizzard.util.DateUtil;
 
 import android.app.NotificationManager;
@@ -85,9 +85,9 @@ public class AlarmReceiver extends BroadcastReceiver{
 			}
 		}
 			
-			Intent resultIntent = new Intent(context, ReminderList.class);
+			Intent resultIntent = new Intent(context, ReminderListActivity.class);
 			TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-			stackBuilder.addParentStack(CalendarConvert.class);
+			stackBuilder.addParentStack(ConverterActivity.class);
 
 			stackBuilder.addNextIntent(resultIntent);
 			PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);

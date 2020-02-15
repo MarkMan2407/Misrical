@@ -1,4 +1,4 @@
-package com.squizzard.Reminder;
+package com.squizzard.reminders;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

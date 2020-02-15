@@ -1,4 +1,4 @@
-package com.squizzard.Reminder;
+package com.squizzard.reminders;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -19,15 +19,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.Database.DatabaseHelper;
-import com.squizzard.Database.GetRemindersUseCase;
+import com.squizzard.data.DatabaseHelper;
+import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.Dialog.DatePickerFragment;
 import com.squizzard.Dialog.MisiriDatePickerFragment;
 import com.squizzard.MisriCalendar.Misri;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.util.DateUtil;
 
-public class ReminderAdd extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class AddReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
 	private static final char TYPE_GREGORIAN = 'G';
 	private static final char TYPE_MISRI = 'M';
@@ -66,7 +66,7 @@ public class ReminderAdd extends AppCompatActivity implements DatePickerDialog.O
 		tvMisri = findViewById(R.id.reminder_add_misri_text);
 		dateButtonRow = findViewById(R.id.reminder_add_button_row);
 		
-		reminderId = getIntent().getIntExtra(ReminderDisplay.REMINDER_ID, -1);
+		reminderId = getIntent().getIntExtra(DisplayReminderActivity.REMINDER_ID, -1);
 		if(reminderId != -1){
 			savedReminder = new GetRemindersUseCase(getApplicationContext()).getReminder(reminderId);
 			if(savedReminder != null){
@@ -104,13 +104,13 @@ public class ReminderAdd extends AppCompatActivity implements DatePickerDialog.O
         		return true;
 	        case R.id.reminder_save:
 	        	if(etReminder.getText().toString().trim().length() <= 0){
-	        		Animation shake = AnimationUtils.loadAnimation(ReminderAdd.this, R.anim.shake);
+	        		Animation shake = AnimationUtils.loadAnimation(AddReminderActivity.this, R.anim.shake);
 	        		etReminder.startAnimation(shake);
 					//etReminder.setError(getString(R.string.reminder_add_text_empty));
 				}else if(saveGregorianDay == 0 || saveGregorianMonth == 0 || saveMisriDay ==  0 || saveMisriMonth == 0){
-					Animation shake = AnimationUtils.loadAnimation(ReminderAdd.this, R.anim.shake);
+					Animation shake = AnimationUtils.loadAnimation(AddReminderActivity.this, R.anim.shake);
 					dateButtonRow.startAnimation(shake);
-				/*	AlertDialog.Builder builder = new AlertDialog.Builder(ReminderAdd.this);
+				/*	AlertDialog.Builder builder = new AlertDialog.Builder(AddReminderActivity.this);
 					builder.setTitle(getString(R.string.reminder_add_incomplete_title));
 					builder.setMessage(R.string.reminder_add_incomplete_message);
 					builder.setPositiveButton(getString(R.string.word_ok), new DialogInterface.OnClickListener() {
