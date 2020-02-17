@@ -2,11 +2,10 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	package="com.squizzard.MisriCalendar" android:versionCode="12"
 	android:versionName="2.1">
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.LOCATION" />
+
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<application
 		android:name="com.squizzard.MisriApplication"
@@ -21,7 +20,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="com.squizzard.preferences.BearingPrefs" android:label="@string/settings_title"/>
+		<activity android:name="com.squizzard.settings.SettingsActivity" android:label="@string/settings_title"/>
 		<activity android:name="com.squizzard.about.AboutActivity" android:label="@string/about_title" android:noHistory="false" android:theme="@style/Theme.AppCompat.Light"/>
 		<activity android:name="com.squizzard.miqaatList.MiqaatListActivity" android:label="@string/miqaat_title" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
 	    <activity android:name="com.squizzard.miqaatList.MiqaatMonthActivity" android:noHistory="true" android:theme="@style/CustomActionBarTheme"/>

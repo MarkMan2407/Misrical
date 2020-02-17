@@ -5,13 +5,14 @@ import java.util.Calendar;
 import com.squizzard.miqaatList.MiqaatListActivity;
 import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
-import com.squizzard.preferences.BearingPrefs;
-import com.squizzard.preferences.BearingPrefs.BearingOptions;
+import com.squizzard.settings.SettingsActivity;
+import com.squizzard.settings.SettingsActivity.BearingOptions;
 import com.squizzard.about.AboutActivity;
 import com.squizzard.reminders.ReminderListActivity;
 import com.squizzard.util.DateUtil;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -37,7 +38,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.view.Display;
 import android.view.MotionEvent;
@@ -81,11 +84,12 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	private float[] magneticValues;
 	private float declination;
 	private BearingOptions bearingOptions = null;
-	private SharedPreferences sharedPreferences;
-	private OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
 	private Location mecca;
 	private String bearingToMeccaString;
 	private String providerString;
+	private final int LOCATION_PERMISSION_REQUEST = 1011;
+	private NetworkInfo network;
+	private NetworkInfo wifi;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +99,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			c = (Calendar) savedInstanceState.getSerializable(CALENDAR_STATE);
 		}
 		setContentView(R.layout.main);
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		misriText = findViewById(R.id.convertedDate);
 		eventText = findViewById(R.id.eventText);
 		gregorianText = findViewById(R.id.dateGregorian);
@@ -123,6 +127,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		weekdayButtons[5] = findViewById(R.id.friButton);
 		weekdayButtons[6] = findViewById(R.id.satButton);
 
+
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -131,127 +136,138 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		locationCriteria.setAccuracy(Criteria.ACCURACY_FINE);
 		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+		checkPermissions();
+
 		updateDisplay();
 
 		startRotateNorth = endRotateNorth = startRotateMecca = endRotateMecca = 0;
-		onSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
+		//point arrows north  endRotationNorth/Mecca=0
+		//point the arrow north: endRotationNorth/Mecca=0
+		OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
 
 			public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-				bearingOptions = BearingPrefs.getBearingMode(getApplicationContext());
-				if (bearingOptions == BearingOptions.ON_TOUCH) {
-					//point arrows north  endRotationNorth/Mecca=0
-					makeRotation(arrowImageNorth, true);
-					makeRotation(arrowImageMecca, true);
-				}
-				if (bearingOptions == BearingOptions.OFF) {
-					//point the arrow north: endRotationNorth/Mecca=0 
-					makeRotation(arrowImageNorth, true);
-					makeRotation(arrowImageMecca, true);
+				bearingOptions = SettingsActivity.getBearingMode(getApplicationContext());
+				if (bearingOptions != null) {
+					if (bearingOptions == BearingOptions.ON_TOUCH) {
+						//point arrows north  endRotationNorth/Mecca=0
+						makeRotation(arrowImageNorth, true);
+						makeRotation(arrowImageMecca, true);
+					}
+					if (bearingOptions == BearingOptions.OFF) {
+						//point the arrow north: endRotationNorth/Mecca=0
+						makeRotation(arrowImageNorth, true);
+						makeRotation(arrowImageMecca, true);
+					}
 				}
 			}
 		};
 		sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
-		bearingOptions = BearingPrefs.getBearingMode(getApplicationContext());
+		bearingOptions = SettingsActivity.getBearingMode(getApplicationContext());
 
-		arrowImageNorth.setOnTouchListener(new OnTouchListener() {
-											   public boolean onTouch(View arg0, MotionEvent arg1) {
-												   if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
-													   makeRotation(arrowImageNorth, false);
-													   makeRotation(arrowImageMecca, false);
-												   }
-												   return false;
-											   }
-										   }
-		);
+		if (bearingOptions != null) {
 
-		arrowImageMecca.setOnTouchListener(new OnTouchListener() {
-											   public boolean onTouch(View arg0, MotionEvent arg1) {
-												   if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
-													   makeRotation(arrowImageMecca, false);
-													   makeRotation(arrowImageNorth, false);
+			arrowImageNorth.setOnTouchListener(new OnTouchListener() {
+												   public boolean onTouch(View arg0, MotionEvent arg1) {
+													   if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
+														   makeRotation(arrowImageNorth, false);
+														   makeRotation(arrowImageMecca, false);
+													   } else {
+													   	checkPermissions();
+													   }
+													   return false;
 												   }
-												   return false;
 											   }
-										   }
-		);
+			);
+
+			arrowImageMecca.setOnTouchListener(new OnTouchListener() {
+												   public boolean onTouch(View arg0, MotionEvent arg1) {
+													   if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
+														   makeRotation(arrowImageMecca, false);
+														   makeRotation(arrowImageNorth, false);
+													   } else {
+													   	checkPermissions();
+													   }
+													   return false;
+												   }
+											   }
+			);
+		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void highLightDay(Calendar c2) {
 		int today = c2.get(Calendar.DAY_OF_WEEK);//Sunday is 1
 		for (int d = 0; d < 7; d++) {
 			if (d == today - 1) {
-				//weekdayButtons[d].setBackgroundColor(getResources().getColor(R.color.green_button));
 				weekdayButtons[d].setBackgroundDrawable(getResources().getDrawable(R.drawable.day_selected_button));
 			} else weekdayButtons[d].setBackgroundColor(getResources().getColor(R.color.black));
 		}
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(@NonNull  Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable(CALENDAR_STATE, c);
 	}
 
+	private void checkPermissions() {
+		if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+					LOCATION_PERMISSION_REQUEST);
+		} else {
+			doLocationProcessing();
+		}
+	}
+
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		location = null;
-		bearingToMeccaString = "";
+
+		ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		network = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		wifi = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+										   @NonNull String[] permissions, @NonNull int[] grantResults) {
+		if (requestCode == LOCATION_PERMISSION_REQUEST) {
+			if (grantResults.length > 0
+					&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				doLocationProcessing();
+			} else {
+				Toast toast = Toast.makeText(getApplicationContext(), "Mecca pointer disabled. Go to the settings menu to enable location services.", Toast.LENGTH_LONG);
+				toast.show();
+			}
+		}
+	}
+
+
+	@SuppressLint("MissingPermission")
+	private void doLocationProcessing() {
 
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
-		//get the latest location from the best sensor
-		if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-			// TODO: Consider calling
-			//    Activity#requestPermissions
-			// here to request the missing permissions, and then overriding
-			//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-			//                                          int[] grantResults)
-			// to handle the case where the user grants the permission. See the documentation
-			// for Activity#requestPermissions for more details.
-			return;
-		}
-		locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, this);
-		ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-		NetworkInfo network = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		NetworkInfo wifi = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, this);
+
 
 		providerString = "No Location Available";
 
 		if (location == null && network != null) {
 			if (network.isConnected()) {
-				if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-					// TODO: Consider calling
-					//    Activity#requestPermissions
-					// here to request the missing permissions, and then overriding
-					//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-					//                                          int[] grantResults)
-					// to handle the case where the user grants the permission. See the documentation
-					// for Activity#requestPermissions for more details.
-					return;
-				}
 				location = locMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 				providerString = network.getExtraInfo();
-				if (providerString.equals("No Provider Connection") || providerString == null || providerString.equals("")) {
+				if (providerString.equals("No Provider Connection") || providerString.equals("")) {
 					providerString = "NETWORK";
 				}
 			}
 		}
 
 		if (location == null && locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-				// TODO: Consider calling
-				//    Activity#requestPermissions
-				// here to request the missing permissions, and then overriding
-				//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-				//                                          int[] grantResults)
-				// to handle the case where the user grants the permission. See the documentation
-				// for Activity#requestPermissions for more details.
-				return;
-			}
 			location = locMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			if (location != null) {
 				providerString = "GPS";
@@ -260,33 +276,22 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 
 		if (location == null && wifi.isConnected()) {
 			providerString = "WIFI";
-			if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-				// TODO: Consider calling
-				//    Activity#requestPermissions
-				// here to request the missing permissions, and then overriding
-				//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-				//                                          int[] grantResults)
-				// to handle the case where the user grants the permission. See the documentation
-				// for Activity#requestPermissions for more details.
-				return;
-			}
 			location = locMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		}
-		if(location!=null){
+
+		if (location != null) {
 			arrowImageMecca.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.DARKEN);
 			getGeomagneticField();
-			bearingToMeccaString=Float.toString(Math.round(location.bearingTo(mecca)));
-		}
-		else{
+			bearingToMeccaString = Float.toString(Math.round(location.bearingTo(mecca)));
+		} else {
 			bearingToMeccaString = "Unavailable";
 			Toast toast = Toast.makeText(getApplicationContext(), "Mecca pointer disabled. Go to the settings menu to enable Network/WIFI/GPS location services.", Toast.LENGTH_LONG);
 			toast.show();
-			LightingColorFilter lcf = new LightingColorFilter( 0x44555555, 0); 
+			LightingColorFilter lcf = new LightingColorFilter(0x44555555, 0);
 			arrowImageMecca.setColorFilter(lcf);
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.setGregorianButton: 
@@ -389,7 +394,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			startActivity(new Intent(this, AboutActivity.class));
 			break;
 		case R.id.bearings:
-			Intent bearingOptionIntent = new Intent(this, BearingPrefs.class);
+			Intent bearingOptionIntent = new Intent(this, SettingsActivity.class);
 			bearingOptionIntent.putExtra("PROVIDER", providerString);
 			bearingOptionIntent.putExtra("BEARING_TO_MECCA", bearingToMeccaString);
 			startActivity(bearingOptionIntent);
@@ -418,7 +423,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		try{
 			SensorManager.getRotationMatrix(R, I, accelerometerValues, magneticValues);
 			Display display = getWindowManager().getDefaultDisplay();
-			@SuppressWarnings("deprecation")
+
 			int phoneRotation = display.getOrientation();
 
 			if(phoneRotation==0){//portrait
@@ -444,7 +449,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 				aziDisplay = 180 + (180 + aziDisplay);
 			}
 
-			endRotateNorth = -azi;//this is endRotate is north 
+			endRotateNorth = - azi;//this is endRotate is north
 			if(image.equals(arrowImageNorth)){
 				if(defaultNorth) endRotateNorth=0;
 				RotateAnimation rotateAnimation = new RotateAnimation(startRotateNorth, endRotateNorth, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -477,20 +482,20 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	}
 
 	private void getGeomagneticField() {
-		try{
+		try {
 			GeomagneticField geoField = new GeomagneticField(
 					Double.valueOf(location.getLatitude()).floatValue(),
 					Double.valueOf(location.getLongitude()).floatValue(),
 					Double.valueOf(location.getAltitude()).floatValue(),
 					System.currentTimeMillis());
 			declination = geoField.getDeclination();//positive means the magnetic field is rotated east that much from true north
-		}catch(Exception e){
+		} catch (Exception e) {
 				//do something
 			}
 	}
 
 	public void onSensorChanged(SensorEvent event){
-		bearingOptions = BearingPrefs.getBearingMode(getApplicationContext());
+		bearingOptions = SettingsActivity.getBearingMode(getApplicationContext());
 
 		if((bearingOptions != null) && (bearingOptions != BearingOptions.OFF)){
 			switch(event.sensor.getType()){
@@ -505,8 +510,9 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 				makeRotation(arrowImageNorth, false);
 				if(bearingToMeccaString.equals("Unavailable")){
 					makeRotation(arrowImageMecca, true);
-				}else
+				} else {
 					makeRotation(arrowImageMecca, false);
+				}
 			}	
 		}
 	}

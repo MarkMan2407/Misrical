@@ -13,6 +13,7 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="miqaat_alert_preference"
+        android:enabled="true"
         android:title="Enable Miqaat Alerts"/>
     
     <Preference

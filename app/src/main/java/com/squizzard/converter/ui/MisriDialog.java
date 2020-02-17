@@ -2,7 +2,6 @@ package com.squizzard.converter.ui;
 
 import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
-import com.squizzard.converter.ui.ConverterActivity;
 import com.squizzard.util.DateUtil;
 
 import android.app.Dialog;
@@ -21,49 +20,41 @@ public class MisriDialog extends Dialog implements OnClickListener{
 	private int monthCode;
 	private Integer dayCode;//30,29,30,29
 	private Integer yearCode;
-	private Button dayMinusButton;
-	private Button dayPlusButton;
-	private Button monthMinusButton;
-	private Button monthPlusButton;
-	private Button yearMinusButton;
-	private Button yearPlusButton;
-	private Button setButton;
-	private Button cancelButton;
-	Misri misriConverter;
+	private Misri misriConverter;
 	private static final int MIN_DAY = 1;
 
-	public MisriDialog(Context context, Misri m) {
+	MisriDialog(Context context, Misri m) {
 		super(context);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.misri_datepicker);
 		misriConverter = m;
-		
-		dayMinusButton = findViewById(R.id.dayMinus);
+
+		Button dayMinusButton = findViewById(R.id.dayMinus);
 		dayMinusButton.setOnClickListener(this);
-		dayPlusButton = findViewById(R.id.dayPlus);
+		Button dayPlusButton = findViewById(R.id.dayPlus);
 		dayPlusButton.setOnClickListener(this);
-		monthMinusButton = findViewById(R.id.monthMinus);
+		Button monthMinusButton = findViewById(R.id.monthMinus);
 		monthMinusButton.setOnClickListener(this);
-		monthPlusButton = findViewById(R.id.monthPlus);
+		Button monthPlusButton = findViewById(R.id.monthPlus);
 		monthPlusButton.setOnClickListener(this);
-		yearMinusButton = findViewById(R.id.yearMinus);
+		Button yearMinusButton = findViewById(R.id.yearMinus);
 		yearMinusButton.setOnClickListener(this);
-		yearPlusButton = findViewById(R.id.yearPlus);
+		Button yearPlusButton = findViewById(R.id.yearPlus);
 		yearPlusButton.setOnClickListener(this);
-		setButton = findViewById(R.id.misriSet);
+		Button setButton = findViewById(R.id.misriSet);
 		setButton.setOnClickListener(this);
-		cancelButton = findViewById(R.id.misriCancel);
+		Button cancelButton = findViewById(R.id.misriCancel);
 		cancelButton.setOnClickListener(this);
 		
 		dayText = findViewById(R.id.dayText);
 		monthText = findViewById(R.id.monthText);
 		yearText = findViewById(R.id.yearText);
 		//get todays gregorian date and convert it to the 
-		dayCode = Integer.valueOf(m.getTodayMisriDay());
+		dayCode = m.getTodayMisriDay();
 		dayText.setText(dayCode.toString().trim());
 		monthText.setText(m.getTodayMisriMonth().trim());
 		monthCode = m.getTodayMisriMonthCode();
-		yearCode = Integer.valueOf(m.getTodayMisriYear());
+		yearCode = m.getTodayMisriYear();
 		yearText.setText(yearCode.toString().trim());
 		
 	}
@@ -103,7 +94,6 @@ public class MisriDialog extends Dialog implements OnClickListener{
 			this.dismiss();
 			break;
 		}
-		
 	}
 
 	private void validate(){
@@ -111,40 +101,31 @@ public class MisriDialog extends Dialog implements OnClickListener{
 	String yearValue = yearText.getText().toString();
 	dayCode = Integer.parseInt(dayValue);
 	yearCode = Integer.parseInt(yearValue);
-		if(dayCode<1){
-			dayCode=1;
+		if (dayCode < 1) {
+			dayCode = 1;
 			dayText.setText(dayCode.toString());
-		//	return false;
 		}
-		if(dayCode>29){
-			if(monthCode%2==1){
-				dayCode=30;
+		if (dayCode > 29) {
+			if (monthCode % 2 == 1){
+				dayCode = 30;
 				dayText.setText(dayCode.toString());
-			//	return false;
-			}else{
-				dayCode=29;
+			} else {
+				dayCode = 29;
 				dayText.setText(dayCode.toString());
 			}
 		}
-		if(yearCode>1499){
-			yearCode=1499;
+		if (yearCode > 1499) {
+			yearCode = 1499;
 			yearText.setText(yearCode.toString());
-		//	return false;
 		}
-		if(yearCode<1){
-			yearCode=1;
+		if (yearCode < 1) {
+			yearCode = 1;
 			yearText.setText(yearCode.toString());
-		//	return false;
 		}
-		
-		
-	//	return true;
 	}
 	
-	private void setDate(){
+	private void setDate() {
 		int[] gregorianDateArray =  misriConverter.getGregorianDate(dayCode, monthCode-1, yearCode);
-		//int[] misriDateArray = misriConverter.getMisriDate(dayCode, monthCode-1, yearCode);
-		//ConverterActivity.misriText.setText(DateUtil.getMisriDateString(misriDateArray[0], misriDateArray[1], misriDateArray[2]));
 		ConverterActivity.misriText.setText(DateUtil.getMisriDateString(dayCode, monthCode, yearCode));
 		misriConverter.setEvent(monthCode, dayCode);
 		ConverterActivity.eventText.setText(misriConverter.getTodayEvent());
@@ -153,62 +134,55 @@ public class MisriDialog extends Dialog implements OnClickListener{
 	}
 
 	private void addYear() {
-		if(yearCode==2100){
-			yearCode=1900;
+		if (yearCode == 2100) {
+			yearCode = 1900;
 		}
 		yearCode++;
 	}
 
 	private void subtractYear() {
-		if(yearCode==1900){
-			yearCode=2100;
+		if (yearCode == 1900) {
+			yearCode = 2100;
 		}
 		yearCode--;
-		
 	}
 
 	private void subtractDay() {
-		if(dayCode==MIN_DAY){
-			if(monthCode%2==1){
-				dayCode=30;
-			}else{
-				dayCode=29;
+		if (dayCode == MIN_DAY) {
+			if (monthCode % 2 == 1) {
+				dayCode = 30;
+			} else{
+				dayCode = 29;
 			}
-		}else dayCode--;
-		
+		} else dayCode--;
 	}
 
 	private void addDay() {
         if(dayCode==29 && monthCode%2==0){//odd months have 30 days
 			dayCode=1;
 		}
-        else if(dayCode==30){
-        	dayCode=1;
+        else if (dayCode == 30){
+        	dayCode = 1;
         }
-		else{
+		else {
 		dayCode++;
 		}
 	}
 
 	private void addMonth() {
-		if(monthCode==12){
-			monthCode=1;
-		}else{
+		if (monthCode == 12) {
+			monthCode = 1;
+		} else {
 			monthCode++;
 		}
-		
 	}
 
 	private void subtractMonth() {
-		if(monthCode==1){
-			monthCode=12;
-		}else{
+		if (monthCode == 1) {
+			monthCode = 12;
+		} else {
 			monthCode--;
 		}
-			
-	}
-	
-	public int getDayCode(){
-		return 1;
+
 	}
 }
