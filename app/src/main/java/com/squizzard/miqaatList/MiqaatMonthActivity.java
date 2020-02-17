@@ -18,11 +18,8 @@ import android.widget.TextView;
 
 public class MiqaatMonthActivity extends AppCompatActivity {
 
-
-	private MiqaatListAdapter adapter;
-	private ListView list;
-	private ArrayList<String> events = new ArrayList<String>();
-	private ArrayList<String> dates = new ArrayList<String>();
+	private ArrayList<String> events = new ArrayList<>();
+	private ArrayList<String> dates = new ArrayList<>();
 	
 
 	@Override
@@ -31,8 +28,8 @@ public class MiqaatMonthActivity extends AppCompatActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.miqaat_event_display);
 		int month =  getIntent().getIntExtra("MONTH", 0);
-		list = findViewById(R.id.miqaat_list);
-		adapter = new MiqaatListAdapter();
+		ListView list = findViewById(R.id.miqaat_list);
+		MiqaatListAdapter adapter = new MiqaatListAdapter();
 		list.setAdapter(adapter);
 		
 		getSupportActionBar().setTitle(MiqaatListActivity.months[month]);

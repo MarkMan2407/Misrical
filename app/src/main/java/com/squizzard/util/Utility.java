@@ -11,6 +11,7 @@ public class Utility {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
+            //todo
             return "";
         }
     }

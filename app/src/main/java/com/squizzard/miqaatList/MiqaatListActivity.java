@@ -21,15 +21,12 @@ public class MiqaatListActivity extends AppCompatActivity {
 		"Jumada al-Ula","Jumada al-Ukhra","Rajab al-Asab","Shaban al-Karim","Ramadan al-Moazzam",
 		"Shawwal al-Mukarram","Zilqad al-Haraam","Zilhaj al-Haraam"};
 
-	private MonthListAdapter adapter;
-	private ListView list;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.miqaat_month_display);
-		list = findViewById(R.id.month_list);
+		ListView list = findViewById(R.id.month_list);
 		list.setOnItemClickListener(new OnItemClickListener()
 		{
 		    @Override 
@@ -41,8 +38,8 @@ public class MiqaatListActivity extends AppCompatActivity {
 				startActivity(miqaatMonthIntent);
 		    }
 		});
-		
-		adapter = new MonthListAdapter();
+
+		MonthListAdapter adapter = new MonthListAdapter();
 		list.setAdapter(adapter);
 	}
 
