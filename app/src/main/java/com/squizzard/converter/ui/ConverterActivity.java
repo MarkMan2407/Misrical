@@ -8,7 +8,7 @@ import com.squizzard.MisriCalendar.R;
 import com.squizzard.settings.SettingsActivity;
 import com.squizzard.settings.SettingsActivity.BearingOptions;
 import com.squizzard.about.AboutActivity;
-import com.squizzard.reminders.ReminderListActivity;
+import com.squizzard.reminders.ui.ReminderListActivity;
 import com.squizzard.util.DateUtil;
 
 import android.Manifest;
@@ -136,6 +136,10 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		locationCriteria.setAccuracy(Criteria.ACCURACY_FINE);
 		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+		ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		network = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		wifi = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
 		checkPermissions();
 
 		updateDisplay();
@@ -217,17 +221,6 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		} else {
 			doLocationProcessing();
 		}
-	}
-
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		network = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		wifi = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
 	}
 
 	@Override

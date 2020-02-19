@@ -3,7 +3,7 @@ package com.squizzard.data;
 import android.content.Context;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.reminders.Reminder;
+import com.squizzard.reminders.model.Reminder;
 
 import java.util.ArrayList;
 

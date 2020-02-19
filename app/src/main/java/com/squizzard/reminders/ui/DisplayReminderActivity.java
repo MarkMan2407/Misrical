@@ -1,10 +1,11 @@
-package com.squizzard.reminders;
+package com.squizzard.reminders.ui;
 
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squizzard.data.DatabaseHelper;
 import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.MisriCalendar.R;
+import com.squizzard.reminders.model.Reminder;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

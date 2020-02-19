@@ -1,7 +1,7 @@
 package com.squizzard.data;
 
 import com.j256.ormlite.android.apptools.OrmLiteConfigUtil;
-import com.squizzard.reminders.Reminder;
+import com.squizzard.reminders.model.Reminder;
 
 public class DatabaseConfigUtility extends OrmLiteConfigUtil{
 

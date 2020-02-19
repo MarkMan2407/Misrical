@@ -8,8 +8,8 @@ import com.squizzard.converter.ui.ConverterActivity;
 import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.data.DatabaseHelper;
-import com.squizzard.reminders.Reminder;
-import com.squizzard.reminders.ReminderListActivity;
+import com.squizzard.reminders.model.Reminder;
+import com.squizzard.reminders.ui.ReminderListActivity;
 import com.squizzard.util.DateUtil;
 
 import android.app.NotificationManager;

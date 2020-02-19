@@ -1,4 +1,4 @@
-package com.squizzard.reminders;
+package com.squizzard.reminders.ui;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ import com.squizzard.data.DatabaseHelper;
 import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.Attributes;
 import com.squizzard.MisriCalendar.R;
+import com.squizzard.reminders.model.Reminder;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;

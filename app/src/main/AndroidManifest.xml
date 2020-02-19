@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="com.squizzard.MisriCalendar" android:versionCode="12"
+	package="com.squizzard.MisriCalendar" android:versionCode="13"
 	android:versionName="2.1">
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -24,9 +24,9 @@
 		<activity android:name="com.squizzard.about.AboutActivity" android:label="@string/about_title" android:noHistory="false" android:theme="@style/Theme.AppCompat.Light"/>
 		<activity android:name="com.squizzard.miqaatList.MiqaatListActivity" android:label="@string/miqaat_title" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
 	    <activity android:name="com.squizzard.miqaatList.MiqaatMonthActivity" android:noHistory="true" android:theme="@style/CustomActionBarTheme"/>
-		<activity android:name="com.squizzard.reminders.ReminderListActivity" android:theme="@style/CustomActionBarTheme" android:noHistory="false" />
-		<activity android:name="com.squizzard.reminders.AddReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
-		<activity android:name="com.squizzard.reminders.DisplayReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
+		<activity android:name="com.squizzard.reminders.ui.ReminderListActivity" android:theme="@style/CustomActionBarTheme" android:noHistory="false" />
+		<activity android:name="com.squizzard.reminders.ui.AddReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
+		<activity android:name="com.squizzard.reminders.ui.DisplayReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
 		<receiver android:name="com.squizzard.broadcast.AlarmCoordinator">
           <intent-filter>
             	<action android:name="android.intent.action.BOOT_COMPLETED"/>

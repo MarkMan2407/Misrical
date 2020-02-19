@@ -1,4 +1,4 @@
-package com.squizzard.reminders;
+package com.squizzard.reminders.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -16,27 +16,27 @@ public class Reminder {
     @PrimaryKey
 	@DatabaseField(generatedId=true)
     @ColumnInfo(name = "id")
-	private int id;
+	int id;
 
 	@DatabaseField
     @ColumnInfo(name = "reminderText")
-	private String reminderText;
+	String reminderText;
 
 	@DatabaseField
     @ColumnInfo(name = "gregorianDay")
-	private int gregorianDay;
+	int gregorianDay;
 
 	@DatabaseField
     @ColumnInfo(name = "gregorianMonth")
-	private int gregorianMonth;
+	int gregorianMonth;
 
 	@DatabaseField
     @ColumnInfo(name = "misriDay")
-	private int misriDay;
+	int misriDay;
 
 	@DatabaseField
     @ColumnInfo(name = "misriMonth")
-	private int misriMonth;
+	int misriMonth;
 	
 	@DatabaseField
     @ColumnInfo(name = "hour")
@@ -44,15 +44,15 @@ public class Reminder {
 	
 	@DatabaseField
     @ColumnInfo(name = "minute")
-	private int minute;
+	int minute;
 	
 	@DatabaseField
     @ColumnInfo(name = "type")
-	private char type;
+	char type;
 	
 	@DatabaseField
     @ColumnInfo(name = "active")
-	private boolean active;
+	boolean active;
 
 
 	@Ignore
@@ -71,43 +71,43 @@ public class Reminder {
 		this.active = true;
 	}
 
-	int getGregorianDay() {
+	public int getGregorianDay() {
 		return gregorianDay;
 	}
 
-	void setGregorianDay(int gregorianDay) {
+	public void setGregorianDay(int gregorianDay) {
 		this.gregorianDay = gregorianDay;
 	}
 
-	int getGregorianMonth() {
+	public int getGregorianMonth() {
 		return gregorianMonth;
 	}
 
-	void setGregorianMonth(int gregorianMonth) {
+	public void setGregorianMonth(int gregorianMonth) {
 		this.gregorianMonth = gregorianMonth;
 	}
 
-	int getMisriDay() {
+	public int getMisriDay() {
 		return misriDay;
 	}
 
-	void setMisriDay(int misriDay) {
+	public void setMisriDay(int misriDay) {
 		this.misriDay = misriDay;
 	}
 
-	int getMisriMonth() {
+	public int getMisriMonth() {
 		return misriMonth;
 	}
 
-	void setMisriMonth(int misriMonth) {
+	public void setMisriMonth(int misriMonth) {
 		this.misriMonth = misriMonth;
 	}
 
-	char getType() {
+	public char getType() {
 		return type;
 	}
 
-	void setType(char type) {
+	public void setType(char type) {
 		this.type = type;
 	}
 
@@ -123,15 +123,15 @@ public class Reminder {
 		return reminderText;
 	}
 
-	void setReminderText(String reminderText) {
+	public void setReminderText(String reminderText) {
 		this.reminderText = reminderText;
 	}
 	
-	String getMisriDateText(){
+	public String getMisriDateText(){
 		return DateUtil.getMisriDateString(getMisriDay(), getMisriMonth());
 	}
 	
-	String getGregorianDateText(){
+	public String getGregorianDateText(){
 		return DateUtil.getGregorianDateString(getGregorianDay(), getGregorianMonth());
 	}
 }

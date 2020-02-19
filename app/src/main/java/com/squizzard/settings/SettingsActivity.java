@@ -53,7 +53,6 @@ public class SettingsActivity extends PreferenceActivity {
 				public boolean onPreferenceClick(Preference preference) {
 					Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 					startActivity(viewIntent);
-
 					return true;
 				}
 			});

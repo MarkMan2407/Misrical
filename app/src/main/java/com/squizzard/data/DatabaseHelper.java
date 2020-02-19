@@ -18,7 +18,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
-import com.squizzard.reminders.Reminder;
+import com.squizzard.reminders.model.Reminder;
 
 	
 	public class DatabaseHelper extends OrmLiteSqliteOpenHelper{

@@ -1,4 +1,4 @@
-package com.squizzard.reminders;
+package com.squizzard.reminders.ui;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import com.squizzard.converter.ui.DatePickerFragment;
 import com.squizzard.converter.ui.MisiriDatePickerFragment;
 import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
+import com.squizzard.reminders.model.Reminder;
 import com.squizzard.util.DateUtil;
 
 public class AddReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
@@ -103,32 +104,21 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
         		onBackPressed();
         		return true;
 	        case R.id.reminder_save:
-	        	if(etReminder.getText().toString().trim().length() <= 0){
+	        	if (etReminder.getText().toString().trim().length() <= 0){
 	        		Animation shake = AnimationUtils.loadAnimation(AddReminderActivity.this, R.anim.shake);
 	        		etReminder.startAnimation(shake);
-					//etReminder.setError(getString(R.string.reminder_add_text_empty));
-				}else if(saveGregorianDay == 0 || saveGregorianMonth == 0 || saveMisriDay ==  0 || saveMisriMonth == 0){
+				} else if(saveGregorianDay == 0 || saveGregorianMonth == 0 || saveMisriDay ==  0 || saveMisriMonth == 0){
 					Animation shake = AnimationUtils.loadAnimation(AddReminderActivity.this, R.anim.shake);
 					dateButtonRow.startAnimation(shake);
-				/*	AlertDialog.Builder builder = new AlertDialog.Builder(AddReminderActivity.this);
-					builder.setTitle(getString(R.string.reminder_add_incomplete_title));
-					builder.setMessage(R.string.reminder_add_incomplete_message);
-					builder.setPositiveButton(getString(R.string.word_ok), new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
-				              dialog.dismiss();
-				           }
-				       });
-					builder.show();*/
-				}
-				else{
+				} else {
 					char type = TYPE_GREGORIAN;
 					if(rbMisri.isChecked()){
 						type = TYPE_MISRI;
 					}
-					if(reminderId == -1){
+					if (reminderId == -1) {
 						Reminder reminder = new Reminder(etReminder.getText().toString(), saveGregorianDay, saveGregorianMonth, saveMisriDay, saveMisriMonth, 0, 0,type);
 						getHelper().saveReminder(reminder);
-					}else{
+					} else {
 						savedReminder.setReminderText(etReminder.getText().toString());
 						savedReminder.setGregorianDay(saveGregorianDay);
 						savedReminder.setGregorianMonth(saveGregorianMonth);
@@ -204,6 +194,4 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
 			databaseHelper = null;
 		}
 	}
-	
-	//TODO catch back button press and check if fields are filled. If so, ask to save
 }

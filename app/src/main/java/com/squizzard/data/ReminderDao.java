@@ -5,7 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.squizzard.reminders.Reminder;
+import com.squizzard.reminders.model.Reminder;
 
 import java.util.ArrayList;
 
