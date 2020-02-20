@@ -211,12 +211,12 @@ public class Misri {
 				break;
 			}
 		}
-		for(int j=0;j<misri_year.length;j++){
-			if(misri_year[j][1]>=cycle30Diff){
-				try{
+		for (int j=0;j<misri_year.length;j++) {
+			if (misri_year[j][1]>=cycle30Diff) {
+				try {
 				misriYear=misriYear+misri_year[j-1][0];
 				yearDiff = cycle30Diff-misri_year[j-1][1];
-				}catch(ArrayIndexOutOfBoundsException e){
+				} catch (ArrayIndexOutOfBoundsException e) {
 					//return "Out of calendar range!";
 				}
 				break;

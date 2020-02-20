@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squizzard.MisriCalendar.R;
+import com.squizzard.analytics.AnalyticsHelper;
 
 public class MiqaatListActivity extends AppCompatActivity {
 
@@ -21,17 +22,21 @@ public class MiqaatListActivity extends AppCompatActivity {
 		"Jumada al-Ula","Jumada al-Ukhra","Rajab al-Asab","Shaban al-Karim","Ramadan al-Moazzam",
 		"Shawwal al-Mukarram","Zilqad al-Haraam","Zilhaj al-Haraam"};
 
+	private AnalyticsHelper analyticsHelper;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		analyticsHelper = new AnalyticsHelper(getApplicationContext());
 		setContentView(R.layout.miqaat_month_display);
 		ListView list = findViewById(R.id.month_list);
 		list.setOnItemClickListener(new OnItemClickListener()
 		{
 		    @Override 
 		    public void onItemClick(AdapterView<?> arg0, View v,int position, long id)
-		    { 
+		    {
+				analyticsHelper.sendEvent("month_selected");
 				int intItem = (int)id;
 				Intent miqaatMonthIntent = new Intent(MiqaatListActivity.this, MiqaatMonthActivity.class);
 				miqaatMonthIntent.putExtra("MONTH", intItem);

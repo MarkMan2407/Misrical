@@ -20,7 +20,7 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 
-public class AlarmReceiver extends BroadcastReceiver{
+public class AlarmReceiver extends BroadcastReceiver {
 	public static final int ADD_DAYS_TODAY = 0;
 	public static final int ADD_DAYS_TOMORROW = 1;
 	
@@ -34,7 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 		int todayNumber = m.getMisriOrdinal();
 		int numEvents = 0;
 		this.context = context;
-		ArrayList<Reminder> databaseReminders  = new ArrayList<Reminder>();
+		ArrayList<Reminder> databaseReminders;
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
 		
 		if(mAction.equals(Attributes.MORNING_CHECK_MIQAAT_INTENT)){//check for today

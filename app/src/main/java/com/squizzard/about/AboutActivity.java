@@ -9,14 +9,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.squizzard.MisriCalendar.R;
+import com.squizzard.analytics.AnalyticsHelper;
 import com.squizzard.util.Utility;
 
 public class AboutActivity extends AppCompatActivity implements OnClickListener{
 
 	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+	private AnalyticsHelper analyticsHelper;
 
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		analyticsHelper = new AnalyticsHelper(getApplicationContext());
 		setContentView(R.layout.about);
 		if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -32,6 +35,7 @@ public class AboutActivity extends AppCompatActivity implements OnClickListener{
 
 	public void onClick(View v) {
 		if (v.getId() == R.id.emailButton){
+			analyticsHelper.sendEvent("contact_developer");
 
 			String messageString = "\n\n\n\n OS Version: " + System.getProperty("os.version");
 			messageString += "\n OS API Level: " + Build.VERSION.RELEASE;
@@ -44,6 +48,7 @@ public class AboutActivity extends AppCompatActivity implements OnClickListener{
 			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
                     "MisriCal "+ Utility.getVersion(getApplicationContext()));
 			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, messageString);
+			emailIntent.setType("message/rfc822");
 			startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 		}	
 	}

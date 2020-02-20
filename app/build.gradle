@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
@@ -56,4 +58,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
     implementation 'com.google.firebase:firebase-perf:19.0.5'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

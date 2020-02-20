@@ -2,6 +2,7 @@ package com.squizzard.converter.ui;
 
 import java.util.Calendar;
 
+import com.squizzard.analytics.AnalyticsHelper;
 import com.squizzard.miqaatList.MiqaatListActivity;
 import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
@@ -41,6 +42,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import kotlin.Lazy;
 
 import android.view.Display;
 import android.view.MotionEvent;
@@ -90,10 +92,11 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	private final int LOCATION_PERMISSION_REQUEST = 1011;
 	private NetworkInfo network;
 	private NetworkInfo wifi;
-
+	private AnalyticsHelper analyticsHelper;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		analyticsHelper = new AnalyticsHelper(getApplicationContext());
 
 		if (savedInstanceState != null) {
 			c = (Calendar) savedInstanceState.getSerializable(CALENDAR_STATE);
@@ -287,25 +290,30 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 
 	public void onClick(View v) {
 		switch(v.getId()){
-		case R.id.setGregorianButton: 
+		case R.id.setGregorianButton:
+			analyticsHelper.sendEvent("set_gregorian");
 			showDialog(DATE_DIALOG_ID);
 			break;
 			
-		case R.id.setMisriButton: 
+		case R.id.setMisriButton:
+			analyticsHelper.sendEvent("set_misri");
 			showDialog(MISRI_DIALOG_ID);
 			break;
 
 		case R.id.dayPlusButton:
+			analyticsHelper.sendEvent("set_day_plus");
 			c.add(Calendar.DAY_OF_MONTH, 1);
 			updateDisplay();
 			break;
 
 		case R.id.dayMinusButton:
+			analyticsHelper.sendEvent("set_day_minus");
 			c.add(Calendar.DAY_OF_MONTH, -1);
 			updateDisplay();
 			break;
 
 		case R.id.todayButton:
+			analyticsHelper.sendEvent("set_today");
 			c = Calendar.getInstance();
 			updateDisplay();
 		}
@@ -380,19 +388,23 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
-		case R.id.miqaat: 
+		case R.id.miqaat:
+			analyticsHelper.sendEvent("miqaat_menu");
 			startActivity(new Intent(this, MiqaatListActivity.class));
 			break;
 		case R.id.about:
+			analyticsHelper.sendEvent("about_menu");
 			startActivity(new Intent(this, AboutActivity.class));
 			break;
 		case R.id.bearings:
+			analyticsHelper.sendEvent("bearings_menu");
 			Intent bearingOptionIntent = new Intent(this, SettingsActivity.class);
 			bearingOptionIntent.putExtra("PROVIDER", providerString);
 			bearingOptionIntent.putExtra("BEARING_TO_MECCA", bearingToMeccaString);
 			startActivity(bearingOptionIntent);
 			break;
 		case R.id.share:
+			analyticsHelper.sendEvent("share_menu");
 			Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 			intent.setType("text/*");
 			intent.putExtra(android.content.Intent.EXTRA_TEXT, "Android app for converting between Misri and Gregorian dates: \nhttps://market.android.com/details?id=com.squizzard.MisriCalendar");
@@ -400,6 +412,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			startActivity(Intent.createChooser(intent, "Share using..."));
 			break;
 		case R.id.reminders:
+			analyticsHelper.sendEvent("reminders_menu");
 			Intent reminderIntent = new Intent(this, ReminderListActivity.class);
 			startActivity(reminderIntent);
 			break;

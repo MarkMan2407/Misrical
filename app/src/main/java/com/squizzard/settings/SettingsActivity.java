@@ -2,6 +2,7 @@ package com.squizzard.settings;
 
 import com.squizzard.Attributes;
 import com.squizzard.MisriCalendar.R;
+import com.squizzard.analytics.AnalyticsHelper;
 import com.squizzard.broadcast.AlarmCoordinator;
 
 import android.content.Context;
@@ -19,12 +20,14 @@ import javax.annotation.Nullable;
 public class SettingsActivity extends PreferenceActivity {
 
 	public enum BearingOptions{ON_TOUCH, ALWAYS_ON, OFF}
+	private AnalyticsHelper analyticsHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setTheme(R.style.CustomActionBarTheme);
 		setContentView(R.layout.bearing_settings_info);
+		analyticsHelper = new AnalyticsHelper(getApplicationContext());
 		
 		addPreferencesFromResource(R.xml.settings);
 		TextView providerText = findViewById(R.id.providerValue);
@@ -39,8 +42,10 @@ public class SettingsActivity extends PreferenceActivity {
 				public boolean onPreferenceClick(Preference preference) {
 					boolean alertsEnabled = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(Attributes.MIQAATS_ALERT_PREFERENCE, false);
 					if (alertsEnabled) {
+						analyticsHelper.sendEvent("alerts_enable");
 						AlarmCoordinator.turnOnAlarms(getApplicationContext());
 					} else {
+						analyticsHelper.sendEvent("alerts_disable");
 						AlarmCoordinator.turnOffAlarms(getApplicationContext());
 					}
 					return true;
