@@ -3,6 +3,7 @@ package com.squizzard.reminders.ui;
 import java.util.ArrayList;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.squizzard.broadcast.AlarmReceiver;
 import com.squizzard.data.DatabaseHelper;
 import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.Attributes;
@@ -118,8 +119,8 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 		isDeleteMode = false;
 		
 		if(adapter != null){
-			reminders = new GetRemindersUseCase(getApplicationContext()).getReminders();
-			adapter.notifyDataSetChanged();
+			//reminders = new GetRemindersUseCase(getApplicationContext()).getReminders();
+			//adapter.notifyDataSetChanged();
 		}
 	}
 	
@@ -153,11 +154,13 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.miqaatCheckToday:
-			Intent morningEventIntent= new Intent(Attributes.MORNING_CHECK_MIQAAT_INTENT);
-			sendBroadcast(morningEventIntent);	
+			Intent morningEventIntent = new Intent(this, AlarmReceiver.class);
+			morningEventIntent.putExtra(Attributes.EVENT_CHECK_KEY, Attributes.MORNING_CHECK_MIQAAT_INTENT);
+			sendBroadcast(morningEventIntent);
 			break;
 		case R.id.miqaatCheckTomorrow:
-			Intent eveningEventIntent= new Intent(Attributes.EVENING_CHECK_MIQAAT_INTENT);
+			Intent eveningEventIntent= new Intent(this, AlarmReceiver.class);
+			eveningEventIntent.putExtra(Attributes.EVENT_CHECK_KEY, Attributes.EVENING_CHECK_MIQAAT_INTENT);
 			sendBroadcast(eveningEventIntent);
 			break;
 		}
@@ -179,7 +182,7 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = convertView;
+			View view;
 			LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
 			if(isDeleteMode){
 				view = inflater.inflate(R.layout.reminder_list_item_delete, null);

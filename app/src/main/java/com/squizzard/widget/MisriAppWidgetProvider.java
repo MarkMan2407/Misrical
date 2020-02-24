@@ -24,10 +24,9 @@ public class MisriAppWidgetProvider extends AppWidgetProvider{
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
 		String todayMisri = m.getTodayMisri();
-		remoteView = new RemoteViews("com.squizzard.MisriCalendar", R.layout.misri_appwidget_layout);
+		remoteView = new RemoteViews(context.getPackageName(), R.layout.misri_appwidget_layout);
 		remoteView.setTextViewText(R.id.w_misri_date, todayMisri);
 
-		//Intent to launch the main app when the app icon is clicked
 		Intent launchAppIntent = new Intent(context, ConverterActivity.class);
 		PendingIntent launchAppPendingIntent = PendingIntent.getActivity(context,0, launchAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		remoteView.setOnClickPendingIntent(R.id.launcher_icon, launchAppPendingIntent);

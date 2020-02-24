@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_version_string">Version 2.1</string>
     <string name="app_name">MisriCal</string>
     <string name="ouikka_email">ouikka@gmail.com</string>
     <string name="bearing_opt_label">Settings</string>
@@ -15,7 +14,10 @@
     <string name="settings_check_tomorrow">Check Tomorrow\'s Events</string>
     <string name="settings_bearing_due_north">Mecca bearing from due north: </string>
     <string name="settings_provider">Provider: </string>
-    
+
+    <string name="events_for_tomorrow_label">Events for tomorrow</string>
+    <string name="events_for_today_label">Events for today</string>
+
     <string name="miqaat_title">Miqaat</string>  
     <string name="about_title">MisriCal from OUIKKA</string> 
     <string name="copyright_string">"Copyright \u00A9 2020 Ouikka Apps"</string>
@@ -59,5 +61,8 @@
     
     <string name="symbol_plus">+</string>
     <string name="symbol_minus">-</string>
+
+    <string name="default_notification_channel_name">-</string>
+    <string name="default_notification_channel_description">-</string>
     
 </resources>

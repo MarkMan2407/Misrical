@@ -22,18 +22,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String mAction = intent.getAction();
         int todayNumber = m.getMisriOrdinal();
         int numEvents = 0;
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, Attributes.DEFAULT_NOTIFICATION_CHANNEL_ID);
 
-        if (mAction.equals(Attributes.MORNING_CHECK_MIQAAT_INTENT)) {//check for today
+        String key = intent.getStringExtra(Attributes.EVENT_CHECK_KEY);
+
+        if (key.equals(Attributes.MORNING_CHECK_MIQAAT_INTENT)) {
             String[] miqaatList = DateUtil.priorityEventMap.get(todayNumber);
 
             if (miqaatList != null && miqaatList.length > 0) {
-                mBuilder.setSmallIcon(R.drawable.ic_launcher1)
-                        .setContentTitle("Events for today");
-
+                notificationBuilder.setContentTitle(context.getString(R.string.events_for_today_label));
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
                 for (int x = 0; x < miqaatList.length; x++) {
@@ -41,18 +40,17 @@ public class AlarmReceiver extends BroadcastReceiver {
                     numEvents++;
                 }
 
-                mBuilder.setStyle(inboxStyle);
-                mBuilder.setNumber(numEvents);
+                notificationBuilder.setStyle(inboxStyle);
+                notificationBuilder.setNumber(numEvents);
+                buildAndSendNotification(context, notificationBuilder);
             } else {
-                Intent eveningEventIntent = new Intent(Attributes.NO_MIQAAT_TODAY);
-                context.sendBroadcast(eveningEventIntent);
+                sentAlertDialogBroadcast(context, Attributes.NO_MIQAAT_TODAY);
             }
-        } else if (mAction.equals(Attributes.EVENING_CHECK_MIQAAT_INTENT)) {//check for tomorrow
+        } else if (key.equals(Attributes.EVENING_CHECK_MIQAAT_INTENT)) {
             String[] miqaatList = DateUtil.priorityEventMap.get(todayNumber + 1);
 
             if (miqaatList != null && miqaatList.length > 0) {
-                mBuilder.setSmallIcon(R.drawable.ic_launcher1)
-                        .setContentTitle("Events for tomorrow");
+                notificationBuilder.setContentTitle(context.getString(R.string.events_for_tomorrow_label));
 
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
@@ -60,21 +58,30 @@ public class AlarmReceiver extends BroadcastReceiver {
                     inboxStyle.addLine(miqaatList[0]);
                     numEvents++;
                 }
-                mBuilder.setStyle(inboxStyle);
+                notificationBuilder.setStyle(inboxStyle);
+                notificationBuilder.setNumber(numEvents);
+                buildAndSendNotification(context, notificationBuilder);
             } else {
-                Intent eveningEventIntent = new Intent(Attributes.NO_MIQAAT_TOMORROW);
-                context.sendBroadcast(eveningEventIntent);
+                sentAlertDialogBroadcast(context, Attributes.NO_MIQAAT_TOMORROW);
             }
         }
+    }
 
+    private void buildAndSendNotification(Context context, NotificationCompat.Builder notificationBuilder) {
         Intent resultIntent = new Intent(context, ReminderListActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(ConverterActivity.class);
 
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(Attributes.MORNING_ALARM_CODE, mBuilder.build());
+        notificationBuilder.setContentIntent(resultPendingIntent);
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(Attributes.MORNING_ALARM_CODE, notificationBuilder.build());
+    }
+
+    private void sentAlertDialogBroadcast(Context context, String intentKey) {
+        Intent dialogIntent = new Intent(intentKey);
+                context.sendBroadcast(dialogIntent);
     }
 }
