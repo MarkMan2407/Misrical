@@ -18,13 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.data.DatabaseHelper;
 import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.converter.ui.DatePickerFragment;
 import com.squizzard.converter.ui.MisiriDatePickerFragment;
 import com.squizzard.converter.model.Misri;
 import com.squizzard.MisriCalendar.R;
+import com.squizzard.data.SaveReminderUseCase;
 import com.squizzard.reminders.model.Reminder;
 import com.squizzard.util.DateUtil;
 
@@ -44,7 +43,6 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
 	private int saveGregorianMonth=0;
 	private int saveMisriDay=0;
 	private int saveMisriMonth=0;
-	private DatabaseHelper databaseHelper;
 	private int reminderId = -1;
 	private Reminder savedReminder = null;
 	private LinearLayout dateButtonRow;
@@ -72,8 +70,8 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
 			savedReminder = new GetRemindersUseCase(getApplicationContext()).getReminder(reminderId);
 			if(savedReminder != null){
 				etReminder.setText(savedReminder.getReminderText());
-				tvGregorian.setText(savedReminder.getGregorianDateText());
-				tvMisri.setText(savedReminder.getMisriDateText());
+				tvGregorian.setText(DateUtil.getGregorianDateString(savedReminder.getGregorianDay(), savedReminder.getGregorianMonth()));
+				tvMisri.setText(DateUtil.getMisriDateString(savedReminder.getMisriDay(), savedReminder.getMisriMonth()));
 				saveGregorianDay = savedReminder.getGregorianDay();
 				saveGregorianMonth = savedReminder.getGregorianMonth();
 				saveMisriDay = savedReminder.getMisriDay();
@@ -116,8 +114,15 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
 						type = TYPE_MISRI;
 					}
 					if (reminderId == -1) {
-						Reminder reminder = new Reminder(etReminder.getText().toString(), saveGregorianDay, saveGregorianMonth, saveMisriDay, saveMisriMonth, 0, 0,type);
-						getHelper().saveReminder(reminder);
+						Reminder reminder = new Reminder(etReminder.getText().toString(),
+								saveGregorianDay,
+								saveGregorianMonth,
+								saveMisriDay,
+								saveMisriMonth,
+								0,
+								0,
+								type);
+						new SaveReminderUseCase(getApplicationContext()).saveReminder(reminder);
 					} else {
 						savedReminder.setReminderText(etReminder.getText().toString());
 						savedReminder.setGregorianDay(saveGregorianDay);
@@ -125,7 +130,7 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
 						savedReminder.setMisriDay(saveMisriDay);
 						savedReminder.setMisriMonth(saveMisriMonth);
 						savedReminder.setType(type);
-						getHelper().saveReminder(savedReminder);
+						new SaveReminderUseCase(getApplicationContext()).saveReminder(savedReminder);
 					}
 					
 				    finish();
@@ -176,22 +181,6 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
 			saveGregorianMonth = gregorianDateArray[1];
 			saveMisriDay = day;
 			saveMisriMonth = month;
-		}
-	}
-
-	protected DatabaseHelper getHelper() {
-		if (databaseHelper == null) {
-			databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
-		}
-		return databaseHelper;
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (databaseHelper != null) {
-			OpenHelperManager.releaseHelper();
-			databaseHelper = null;
 		}
 	}
 }

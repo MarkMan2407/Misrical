@@ -51,6 +51,8 @@ public class MisiriDatePickerFragment extends DialogFragment implements OnClickL
 		yearPlusButton.setOnClickListener(this);
 		Button setButton = view.findViewById(R.id.misriSet);
 		setButton.setOnClickListener(this);
+		Button cancelButton = view.findViewById(R.id.misriCancel);
+		cancelButton.setOnClickListener(this);
 		
 		dayText = view.findViewById(R.id.dayText);
 		monthText = view.findViewById(R.id.monthText);
@@ -132,6 +134,7 @@ public class MisiriDatePickerFragment extends DialogFragment implements OnClickL
 	
 	private void setDate(){
 		DatePickerDialog.OnDateSetListener activity = (DatePickerDialog.OnDateSetListener) getActivity();
+		assert activity != null;
 		activity.onDateSet(null, yearCode, monthCode, dayCode);
         this.dismiss();
 	}

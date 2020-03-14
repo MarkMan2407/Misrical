@@ -2,13 +2,13 @@ package com.squizzard.reminders.ui;
 
 import java.util.ArrayList;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.squizzard.broadcast.AlarmReceiver;
-import com.squizzard.data.DatabaseHelper;
+import com.squizzard.data.DeleteReminderUseCase;
 import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.Attributes;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.reminders.model.Reminder;
+import com.squizzard.util.DateUtil;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -37,7 +37,6 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 	private ListView listView;
 	private ReminderAdapter adapter;
 	private ArrayList<Reminder> reminders;
-	private DatabaseHelper databaseHelper;
 	private boolean isDeleteMode = false;
 	
 	private BroadcastReceiver todayReceiver = new BroadcastReceiver() {
@@ -119,8 +118,8 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 		isDeleteMode = false;
 		
 		if(adapter != null){
-			//reminders = new GetRemindersUseCase(getApplicationContext()).getReminders();
-			//adapter.notifyDataSetChanged();
+			reminders = (ArrayList)new GetRemindersUseCase(getApplicationContext()).getReminders();
+			adapter.notifyDataSetChanged();
 		}
 	}
 	
@@ -190,11 +189,11 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 				view = inflater.inflate(R.layout.reminder_list_item, null);
 			}
 
-			Reminder reminder = getItem(position);
+			final Reminder reminder = getItem(position);
 			if(reminder != null){
 				((TextView)view.findViewById(R.id.reminder_item_text)).setText(reminder.getReminderText());
-				((TextView)view.findViewById(R.id.reminder_item_misri_text)).setText(reminder.getMisriDateText());
-				((TextView)view.findViewById(R.id.reminder_item_gregorian_text)).setText(reminder.getGregorianDateText());
+				((TextView)view.findViewById(R.id.reminder_item_misri_text)).setText(DateUtil.getMisriDateString(reminder.getMisriDay(), reminder.getMisriMonth()));
+				((TextView)view.findViewById(R.id.reminder_item_gregorian_text)).setText(DateUtil.getGregorianDateString(reminder.getGregorianDay(), reminder.getGregorianMonth()));
 				
 				view.setTag(reminder);
 				if(isDeleteMode){
@@ -203,8 +202,8 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 					deleteButton.setOnClickListener(new View.OnClickListener() {
 			            @Override
 			            public void onClick(View clickedButton) {
-			            	getHelper().deleteReminder(((Reminder)clickedButton.getTag()).getId());
-			            	reminders = new GetRemindersUseCase(getBaseContext()).getReminders();
+							new DeleteReminderUseCase(getApplicationContext()).deleteReminder(reminder);
+			            	reminders = (ArrayList)new GetRemindersUseCase(getBaseContext()).getReminders();
 			            	notifyDataSetChanged();
 			            }
 			        });
@@ -217,12 +216,5 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 		public long getItemId(int position) {
 			return position;
 		}
-	}
-	
-	protected DatabaseHelper getHelper() {
-		if (databaseHelper == null) {
-			databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
-		}
-		return databaseHelper;
 	}
 }

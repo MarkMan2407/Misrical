@@ -1,11 +1,10 @@
 package com.squizzard.reminders.ui;
 
-
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.squizzard.data.DatabaseHelper;
+import com.squizzard.data.DeleteReminderUseCase;
 import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.reminders.model.Reminder;
+import com.squizzard.util.DateUtil;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,16 +16,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class DisplayReminderActivity extends AppCompatActivity{
 	public static final String REMINDER_ID = "reminder_id";
-	private DatabaseHelper databaseHelper;
 	private int reminderId = -1;
+	private Reminder reminder;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		reminderId = getIntent().getIntExtra(REMINDER_ID, -1);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (reminderId != -1) {
+			reminder = new GetRemindersUseCase(getApplicationContext()).getReminder(reminderId);
+		} else {
+			finish();
+		}
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 		updateReminder();	
 	}
 	
@@ -36,19 +42,14 @@ public class DisplayReminderActivity extends AppCompatActivity{
 		updateReminder();
 	}
 	
-	private void updateReminder(){
-		if(reminderId == -1){
+	private void updateReminder() {
+		if (reminder != null) {
+			setContentView(R.layout.reminder_display);
+			((TextView) findViewById(R.id.reminder_display_title)).setText(reminder.getReminderText());
+			((TextView) findViewById(R.id.reminder_display_misri_text)).setText(DateUtil.getMisriDateString(reminder.getMisriDay(), reminder.getMisriMonth()));
+			((TextView) findViewById(R.id.reminder_display_gregorian_text)).setText(DateUtil.getGregorianDateString(reminder.getGregorianDay(), reminder.getGregorianMonth()));
+		} else {
 			finish();
-		}else{
-			Reminder reminder = new GetRemindersUseCase(getApplicationContext()).getReminder(reminderId);
-			if(reminder != null){
-				setContentView(R.layout.reminder_display);
-				((TextView)findViewById(R.id.reminder_display_title)).setText(reminder.getReminderText());
-				((TextView)findViewById(R.id.reminder_display_misri_text)).setText(reminder.getMisriDateText());
-				((TextView)findViewById(R.id.reminder_display_gregorian_text)).setText(reminder.getGregorianDateText());
-			}else{
-				finish();
-			}
 		}
 	}
 	
@@ -76,7 +77,7 @@ public class DisplayReminderActivity extends AppCompatActivity{
 		       });
 			builder.setPositiveButton(getString(R.string.word_ok), new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
-		        	   getHelper().deleteReminder(reminderId);        
+		        	   new DeleteReminderUseCase(getApplicationContext()).deleteReminder(reminder);
 		        	   finish();
 		           }
 		       });
@@ -90,12 +91,4 @@ public class DisplayReminderActivity extends AppCompatActivity{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	protected DatabaseHelper getHelper() {
-		if (databaseHelper == null) {
-			databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
-		}
-		return databaseHelper;
-	}
-	
 }

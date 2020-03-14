@@ -11,7 +11,7 @@
                 android:id="@+id/reminders"
                 android:icon="@drawable/ic_action_event"
                 android:title="@string/reminder_label"
-                android:visible="false"
+                android:visible="true"
                 app:icon="@drawable/ic_action_event"
                 app:showAsAction="ifRoom" />
             <item
