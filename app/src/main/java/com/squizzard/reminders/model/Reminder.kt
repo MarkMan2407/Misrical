@@ -12,7 +12,7 @@ data class Reminder @JvmOverloads constructor(@ColumnInfo(name = "reminderText")
                     @ColumnInfo(name = "misriMonth") var misriMonth: Int,
                     @ColumnInfo(name = "hour") var hour: Int = 0,
                     @ColumnInfo(name = "minute") var minute: Int = 0,
-                    @ColumnInfo(name = "type") var type: Char) {
+                    @ColumnInfo(name = "type") var type: String) {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Int = 0
     @ColumnInfo(name = "active") var active: Boolean = true
 }

@@ -10,23 +10,18 @@ import androidx.core.app.TaskStackBuilder
 import com.squizzard.Attributes
 import com.squizzard.MisriCalendar.R
 import com.squizzard.analytics.AnalyticsHelper
-import com.squizzard.converter.model.Misri
 import com.squizzard.converter.ui.ConverterActivity
 import com.squizzard.miqaatList.MiqaatListActivity
-import com.squizzard.util.DateUtil
 
 class CheckTodaysEventsService : IntentService("CheckEventService") {
 
-    private lateinit var misriCalendar: Misri
-
     override fun onHandleIntent(intent: Intent) {
-        misriCalendar = Misri()
-        val todayNumber: Int = misriCalendar.misriOrdinal
-        var numEvents = 0
-        val notificationBuilder = NotificationCompat.Builder(applicationContext, Attributes.DEFAULT_NOTIFICATION_CHANNEL_ID)
 
-        val miqaatList = DateUtil.priorityEventMap[todayNumber]
+        val notificationBuilder = NotificationCompat.Builder(applicationContext, Attributes.DEFAULT_NOTIFICATION_CHANNEL_ID)
+        val miqaatList = GetTodaysEventsUseCase().getTodaysEvents()
+
         if (miqaatList != null && miqaatList.isNotEmpty()) {
+            var numEvents = 0
             notificationBuilder.setContentTitle(applicationContext.getString(R.string.events_for_today_label))
             val inboxStyle = NotificationCompat.InboxStyle()
             for (x in miqaatList.indices) {

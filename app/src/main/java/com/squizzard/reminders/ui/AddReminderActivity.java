@@ -29,8 +29,8 @@ import com.squizzard.util.DateUtil;
 
 public class AddReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-	private static final char TYPE_GREGORIAN = 'G';
-	private static final char TYPE_MISRI = 'M';
+	private static final String TYPE_GREGORIAN = "G";
+	private static final String TYPE_MISRI = "M";
 
 	private EditText etReminder;
 	private FragmentManager fragmentManager;
@@ -109,7 +109,7 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
 					Animation shake = AnimationUtils.loadAnimation(AddReminderActivity.this, R.anim.shake);
 					dateButtonRow.startAnimation(shake);
 				} else {
-					char type = TYPE_GREGORIAN;
+					String type = TYPE_GREGORIAN;
 					if(rbMisri.isChecked()){
 						type = TYPE_MISRI;
 					}
@@ -162,17 +162,16 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
 	@Override
 	public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 		//get the date back and display both date strings based on a prior conversion to Gregorian
-		if(datePicker != null){//this is a standard date picker
+		if (datePicker != null) {//this is a standard date picker
 			rbGregorian.setChecked(true);
 			tvGregorian.setText(DateUtil.getGregorianDateString(day, month));
 			int [] misriArray = dateConverter.getMisriDate(day, month, year);
 			tvMisri.setText(DateUtil.getMisriDateString(misriArray[0], misriArray[1]));
 			saveGregorianDay = day;
-			saveGregorianMonth = month+1;
+			saveGregorianMonth = month;
 			saveMisriDay = misriArray[0];
 			saveMisriMonth = misriArray[1];
-		}
-		else{
+		} else {
 			rbMisri.setChecked(true);
 			tvMisri.setText(DateUtil.getMisriDateString(day, month));
 			int[] gregorianDateArray =  dateConverter.getGregorianDate(day, month-1, year);

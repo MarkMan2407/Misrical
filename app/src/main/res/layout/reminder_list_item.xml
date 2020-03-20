@@ -7,18 +7,20 @@
         android:id="@+id/reminder_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"/>
 
     <TextView
         android:id="@+id/reminder_item_misri_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:layout_below="@+id/reminder_item_text"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -26,10 +28,11 @@
         android:id="@+id/reminder_item_gregorian_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:layout_alignBaseline="@+id/reminder_item_misri_text"
         android:layout_alignBottom="@+id/reminder_item_misri_text"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

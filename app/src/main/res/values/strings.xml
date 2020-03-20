@@ -17,6 +17,9 @@
 
     <string name="events_for_tomorrow_label">Events for tomorrow</string>
     <string name="events_for_today_label">Events for today</string>
+    <string name="no_events">No Events</string>
+    <string name="no_events_today">You have no reminders or Miqaats today</string>
+    <string name="no_events_tomorrow">You have no reminders or Miqaats tomorrow</string>
 
     <string name="miqaat_title">Miqaat</string>  
     <string name="about_title">MisriCal from OUIKKA</string> 

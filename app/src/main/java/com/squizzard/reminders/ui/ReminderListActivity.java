@@ -43,15 +43,13 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			new AlertDialog.Builder(ReminderListActivity.this)
-		    .setTitle("No Events")
-		    .setMessage("You have no reminders or Miqaats for today")
-		    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int which) { 
-		            // continue with delete
+		    .setTitle(R.string.no_events)
+		    .setMessage(R.string.no_events_today)
+		    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
 		        }
 		     })
-		    .setIcon(R.drawable.ic_launcher1)
-		     .show();
+		    .setIcon(R.drawable.ic_launcher1).show();
 		}
 	};
 
@@ -59,15 +57,13 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			new AlertDialog.Builder(ReminderListActivity.this)
-		    .setTitle("No Events")
-		    .setMessage("You have no reminders or Miqaats for tomorrow")
-		    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int which) { 
-		            // continue with delete
+		    .setTitle(R.string.no_events)
+		    .setMessage(R.string.no_events_tomorrow)
+		    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
 		        }
 		     })
-		    .setIcon(R.drawable.ic_launcher1)
-		     .show();
+		    .setIcon(R.drawable.ic_launcher1).show();
 		}
 	};
 	
@@ -183,9 +179,9 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View view;
 			LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-			if(isDeleteMode){
+			if (isDeleteMode) {
 				view = inflater.inflate(R.layout.reminder_list_item_delete, null);
-			}else{
+			} else {
 				view = inflater.inflate(R.layout.reminder_list_item, null);
 			}
 

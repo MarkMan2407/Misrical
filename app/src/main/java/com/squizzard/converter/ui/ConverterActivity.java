@@ -42,7 +42,6 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import kotlin.Lazy;
 
 import android.view.Display;
 import android.view.MotionEvent;

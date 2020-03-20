@@ -12,7 +12,7 @@ import java.util.concurrent.Executors
 
 @Database(entities = [Reminder::class], version = 1, exportSchema = false)
 abstract class MisricalDatabase : RoomDatabase() {
-    abstract fun reminderDao(): ReminderDao?
+    abstract fun reminderDao(): ReminderDao
 
     companion object {
         @Volatile
