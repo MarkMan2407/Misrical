@@ -2,12 +2,14 @@ package com.squizzard.reminders.ui;
 
 import java.util.ArrayList;
 
+import com.squizzard.MisriCalendar.databinding.ReminderListBinding;
 import com.squizzard.broadcast.AlarmReceiver;
 import com.squizzard.data.DeleteReminderUseCase;
 import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.Attributes;
 import com.squizzard.MisriCalendar.R;
 import com.squizzard.reminders.model.Reminder;
+import com.squizzard.reminders.reminderList.ReminderListViewModel;
 import com.squizzard.util.DateUtil;
 
 import android.app.AlertDialog;
@@ -18,6 +20,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,6 +78,13 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.reminder_list);
+
+		ReminderListViewModel viewModel = new ViewModelProvider(this).get(ReminderListViewModel.class);
+		ReminderListBinding binding = DataBindingUtil.setContentView(this, R.layout.reminder_list);
+		binding.setLifecycleOwner(this);
+		viewModel.getCheckTodaysEventsPressed().observe(this, click -> {
+                Log.d("MM_DEBUG", "click");
+		});
 		
 		listView = findViewById(R.id.reminder_list);
 		adapter = new ReminderAdapter();

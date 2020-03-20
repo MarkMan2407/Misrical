@@ -1,35 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-      <Button
-        android:id="@+id/miqaatCheckToday"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_check_today"
-        android:background="@drawable/green_button_selector"
-        android:textColor="@color/white"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
-		<Button
-        android:id="@+id/miqaatCheckTomorrow"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_check_tomorrow"
-        android:layout_below="@id/miqaatCheckToday"
-        android:background="@drawable/green_button_selector"
-        android:textColor="@color/white"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListView
-        android:layout_below="@id/miqaatCheckTomorrow"
-        android:id="@+id/reminder_list"
+    <data>
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:focusable="false"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/miqaatCheckToday"
+            android:onClick="@{() -> viewmodel.checkTodaysEvents()}"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_check_today"
+            android:background="@drawable/green_button_selector"
+            android:textColor="@color/white"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+
+        <Button
+            android:id="@+id/miqaatCheckTomorrow"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_check_tomorrow"
+            android:layout_below="@id/miqaatCheckToday"
+            android:background="@drawable/green_button_selector"
+            android:textColor="@color/white"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+
+        <ListView
+            android:layout_below="@id/miqaatCheckTomorrow"
+            android:id="@+id/reminder_list"
+            android:layout_width="match_parent"
+            android:focusable="false"
+            android:layout_height="wrap_content"></ListView>
+
+    </RelativeLayout>
+</layout>
