@@ -1,22 +1,23 @@
-package com.squizzard.reminders.ui;
-
-import com.squizzard.data.DeleteReminderUseCase;
-import com.squizzard.data.GetRemindersUseCase;
-import com.squizzard.MisriCalendar.R;
-import com.squizzard.reminders.model.Reminder;
-import com.squizzard.util.DateUtil;
+package com.squizzard.reminders.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.squizzard.data.DeleteReminderUseCase;
+import com.squizzard.data.GetRemindersUseCase;
+import com.squizzard.misriCalendar.R;
+import com.squizzard.reminders.model.Reminder;
+import com.squizzard.util.DateUtil;
+
 import java.util.Objects;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class DisplayReminderActivity extends AppCompatActivity{
 	public static final String REMINDER_ID = "reminder_id";

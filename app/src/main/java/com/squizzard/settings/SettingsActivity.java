@@ -1,10 +1,5 @@
 package com.squizzard.settings;
 
-import com.squizzard.Attributes;
-import com.squizzard.MisriCalendar.R;
-import com.squizzard.analytics.AnalyticsHelper;
-import com.squizzard.broadcast.AlarmCoordinator;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +9,11 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.widget.TextView;
+
+import com.squizzard.Attributes;
+import com.squizzard.analytics.AnalyticsHelper;
+import com.squizzard.broadcast.AlarmCoordinator;
+import com.squizzard.misriCalendar.R;
 
 import javax.annotation.Nullable;
 

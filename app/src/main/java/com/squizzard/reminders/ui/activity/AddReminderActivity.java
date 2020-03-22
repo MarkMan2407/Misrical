@@ -1,9 +1,7 @@
-package com.squizzard.reminders.ui;
+package com.squizzard.reminders.ui.activity;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,14 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.squizzard.data.GetRemindersUseCase;
+import com.squizzard.converter.model.Misri;
 import com.squizzard.converter.ui.DatePickerFragment;
 import com.squizzard.converter.ui.MisiriDatePickerFragment;
-import com.squizzard.converter.model.Misri;
-import com.squizzard.MisriCalendar.R;
+import com.squizzard.data.GetRemindersUseCase;
 import com.squizzard.data.SaveReminderUseCase;
+import com.squizzard.misriCalendar.R;
 import com.squizzard.reminders.model.Reminder;
 import com.squizzard.util.DateUtil;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 public class AddReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 

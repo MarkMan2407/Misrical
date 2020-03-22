@@ -1,17 +1,5 @@
 package com.squizzard.converter.ui;
 
-import java.util.Calendar;
-
-import com.squizzard.analytics.AnalyticsHelper;
-import com.squizzard.miqaatList.MiqaatListActivity;
-import com.squizzard.converter.model.Misri;
-import com.squizzard.MisriCalendar.R;
-import com.squizzard.settings.SettingsActivity;
-import com.squizzard.settings.SettingsActivity.BearingOptions;
-import com.squizzard.about.AboutActivity;
-import com.squizzard.reminders.ui.ReminderListActivity;
-import com.squizzard.util.DateUtil;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -38,17 +26,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
@@ -57,6 +40,22 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squizzard.about.AboutActivity;
+import com.squizzard.analytics.AnalyticsHelper;
+import com.squizzard.converter.model.Misri;
+import com.squizzard.miqaatList.MiqaatListActivity;
+import com.squizzard.misriCalendar.R;
+import com.squizzard.reminders.ui.activity.ReminderListActivity;
+import com.squizzard.settings.SettingsActivity;
+import com.squizzard.settings.SettingsActivity.BearingOptions;
+import com.squizzard.util.DateUtil;
+
+import java.util.Calendar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public class ConverterActivity extends AppCompatActivity implements OnClickListener, SensorEventListener, LocationListener {//make the location listener into an inner class
 

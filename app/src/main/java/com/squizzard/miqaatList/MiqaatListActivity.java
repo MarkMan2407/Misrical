@@ -2,7 +2,6 @@ package com.squizzard.miqaatList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.squizzard.MisriCalendar.R;
 import com.squizzard.analytics.AnalyticsHelper;
+import com.squizzard.misriCalendar.R;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MiqaatListActivity extends AppCompatActivity {
 

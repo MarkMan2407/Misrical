@@ -5,7 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import com.squizzard.Attributes
-import com.squizzard.MisriCalendar.R
+import com.squizzard.misriCalendar.R
 
 class NotificationChannelHelper {
 

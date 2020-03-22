@@ -1,16 +1,16 @@
 package com.squizzard.converter.ui;
 
-import com.squizzard.converter.model.Misri;
-import com.squizzard.MisriCalendar.R;
-import com.squizzard.util.DateUtil;
-
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
+
+import com.squizzard.converter.model.Misri;
+import com.squizzard.misriCalendar.R;
+import com.squizzard.util.DateUtil;
 
 
 public class MisriDialog extends Dialog implements OnClickListener{

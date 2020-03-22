@@ -2,7 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.squizzard.reminders.ui.viewModel.ReminderListViewModel"/>
 
+        <import type="android.view.View"/>
     </data>
 
     <RelativeLayout
@@ -11,7 +15,7 @@
 
         <Button
             android:id="@+id/miqaatCheckToday"
-            android:onClick="@{() -> viewmodel.checkTodaysEvents()}"
+            android:onClick="@{() -> viewModel.checkTodaysEvents()}"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings_check_today"
@@ -23,6 +27,7 @@
 
         <Button
             android:id="@+id/miqaatCheckTomorrow"
+            android:onClick="@{() -> viewModel.checkTomorrowsEvents()}"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings_check_tomorrow"
@@ -37,7 +42,7 @@
             android:id="@+id/reminder_list"
             android:layout_width="match_parent"
             android:focusable="false"
-            android:layout_height="wrap_content"></ListView>
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 </layout>

@@ -23,7 +23,7 @@ abstract class MisricalDatabase : RoomDatabase() {
             if (INSTANCE == null) {
                 synchronized(MisricalDatabase::class.java) {
                     if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                        INSTANCE = Room.databaseBuilder(context.applicationContext,
                                 MisricalDatabase::class.java, "misrical_database")
                                 .allowMainThreadQueries().build()//todo take off main thread
                     }

@@ -1,16 +1,4 @@
-package com.squizzard.reminders.ui;
-
-import java.util.ArrayList;
-
-import com.squizzard.MisriCalendar.databinding.ReminderListBinding;
-import com.squizzard.broadcast.AlarmReceiver;
-import com.squizzard.data.DeleteReminderUseCase;
-import com.squizzard.data.GetRemindersUseCase;
-import com.squizzard.Attributes;
-import com.squizzard.MisriCalendar.R;
-import com.squizzard.reminders.model.Reminder;
-import com.squizzard.reminders.reminderList.ReminderListViewModel;
-import com.squizzard.util.DateUtil;
+package com.squizzard.reminders.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -19,27 +7,37 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ReminderListActivity extends AppCompatActivity implements OnClickListener{
+import com.squizzard.Attributes;
+import com.squizzard.broadcast.NotifyTodaysEventsService;
+import com.squizzard.broadcast.NotifyTomorrowsEventsService;
+import com.squizzard.data.DeleteReminderUseCase;
+import com.squizzard.data.GetRemindersUseCase;
+import com.squizzard.misriCalendar.R;
+import com.squizzard.misriCalendar.databinding.ReminderListBinding;
+import com.squizzard.reminders.model.Reminder;
+import com.squizzard.reminders.ui.viewModel.ReminderListViewModel;
+import com.squizzard.util.DateUtil;
+
+import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
+
+public class ReminderListActivity extends AppCompatActivity {
 	private ListView listView;
 	private ReminderAdapter adapter;
 	private ArrayList<Reminder> reminders;
@@ -82,18 +80,20 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 		ReminderListViewModel viewModel = new ViewModelProvider(this).get(ReminderListViewModel.class);
 		ReminderListBinding binding = DataBindingUtil.setContentView(this, R.layout.reminder_list);
 		binding.setLifecycleOwner(this);
+		binding.setViewModel(viewModel);
+
 		viewModel.getCheckTodaysEventsPressed().observe(this, click -> {
-                Log.d("MM_DEBUG", "click");
+			startService(new Intent(ReminderListActivity.this, NotifyTodaysEventsService.class));
+		});
+
+		viewModel.getCheckTomorrowsEventsPressed().observe(this, click -> {
+			startService(new Intent(ReminderListActivity.this, NotifyTomorrowsEventsService.class));
 		});
 		
 		listView = findViewById(R.id.reminder_list);
 		adapter = new ReminderAdapter();
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(listClickListener);
-		Button btnCheckToday = findViewById(R.id.miqaatCheckToday);
-		btnCheckToday.setOnClickListener(this);
-		Button btnCheckTomorrow = findViewById(R.id.miqaatCheckTomorrow);
-		btnCheckTomorrow.setOnClickListener(this);
 	}
 	
 	private OnItemClickListener listClickListener = new OnItemClickListener(){
@@ -156,22 +156,6 @@ public class ReminderListActivity extends AppCompatActivity implements OnClickLi
 			break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	@Override
-	public void onClick(View v) {
-		switch(v.getId()){
-		case R.id.miqaatCheckToday:
-			Intent morningEventIntent = new Intent(this, AlarmReceiver.class);
-			morningEventIntent.putExtra(Attributes.EVENT_CHECK_KEY, Attributes.MORNING_CHECK_MIQAAT_INTENT);
-			sendBroadcast(morningEventIntent);
-			break;
-		case R.id.miqaatCheckTomorrow:
-			Intent eveningEventIntent= new Intent(this, AlarmReceiver.class);
-			eveningEventIntent.putExtra(Attributes.EVENT_CHECK_KEY, Attributes.EVENING_CHECK_MIQAAT_INTENT);
-			sendBroadcast(eveningEventIntent);
-			break;
-		}
 	}
 	
 	private class ReminderAdapter extends BaseAdapter {

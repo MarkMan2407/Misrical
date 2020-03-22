@@ -10,8 +10,8 @@ import android.content.IntentFilter;
 import android.widget.RemoteViews;
 
 import com.squizzard.converter.model.Misri;
-import com.squizzard.MisriCalendar.R;
 import com.squizzard.converter.ui.ConverterActivity;
+import com.squizzard.misriCalendar.R;
 
 public class MisriAppWidgetProvider extends AppWidgetProvider{
 

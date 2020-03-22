@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="com.squizzard.MisriCalendar">
+	package="com.squizzard.misriCalendar">
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,9 +23,9 @@
 		<activity android:name="com.squizzard.about.AboutActivity" android:label="@string/about_title" android:noHistory="false" android:theme="@style/Theme.AppCompat.Light"/>
 		<activity android:name="com.squizzard.miqaatList.MiqaatListActivity" android:label="@string/miqaat_title" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
 	    <activity android:name="com.squizzard.miqaatList.MiqaatMonthActivity" android:noHistory="true" android:theme="@style/CustomActionBarTheme"/>
-		<activity android:name="com.squizzard.reminders.ui.ReminderListActivity" android:theme="@style/CustomActionBarTheme" android:noHistory="false" />
-		<activity android:name="com.squizzard.reminders.ui.AddReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
-		<activity android:name="com.squizzard.reminders.ui.DisplayReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
+		<activity android:name="com.squizzard.reminders.ui.activity.ReminderListActivity" android:theme="@style/CustomActionBarTheme" android:noHistory="false" />
+		<activity android:name="com.squizzard.reminders.ui.activity.AddReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
+		<activity android:name="com.squizzard.reminders.ui.activity.DisplayReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
 		<receiver android:name="com.squizzard.broadcast.AlarmCoordinator">
           <intent-filter>
             	<action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -39,18 +39,12 @@
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/misri_widget" />
 		</receiver>
-		<receiver android:name="com.squizzard.broadcast.AlarmReceiver"
-			android:exported="false">
-			<intent-filter>
-				<action android:name="com.squizzard.MisriCalendar.MORNING_CHECK_MIQAAT_INTENT" />
-				<action android:name="com.squizzard.MisriCalendar.EVENING_CHECK_MIQAAT_INTENT" />
-			</intent-filter>
-		</receiver>
+
 		<service
-			android:name="com.squizzard.broadcast.CheckTodaysEventsService"
+			android:name="com.squizzard.broadcast.NotifyTodaysEventsService"
 			android:exported="false" />
 		<service
-			android:name="com.squizzard.broadcast.CheckTomorrowsEventsService"
+			android:name="com.squizzard.broadcast.NotifyTomorrowsEventsService"
 			android:exported="false" />
 	</application>
 </manifest>
