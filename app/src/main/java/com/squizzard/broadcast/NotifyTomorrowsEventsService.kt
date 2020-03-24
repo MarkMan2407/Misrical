@@ -19,8 +19,8 @@ class NotifyTomorrowsEventsService : IntentService("NotifyTomorrowsEventsService
 
         val allEvents: MutableList<String> = mutableListOf()
 
-        val miqaatList: MutableList<String> = GetTomorrowsEventsUseCase().getTomorrowsEvents()
-        val reminderList: MutableList<String> = GetTomorrowsRemindersUseCase().getTomorrowsReminders(applicationContext)
+        val miqaatList: MutableList<String> = GetMiqaatsUseCase().getForTomorrow()
+        val reminderList: MutableList<String> = GetRemindersUseCase().getForTomorrow(applicationContext)
         allEvents.addAll(miqaatList)
         allEvents.addAll(reminderList)
 
