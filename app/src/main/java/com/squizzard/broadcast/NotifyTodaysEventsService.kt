@@ -15,7 +15,7 @@ import com.squizzard.misriCalendar.R
 
 class NotifyTodaysEventsService : IntentService("NotifyTodaysEventsService") {
 
-    override fun onHandleIntent(intent: Intent) {
+    override fun onHandleIntent(intent: Intent?) {
 
         val allEvents: MutableList<String> = mutableListOf()
 

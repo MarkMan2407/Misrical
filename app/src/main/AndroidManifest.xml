@@ -2,6 +2,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	package="com.squizzard.misriCalendar">
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -10,10 +11,9 @@
 		android:name="com.squizzard.MisriApplication"
 		android:icon="@drawable/ic_launcher1"
 		android:label="@string/app_name"
-		android:allowBackup="false"
 		tools:ignore="GoogleAppIndexingWarning">
 		<activity android:name="com.squizzard.converter.ui.ConverterActivity" android:theme="@style/CustomActionBarTheme"
-			android:label="@string/app_name" android:launchMode="singleInstance">
+			android:label="@string/app_name" android:launchMode="singleInstance" android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -26,18 +26,18 @@
 		<activity android:name="com.squizzard.reminders.ui.activity.ReminderListActivity" android:theme="@style/CustomActionBarTheme" android:noHistory="false" />
 		<activity android:name="com.squizzard.reminders.ui.activity.AddReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
 		<activity android:name="com.squizzard.reminders.ui.activity.DisplayReminderActivity" android:noHistory="false" android:theme="@style/CustomActionBarTheme"/>
-		<receiver android:name="com.squizzard.broadcast.AlarmCoordinator">
+		<receiver android:name="com.squizzard.broadcast.AlarmCoordinator" android:exported="false">
           <intent-filter>
             	<action android:name="android.intent.action.BOOT_COMPLETED"/>
        	 </intent-filter>
 	    </receiver>
-		<receiver android:name="com.squizzard.widget.MisriAppWidgetProvider">
+		<receiver android:name="com.squizzard.widget.MisriAppWidgetProvider" android:exported="false">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 				<action android:name="FLIP_DATE_ACTION" />
 			</intent-filter>
 			<meta-data android:name="android.appwidget.provider"
-				android:resource="@xml/misri_widget" />
+				android:resource="@xml/misri_widget" android:exported="false"/>
 		</receiver>
 
 		<service

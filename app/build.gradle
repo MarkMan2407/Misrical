@@ -1,23 +1,20 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
+}
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
-
-    dataBinding {
-        enabled = true
-    }
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.squizzard.MisriCalendar"
-        minSdkVersion 23
-        targetSdkVersion 28
+        minSdkVersion 26
+        targetSdkVersion 33
         versionCode 16
         versionName "2.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -36,6 +33,10 @@ android {
     sourceSets {
         androidTest.assets.srcDirs +=
                 files("$projectDir/schemas".toString())
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     lintOptions {
@@ -61,32 +62,37 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility = 1.8
-        sourceCompatibility = 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.facebook.stetho:stetho:1.5.1'
+
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
+
+    implementation 'androidx.appcompat:appcompat:1.5.1'
 
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
 
-    implementation 'com.google.firebase:firebase-core:17.2.3'
-    implementation 'com.google.firebase:firebase-analytics:17.2.3'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
-    implementation 'com.google.firebase:firebase-perf:19.0.5'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-perf-ktx'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     implementation "androidx.core:core-ktx:1.2.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:core:1.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    def lifecycle_version = "2.2.0"
+    def lifecycle_version = "2.6.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 }
