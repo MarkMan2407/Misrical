@@ -1,0 +1,16 @@
+Thank you for using Misrical. We value your privacy and want to ensure that you feel comfortable using our app. Therefore, we have created this privacy policy to explain how we collect, use, and disclose your information.
+
+Information We Collect
+We do not collect any personal information or data from our users. We do not store any information about you or your device, including your name, email address, phone number, location, IP address, or device identifiers.
+
+Analytics Libraries
+Our app may use third-party analytics libraries such as Firebase Analytics and Google Analytics to collect non-personal information about how you use our app, such as the type of device you use, your device’s operating system, the time and date you access our app, and your usage behavior within the app. These libraries use cookies and other tracking technologies to collect information about how our app is used. The data collected by these libraries is used solely for the purpose of improving our app and is not shared with any third parties.
+
+Disclosure of Information
+As we do not collect any personal information or data from our users, we do not share, sell, or disclose any information about our users to any third parties.
+
+Changes to this Policy
+We reserve the right to make changes to this privacy policy at any time and without prior notice. If we make any material changes to this policy, we will notify you by posting the updated policy on our website.
+
+Contact Us
+If you have any questions about our privacy policy or our practices related to Misrical, please contact us at ouikka@gmail.com.
