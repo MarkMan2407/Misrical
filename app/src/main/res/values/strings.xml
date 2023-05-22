@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MisriCal</string>
     <string name="ouikka_email">ouikka@gmail.com</string>
     <string name="bearing_opt_label">Settings</string>
     <string name="set_gregorian_label">Set Gregorian</string>

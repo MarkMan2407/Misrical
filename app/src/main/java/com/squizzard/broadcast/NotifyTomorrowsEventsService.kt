@@ -40,7 +40,7 @@ class NotifyTomorrowsEventsService : IntentService("NotifyTomorrowsEventsService
         } else {
             applicationContext.sendBroadcast(Intent(Attributes.NO_MIQAAT_TOMORROW))
         }
-        AnalyticsHelper(applicationContext).sendEvent("event_check_tomorrow")
+        AnalyticsHelper.sendEvent("event_check_tomorrow")
     }
 
     private fun buildAndSendNotification(context: Context, notificationBuilder: NotificationCompat.Builder) {

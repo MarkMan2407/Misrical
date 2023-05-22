@@ -9,6 +9,7 @@ class SaveReminderUseCase(context: Context) {
 
     private val reminderDao: ReminderDao? = db?.reminderDao()
 
-    fun saveReminder(reminder: Reminder) =
-        MisricalDatabase.databaseWriteExecutor.execute({ reminderDao!!.insert(reminder) })
+    fun saveReminder(reminder: Reminder) {
+        MisricalDatabase.databaseWriteExecutor.execute { reminderDao!!.insert(reminder) }
+    }
 }

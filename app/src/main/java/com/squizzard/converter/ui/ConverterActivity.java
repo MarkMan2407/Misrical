@@ -30,13 +30,10 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,11 +87,10 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	private final int LOCATION_PERMISSION_REQUEST = 1011;
 	private NetworkInfo network;
 	private NetworkInfo wifi;
-	private AnalyticsHelper analyticsHelper;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		analyticsHelper = new AnalyticsHelper(getApplicationContext());
 
 		if (savedInstanceState != null) {
 			c = (Calendar) savedInstanceState.getSerializable(CALENDAR_STATE);
@@ -145,6 +141,9 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 
 		updateDisplay();
 
+
+		new ReminderReporter(getApplicationContext()).reportAllReminders();
+
 		startRotateNorth = endRotateNorth = startRotateMecca = endRotateMecca = 0;
 		//point arrows north  endRotationNorth/Mecca=0
 		//point the arrow north: endRotationNorth/Mecca=0
@@ -171,30 +170,26 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 
 		if (bearingOptions != null) {
 
-			arrowImageNorth.setOnTouchListener(new OnTouchListener() {
-												   public boolean onTouch(View arg0, MotionEvent arg1) {
-													   if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
-														   makeRotation(arrowImageNorth, false);
-														   makeRotation(arrowImageMecca, false);
-													   } else {
-													   	checkPermissions();
-													   }
-													   return false;
-												   }
-											   }
+			arrowImageNorth.setOnTouchListener((arg0, arg1) -> {
+				if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
+					makeRotation(arrowImageNorth, false);
+					makeRotation(arrowImageMecca, false);
+				} else {
+					checkPermissions();
+				}
+				return false;
+			}
 			);
 
-			arrowImageMecca.setOnTouchListener(new OnTouchListener() {
-												   public boolean onTouch(View arg0, MotionEvent arg1) {
-													   if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
-														   makeRotation(arrowImageMecca, false);
-														   makeRotation(arrowImageNorth, false);
-													   } else {
-													   	checkPermissions();
-													   }
-													   return false;
-												   }
-											   }
+			arrowImageMecca.setOnTouchListener((arg0, arg1) -> {
+				if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
+					makeRotation(arrowImageMecca, false);
+					makeRotation(arrowImageNorth, false);
+				} else {
+					checkPermissions();
+				}
+				return false;
+			}
 			);
 		}
 	}
@@ -227,6 +222,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
 										   @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if (requestCode == LOCATION_PERMISSION_REQUEST) {
 			if (grantResults.length > 0
 					&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -289,29 +285,29 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.setGregorianButton:
-			analyticsHelper.sendEvent("set_gregorian");
+			AnalyticsHelper.sendEvent("set_gregorian");
 			showDialog(DATE_DIALOG_ID);
 			break;
 			
 		case R.id.setMisriButton:
-			analyticsHelper.sendEvent("set_misri");
+			AnalyticsHelper.sendEvent("set_misri");
 			showDialog(MISRI_DIALOG_ID);
 			break;
 
 		case R.id.dayPlusButton:
-			analyticsHelper.sendEvent("set_day_plus");
+			AnalyticsHelper.sendEvent("set_day_plus");
 			c.add(Calendar.DAY_OF_MONTH, 1);
 			updateDisplay();
 			break;
 
 		case R.id.dayMinusButton:
-			analyticsHelper.sendEvent("set_day_minus");
+			AnalyticsHelper.sendEvent("set_day_minus");
 			c.add(Calendar.DAY_OF_MONTH, -1);
 			updateDisplay();
 			break;
 
 		case R.id.todayButton:
-			analyticsHelper.sendEvent("set_today");
+			AnalyticsHelper.sendEvent("set_today");
 			c = Calendar.getInstance();
 			updateDisplay();
 		}
@@ -334,22 +330,19 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		eventText.setText(dateConverter.getTodayEvent());
 	}
 
-	private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener(){
-		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			if((year>1900) && (year<2077)){
-				c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-				c.set(Calendar.MONTH, monthOfYear);
-				c.set(Calendar.YEAR, year);
-				highLightDay(c);
-				setGregorianText(dayOfMonth, monthOfYear, year);
-				setMisriText(dayOfMonth, monthOfYear, year);
-			}
-			else{
-				Toast toast = Toast.makeText(getApplicationContext(), "1900 < YEAR < 2077", Toast.LENGTH_LONG);
-				toast.show();
-			}
+	private final DatePickerDialog.OnDateSetListener mDateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
+		if((year>1900) && (year<2077)){
+			c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+			c.set(Calendar.MONTH, monthOfYear);
+			c.set(Calendar.YEAR, year);
+			highLightDay(c);
+			setGregorianText(dayOfMonth, monthOfYear, year);
+			setMisriText(dayOfMonth, monthOfYear, year);
 		}
-
+		else{
+			Toast toast = Toast.makeText(getApplicationContext(), "1900 < YEAR < 2077", Toast.LENGTH_LONG);
+			toast.show();
+		}
 	};
 	
 	protected Dialog onCreateDialog(int id){
@@ -387,22 +380,22 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
 		case R.id.miqaat:
-			analyticsHelper.sendEvent("miqaat_menu");
+			AnalyticsHelper.sendEvent("miqaat_menu");
 			startActivity(new Intent(this, MiqaatListActivity.class));
 			break;
 		case R.id.about:
-			analyticsHelper.sendEvent("about_menu");
+			AnalyticsHelper.sendEvent("about_menu");
 			startActivity(new Intent(this, AboutActivity.class));
 			break;
 		case R.id.bearings:
-			analyticsHelper.sendEvent("bearings_menu");
+			AnalyticsHelper.sendEvent("bearings_menu");
 			Intent bearingOptionIntent = new Intent(this, SettingsActivity.class);
 			bearingOptionIntent.putExtra("PROVIDER", providerString);
 			bearingOptionIntent.putExtra("BEARING_TO_MECCA", bearingToMeccaString);
 			startActivity(bearingOptionIntent);
 			break;
 		case R.id.share:
-			analyticsHelper.sendEvent("share_menu");
+			AnalyticsHelper.sendEvent("share_menu");
 			Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 			intent.setType("text/*");
 			intent.putExtra(android.content.Intent.EXTRA_TEXT, "Android app for converting between Misri and Gregorian dates: \nhttps://market.android.com/details?id=com.squizzard.MisriCalendar");
@@ -410,7 +403,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			startActivity(Intent.createChooser(intent, "Share using..."));
 			break;
 		case R.id.reminders:
-			analyticsHelper.sendEvent("reminders_menu");
+			AnalyticsHelper.sendEvent("reminders_menu");
 			Intent reminderIntent = new Intent(this, ReminderListActivity.class);
 			startActivity(reminderIntent);
 			break;
@@ -449,7 +442,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			}
 			else azi+=declination;//need to do an azimuth conversion.
 			int aziDisplay = (int)azi;//for display purposes
-			if(aziDisplay<0){
+			if (aziDisplay < 0){
 				aziDisplay = 180 + (180 + aziDisplay);
 			}
 
@@ -457,7 +450,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			if(image.equals(arrowImageNorth)){
 				if(defaultNorth) endRotateNorth=0;
 				RotateAnimation rotateAnimation = new RotateAnimation(startRotateNorth, endRotateNorth, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-				rotateAnimation.setDuration((long) 500);
+				rotateAnimation.setDuration(500);
 				rotateAnimation.setFillAfter(true);
 				image.startAnimation(rotateAnimation);
 				startRotateNorth=endRotateNorth;
@@ -467,7 +460,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 					endRotateMecca = endRotateNorth + location.bearingTo(mecca);}
 				if(defaultNorth || bearingToMeccaString.equals("Unavailable")) endRotateMecca=0;
 				RotateAnimation rotateAnimation = new RotateAnimation(startRotateMecca, endRotateMecca, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-				rotateAnimation.setDuration((long) 500);
+				rotateAnimation.setDuration(500);
 				rotateAnimation.setFillAfter(true);
 				image.startAnimation(rotateAnimation);
 				startRotateMecca=endRotateMecca;
@@ -512,22 +505,18 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			}
 			if(bearingOptions == BearingOptions.ALWAYS_ON && magneticValues!=null && accelerometerValues!=null){				
 				makeRotation(arrowImageNorth, false);
-				if(bearingToMeccaString.equals("Unavailable")){
-					makeRotation(arrowImageMecca, true);
-				} else {
-					makeRotation(arrowImageMecca, false);
-				}
+				makeRotation(arrowImageMecca, bearingToMeccaString.equals("Unavailable"));
 			}	
 		}
 	}
 
 	public void onLocationChanged(Location newLocation) {
-		if(location==null){//location has become available for the first time
+		if ( location==null ){//location has become available for the first time
 			Toast toast = Toast.makeText(this.getApplicationContext(), "Location established. Mecca pointer active!", Toast.LENGTH_SHORT);
 			toast.show();
 			arrowImageMecca.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.DARKEN);
 		}
-		location=newLocation;
+		location = newLocation;
 		bearingToMeccaString=Float.toString(Math.round(location.bearingTo(mecca)));
 	}
 

@@ -16,11 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AboutActivity extends AppCompatActivity implements OnClickListener{
 
 	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-	private AnalyticsHelper analyticsHelper;
 
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		analyticsHelper = new AnalyticsHelper(getApplicationContext());
 		setContentView(R.layout.about);
 		if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -36,7 +34,7 @@ public class AboutActivity extends AppCompatActivity implements OnClickListener{
 
 	public void onClick(View v) {
 		if (v.getId() == R.id.emailButton){
-			analyticsHelper.sendEvent("contact_developer");
+			AnalyticsHelper.sendEvent("contact_developer");
 
 			String messageString = "\n\n\n\n OS Version: " + System.getProperty("os.version");
 			messageString += "\n OS API Level: " + Build.VERSION.RELEASE;

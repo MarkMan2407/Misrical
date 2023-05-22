@@ -41,7 +41,7 @@ class NotifyTodaysEventsService : IntentService("NotifyTodaysEventsService") {
         } else {
             applicationContext.sendBroadcast(Intent(Attributes.NO_MIQAAT_TODAY))
         }
-        AnalyticsHelper(applicationContext).sendEvent("event_check_today")
+        AnalyticsHelper.sendEvent("event_check_today")
     }
 
 

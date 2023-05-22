@@ -29,7 +29,6 @@ public class MiqaatListActivity extends AppCompatActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		analyticsHelper = new AnalyticsHelper(getApplicationContext());
 		setContentView(R.layout.miqaat_month_display);
 		ListView list = findViewById(R.id.month_list);
 		list.setOnItemClickListener(new OnItemClickListener()
@@ -37,7 +36,7 @@ public class MiqaatListActivity extends AppCompatActivity {
 		    @Override 
 		    public void onItemClick(AdapterView<?> arg0, View v,int position, long id)
 		    {
-				analyticsHelper.sendEvent("month_selected");
+				AnalyticsHelper.sendEvent("month_selected");
 				int intItem = (int)id;
 				Intent miqaatMonthIntent = new Intent(MiqaatListActivity.this, MiqaatMonthActivity.class);
 				miqaatMonthIntent.putExtra("MONTH", intItem);

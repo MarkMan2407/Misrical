@@ -15,19 +15,15 @@ import com.squizzard.analytics.AnalyticsHelper;
 import com.squizzard.broadcast.AlarmCoordinator;
 import com.squizzard.misriCalendar.R;
 
-import javax.annotation.Nullable;
-
 public class SettingsActivity extends PreferenceActivity {
 
 	public enum BearingOptions{ON_TOUCH, ALWAYS_ON, OFF}
-	private AnalyticsHelper analyticsHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setTheme(R.style.CustomActionBarTheme);
 		setContentView(R.layout.bearing_settings_info);
-		analyticsHelper = new AnalyticsHelper(getApplicationContext());
 		
 		addPreferencesFromResource(R.xml.settings);
 		TextView providerText = findViewById(R.id.providerValue);
@@ -42,10 +38,10 @@ public class SettingsActivity extends PreferenceActivity {
 				public boolean onPreferenceClick(Preference preference) {
 					boolean alertsEnabled = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(Attributes.MIQAATS_ALERT_PREFERENCE, false);
 					if (alertsEnabled) {
-						analyticsHelper.sendEvent("alerts_enable");
+						AnalyticsHelper.sendEvent("alerts_enable");
 						AlarmCoordinator.turnOnAlarms(getApplicationContext());
 					} else {
-						analyticsHelper.sendEvent("alerts_disable");
+						AnalyticsHelper.sendEvent("alerts_disable");
 						AlarmCoordinator.turnOffAlarms(getApplicationContext());
 					}
 					return true;
@@ -64,7 +60,6 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 	}
 
-	@Nullable
 	public static BearingOptions getBearingMode(Context context) {
 		String prefString = PreferenceManager.getDefaultSharedPreferences(context).getString("listPref", "1");//Default to first in list
 		if (prefString != null) {
