@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListPreference
-        android:id="@+id/list"
-        android:defaultValue="1"
-        android:entries="@array/bearingArray"
-        android:entryValues="@array/bearingArrayValues"
-        android:key="listPref"
-        android:summary="Bearing Auto/Touch/Off"
-        android:title="Bearing Updates"/>
-
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="miqaat_alert_preference"

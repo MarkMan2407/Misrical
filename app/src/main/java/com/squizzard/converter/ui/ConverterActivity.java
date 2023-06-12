@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
@@ -42,7 +41,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squizzard.about.AboutActivity;
 import com.squizzard.analytics.AnalyticsHelper;
@@ -51,7 +49,6 @@ import com.squizzard.miqaatList.MiqaatListActivity;
 import com.squizzard.misriCalendar.R;
 import com.squizzard.reminders.ui.activity.ReminderListActivity;
 import com.squizzard.settings.SettingsActivity;
-import com.squizzard.settings.SettingsActivity.BearingOptions;
 import com.squizzard.util.DateUtil;
 
 import java.util.Calendar;
@@ -69,7 +66,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	private static final int MISRI_DIALOG_ID = 1;
 	private final String CALENDAR_STATE = "CALENDAR_STATE";
 	static Dialog returnDialog;
-	private TextView[] weekdayButtons = new TextView[7];//monButton, tueButton, wedButton, thuButton, friButton, satButton, sunButton;
+	private final TextView[] weekdayButtons = new TextView[7];//monButton, tueButton, wedButton, thuButton, friButton, satButton, sunButton;
 	static TextView misriText;
 	static TextView eventText;
 	static TextView gregorianText;
@@ -89,7 +86,6 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	private float[] accelerometerValues;
 	private float[] magneticValues;
 	private float declination;
-	private BearingOptions bearingOptions = null;
 	private Location mecca;
 	private String bearingToMeccaString;
 	private String providerString;
@@ -177,7 +173,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 						// Log and toast
 
 						Log.d("PUSH", "token " + token);
-						Toast.makeText(ConverterActivity.this, token, Toast.LENGTH_SHORT).show();
+						//Toast.makeText(ConverterActivity.this, token, Toast.LENGTH_SHORT).show();
 					}
 				});
 
@@ -201,53 +197,11 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		new ReminderReporter(getApplicationContext()).reportAllReminders();
 
 		startRotateNorth = endRotateNorth = startRotateMecca = endRotateMecca = 0;
+
 		//point arrows north  endRotationNorth/Mecca=0
 		//point the arrow north: endRotationNorth/Mecca=0
-		OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
-
-			public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-				bearingOptions = SettingsActivity.getBearingMode(getApplicationContext());
-				if (bearingOptions != null) {
-					if (bearingOptions == BearingOptions.ON_TOUCH) {
-						//point arrows north  endRotationNorth/Mecca=0
-						makeRotation(arrowImageNorth, true);
-						makeRotation(arrowImageMecca, true);
-					}
-					if (bearingOptions == BearingOptions.OFF) {
-						//point the arrow north: endRotationNorth/Mecca=0
-						makeRotation(arrowImageNorth, true);
-						makeRotation(arrowImageMecca, true);
-					}
-				}
-			}
-		};
-		sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
-		bearingOptions = SettingsActivity.getBearingMode(getApplicationContext());
-
-		if (bearingOptions != null) {
-
-			arrowImageNorth.setOnTouchListener((arg0, arg1) -> {
-				if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
-					makeRotation(arrowImageNorth, false);
-					makeRotation(arrowImageMecca, false);
-				} else {
-					checkPermissions();
-				}
-				return false;
-			}
-			);
-
-			arrowImageMecca.setOnTouchListener((arg0, arg1) -> {
-				if ((bearingOptions != null) && (bearingOptions == BearingOptions.ON_TOUCH)) {
-					makeRotation(arrowImageMecca, false);
-					makeRotation(arrowImageNorth, false);
-				} else {
-					checkPermissions();
-				}
-				return false;
-			}
-			);
-		}
+		makeRotation(arrowImageNorth, false);
+		makeRotation(arrowImageMecca, false);
 	}
 
 	private void highLightDay(Calendar c2) {
@@ -547,22 +501,19 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			}
 	}
 
-	public void onSensorChanged(SensorEvent event){
-		bearingOptions = SettingsActivity.getBearingMode(getApplicationContext());
+	public void onSensorChanged(SensorEvent event) {
 
-		if((bearingOptions != null) && (bearingOptions != BearingOptions.OFF)){
-			switch(event.sensor.getType()){
-			case(Sensor.TYPE_ACCELEROMETER):
+		switch (event.sensor.getType()) {
+			case (Sensor.TYPE_ACCELEROMETER):
 				accelerometerValues = event.values.clone();
-			break;
-			case(Sensor.TYPE_MAGNETIC_FIELD):
+				break;
+			case (Sensor.TYPE_MAGNETIC_FIELD):
 				magneticValues = event.values.clone();
-			break;
-			}
-			if(bearingOptions == BearingOptions.ALWAYS_ON && magneticValues!=null && accelerometerValues!=null){				
-				makeRotation(arrowImageNorth, false);
-				makeRotation(arrowImageMecca, bearingToMeccaString.equals("Unavailable"));
-			}	
+				break;
+		}
+		if (magneticValues != null && accelerometerValues != null) {
+			makeRotation(arrowImageNorth, false);
+			makeRotation(arrowImageMecca, bearingToMeccaString.equals("Unavailable"));
 		}
 	}
 
