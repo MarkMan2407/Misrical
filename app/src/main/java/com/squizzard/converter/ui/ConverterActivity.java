@@ -24,8 +24,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +40,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squizzard.about.AboutActivity;
 import com.squizzard.analytics.AnalyticsHelper;
 import com.squizzard.converter.model.Misri;
@@ -50,9 +56,12 @@ import com.squizzard.util.DateUtil;
 
 import java.util.Calendar;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class ConverterActivity extends AppCompatActivity implements OnClickListener, SensorEventListener, LocationListener {//make the location listener into an inner class
 
@@ -87,6 +96,33 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 	private final int LOCATION_PERMISSION_REQUEST = 1011;
 	private NetworkInfo network;
 	private NetworkInfo wifi;
+
+	// Declare the launcher at the top of your Activity/Fragment:
+	private final ActivityResultLauncher<String> requestPermissionLauncher =
+			registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+				if (isGranted) {
+					// FCM SDK (and your app) can post notifications.
+				} else {
+					// TODO: Inform user that that your app will not show notifications.
+				}
+			});
+
+	private void askNotificationPermission() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+					PackageManager.PERMISSION_GRANTED) {
+				// FCM SDK (and your app) can post notifications.
+			} else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+				// TODO: display an educational UI explaining to the user the features that will be enabled
+				//       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+				//       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+				//       If the user selects "No thanks," allow the user to continue without notifications.
+			} else {
+				// Directly ask for the permission
+				requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+			}
+		}
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,6 +160,26 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		weekdayButtons[5] = findViewById(R.id.friButton);
 		weekdayButtons[6] = findViewById(R.id.satButton);
 
+
+		askNotificationPermission();
+		FirebaseMessaging.getInstance().getToken()
+				.addOnCompleteListener(new OnCompleteListener<String>() {
+					@Override
+					public void onComplete(@NonNull Task<String> task) {
+						if (!task.isSuccessful()) {
+							Log.w("PUSH", "Fetching FCM registration token failed", task.getException());
+							return;
+						}
+
+						// Get new FCM registration token
+						String token = task.getResult();
+
+						// Log and toast
+
+						Log.d("PUSH", "token " + token);
+						Toast.makeText(ConverterActivity.this, token, Toast.LENGTH_SHORT).show();
+					}
+				});
 
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -270,7 +326,7 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		}
 
 		if (location != null) {
-			arrowImageMecca.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.DARKEN);
+			//arrowImageMecca.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.DARKEN);
 			getGeomagneticField();
 			bearingToMeccaString = Float.toString(Math.round(location.bearingTo(mecca)));
 		} else {
