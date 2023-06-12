@@ -30,6 +30,7 @@
     <string name="aboutEmailButtonLabel">Contact Developer</string>
     <string name="aboutContactLabel">Contact/Feedback/Help</string>
     <string name="aboutWidgetLabel">Use the MisriCal Widget to see the date on your home screen!</string>
+    <string name="underDevelopmentLabel">MisriCal is back under development. Get in touch with any enhancement requests using the button below!</string>
     <string name="mecca">Mecca</string>
     <string name="north">North</string>
     <string name="Su">Su</string>
