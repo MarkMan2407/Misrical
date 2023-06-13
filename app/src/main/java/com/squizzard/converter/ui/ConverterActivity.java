@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
@@ -25,7 +24,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -128,7 +126,6 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			c = (Calendar) savedInstanceState.getSerializable(CALENDAR_STATE);
 		}
 		setContentView(R.layout.main);
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		misriText = findViewById(R.id.convertedDate);
 		eventText = findViewById(R.id.eventText);
 		gregorianText = findViewById(R.id.dateGregorian);
@@ -244,7 +241,6 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		}
 	}
 
-
 	@SuppressLint("MissingPermission")
 	private void doLocationProcessing() {
 
@@ -294,35 +290,35 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 
 	public void onClick(View v) {
 		switch(v.getId()){
-		case R.id.setGregorianButton:
-			AnalyticsHelper.sendEvent("set_gregorian");
-			showDialog(DATE_DIALOG_ID);
-			break;
-			
-		case R.id.setMisriButton:
-			AnalyticsHelper.sendEvent("set_misri");
-			showDialog(MISRI_DIALOG_ID);
-			break;
+			case R.id.setGregorianButton:
+				AnalyticsHelper.sendEvent("set_gregorian");
+				showDialog(DATE_DIALOG_ID);
+				break;
 
-		case R.id.dayPlusButton:
-			AnalyticsHelper.sendEvent("set_day_plus");
-			c.add(Calendar.DAY_OF_MONTH, 1);
-			updateDisplay();
-			break;
+			case R.id.setMisriButton:
+				AnalyticsHelper.sendEvent("set_misri");
+				showDialog(MISRI_DIALOG_ID);
+				break;
 
-		case R.id.dayMinusButton:
-			AnalyticsHelper.sendEvent("set_day_minus");
-			c.add(Calendar.DAY_OF_MONTH, -1);
-			updateDisplay();
-			break;
+			case R.id.dayPlusButton:
+				AnalyticsHelper.sendEvent("set_day_plus");
+				c.add(Calendar.DAY_OF_MONTH, 1);
+				updateDisplay();
+				break;
 
-		case R.id.todayButton:
-			AnalyticsHelper.sendEvent("set_today");
-			c = Calendar.getInstance();
-			updateDisplay();
+			case R.id.dayMinusButton:
+				AnalyticsHelper.sendEvent("set_day_minus");
+				c.add(Calendar.DAY_OF_MONTH, -1);
+				updateDisplay();
+				break;
+
+			case R.id.todayButton:
+				AnalyticsHelper.sendEvent("set_today");
+				c = Calendar.getInstance();
+				updateDisplay();
 		}
 	}
-	
+
 	private void updateDisplay(){
 		setGregorianText(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
 		setMisriText(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
@@ -354,27 +350,27 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 			toast.show();
 		}
 	};
-	
+
 	protected Dialog onCreateDialog(int id){
 		switch(id){
-		case DATE_DIALOG_ID:
-			c = Calendar.getInstance();
-			returnDialog =  new DatePickerDialog(this, mDateSetListener, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-			break;
-		case MISRI_DIALOG_ID:
-			returnDialog = new MisriDialog(this, dateConverter);
-			returnDialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					if(dateConverter.getConvertedGregorianDay() != 0 && dateConverter.getConvertedGregorianMonth() != 0 && dateConverter.getConvertedGregorianYear() != 0){
-						c.set(Calendar.DAY_OF_MONTH, dateConverter.getConvertedGregorianDay());
-						c.set(Calendar.MONTH, dateConverter.getConvertedGregorianMonth());
-						c.set(Calendar.YEAR, dateConverter.getConvertedGregorianYear());
+			case DATE_DIALOG_ID:
+				c = Calendar.getInstance();
+				returnDialog =  new DatePickerDialog(this, mDateSetListener, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+				break;
+			case MISRI_DIALOG_ID:
+				returnDialog = new MisriDialog(this, dateConverter);
+				returnDialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
+					@Override
+					public void onDismiss(DialogInterface dialog) {
+						if(dateConverter.getConvertedGregorianDay() != 0 && dateConverter.getConvertedGregorianMonth() != 0 && dateConverter.getConvertedGregorianYear() != 0){
+							c.set(Calendar.DAY_OF_MONTH, dateConverter.getConvertedGregorianDay());
+							c.set(Calendar.MONTH, dateConverter.getConvertedGregorianMonth());
+							c.set(Calendar.YEAR, dateConverter.getConvertedGregorianYear());
+						}
+						highLightDay(c);
 					}
-					highLightDay(c);
-				}
-			});
-			break;
+				});
+				break;
 		}
 		return returnDialog;
 	}
@@ -385,39 +381,39 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		menuInflater.inflate(R.menu.menu_home, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
-		case R.id.miqaat:
-			AnalyticsHelper.sendEvent("miqaat_menu");
-			startActivity(new Intent(this, MiqaatListActivity.class));
-			break;
-		case R.id.about:
-			AnalyticsHelper.sendEvent("about_menu");
-			startActivity(new Intent(this, AboutActivity.class));
-			break;
-		case R.id.bearings:
-			AnalyticsHelper.sendEvent("bearings_menu");
-			Intent bearingOptionIntent = new Intent(this, SettingsActivity.class);
-			bearingOptionIntent.putExtra("PROVIDER", providerString);
-			bearingOptionIntent.putExtra("BEARING_TO_MECCA", bearingToMeccaString);
-			startActivity(bearingOptionIntent);
-			break;
-		case R.id.share:
-			AnalyticsHelper.sendEvent("share_menu");
-			Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-			intent.setType("text/*");
-			intent.putExtra(android.content.Intent.EXTRA_TEXT, "Android app for converting between Misri and Gregorian dates: \nhttps://market.android.com/details?id=com.squizzard.MisriCalendar");
-			intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "MisriCal for Android");
-			startActivity(Intent.createChooser(intent, "Share using..."));
-			break;
-		case R.id.reminders:
-			AnalyticsHelper.sendEvent("reminders_menu");
-			Intent reminderIntent = new Intent(this, ReminderListActivity.class);
-			startActivity(reminderIntent);
-			break;
-		default: 
+			case R.id.miqaat:
+				AnalyticsHelper.sendEvent("miqaat_menu");
+				startActivity(new Intent(this, MiqaatListActivity.class));
+				break;
+			case R.id.about:
+				AnalyticsHelper.sendEvent("about_menu");
+				startActivity(new Intent(this, AboutActivity.class));
+				break;
+			case R.id.bearings:
+				AnalyticsHelper.sendEvent("bearings_menu");
+				Intent bearingOptionIntent = new Intent(this, SettingsActivity.class);
+				bearingOptionIntent.putExtra("PROVIDER", providerString);
+				bearingOptionIntent.putExtra("BEARING_TO_MECCA", bearingToMeccaString);
+				startActivity(bearingOptionIntent);
+				break;
+			case R.id.share:
+				AnalyticsHelper.sendEvent("share_menu");
+				Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+				intent.setType("text/*");
+				intent.putExtra(android.content.Intent.EXTRA_TEXT, "Android app for converting between Misri and Gregorian dates: \nhttps://market.android.com/details?id=com.squizzard.MisriCalendar");
+				intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "MisriCal for Android");
+				startActivity(Intent.createChooser(intent, "Share using..."));
+				break;
+			case R.id.reminders:
+				AnalyticsHelper.sendEvent("reminders_menu");
+				Intent reminderIntent = new Intent(this, ReminderListActivity.class);
+				startActivity(reminderIntent);
+				break;
+			default:
 		}
 		return false;
 	}
@@ -475,8 +471,8 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 				image.startAnimation(rotateAnimation);
 				startRotateMecca=endRotateMecca;
 			}
-		}catch(Exception e){
-          //do something
+		} catch (Exception e){
+			AnalyticsHelper.sendEvent("Exception in makeRotation()");
 		}
 	}
 
@@ -497,8 +493,8 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 					System.currentTimeMillis());
 			declination = geoField.getDeclination();//positive means the magnetic field is rotated east that much from true north
 		} catch (Exception e) {
-				//do something
-			}
+			AnalyticsHelper.sendEvent("Exception in getGeomagneticField()");
+		}
 	}
 
 	public void onSensorChanged(SensorEvent event) {
