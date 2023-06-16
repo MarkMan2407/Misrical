@@ -34,14 +34,14 @@ public class AlarmCoordinator extends BroadcastReceiver {
 			morningAlarm.set(Calendar.HOUR_OF_DAY, 6);
 			morningAlarm.set(Calendar.MINUTE, 0);
 			Intent morningEventIntent = new Intent(context, NotifyTodaysEventsService.class);
-			PendingIntent morningPendingIntent = PendingIntent.getService(context, MORNING_ALARM_CODE, morningEventIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+			PendingIntent morningPendingIntent = PendingIntent.getService(context, MORNING_ALARM_CODE, morningEventIntent, PendingIntent.FLAG_IMMUTABLE);
 			am.setRepeating(AlarmManager.RTC_WAKEUP, morningAlarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, morningPendingIntent);
 
 			Calendar eveningAlarm = Calendar.getInstance();
 			eveningAlarm.set(Calendar.HOUR_OF_DAY, 20);
 			eveningAlarm.set(Calendar.MINUTE, 0);
 			Intent eveningEventIntent = new Intent(context, NotifyTomorrowsEventsService.class);
-			PendingIntent eveningPendingIntent = PendingIntent.getService(context, EVENING_ALARM_CODE, eveningEventIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+			PendingIntent eveningPendingIntent = PendingIntent.getService(context, EVENING_ALARM_CODE, eveningEventIntent, PendingIntent.FLAG_IMMUTABLE);
 			am.setRepeating(AlarmManager.RTC_WAKEUP, eveningAlarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, eveningPendingIntent);
 		}
 	}
@@ -51,12 +51,12 @@ public class AlarmCoordinator extends BroadcastReceiver {
 
 		if (am != null) {
             Intent morningEventIntent = new Intent(context, NotifyTodaysEventsService.class);
-            PendingIntent morningPendingIntent = PendingIntent.getBroadcast(context, MORNING_ALARM_CODE, morningEventIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent morningPendingIntent = PendingIntent.getBroadcast(context, MORNING_ALARM_CODE, morningEventIntent, PendingIntent.FLAG_IMMUTABLE);
             am.cancel(morningPendingIntent);
             morningPendingIntent.cancel();
 
             Intent eveningEventIntent = new Intent(context, NotifyTomorrowsEventsService.class);
-            PendingIntent eveningPendingIntent = PendingIntent.getBroadcast(context, EVENING_ALARM_CODE, eveningEventIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent eveningPendingIntent = PendingIntent.getBroadcast(context, EVENING_ALARM_CODE, eveningEventIntent, PendingIntent.FLAG_IMMUTABLE);
             am.cancel(eveningPendingIntent);
             eveningPendingIntent.cancel();
         }
