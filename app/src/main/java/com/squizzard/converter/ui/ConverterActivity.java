@@ -250,8 +250,9 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		sensorManager.registerListener(this, magneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-		locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, this);
-
+		if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, this);
+		}
 
 		providerString = "No Location Available";
 
