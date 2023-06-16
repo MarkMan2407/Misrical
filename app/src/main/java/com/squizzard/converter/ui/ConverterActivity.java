@@ -186,19 +186,11 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		network = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		wifi = connectivityMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-		checkPermissions();
-
 		updateDisplay();
-
 
 		new ReminderReporter(getApplicationContext()).reportAllReminders();
 
 		startRotateNorth = endRotateNorth = startRotateMecca = endRotateMecca = 0;
-
-		//point arrows north  endRotationNorth/Mecca=0
-		//point the arrow north: endRotationNorth/Mecca=0
-		makeRotation(arrowImageNorth, false);
-		makeRotation(arrowImageMecca, false);
 	}
 
 	private void highLightDay(Calendar c2) {
@@ -224,6 +216,16 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		} else {
 			doLocationProcessing();
 		}
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		//point arrows north  endRotationNorth/Mecca=0
+		//point the arrow north: endRotationNorth/Mecca=0
+		checkPermissions();
+		makeRotation(arrowImageNorth, false);
+		makeRotation(arrowImageMecca, false);
 	}
 
 	@Override
@@ -418,61 +420,64 @@ public class ConverterActivity extends AppCompatActivity implements OnClickListe
 		return false;
 	}
 
-	private void makeRotation(ImageView image, boolean defaultNorth){
+	private void makeRotation(ImageView image, boolean defaultNorth) {
 		float[] R = new float[16];
 		float[] I = new float[16];
 		float[] remappedMatrix = new float[16];
 		float[] actual_orientation = new float[3];
-		try{
-			SensorManager.getRotationMatrix(R, I, accelerometerValues, magneticValues);
-			Display display = getWindowManager().getDefaultDisplay();
+		try {
+			if (magneticValues != null && accelerometerValues != null) {
+				SensorManager.getRotationMatrix(R, I, accelerometerValues, magneticValues);
+				Display display = getWindowManager().getDefaultDisplay();
 
-			int phoneRotation = display.getOrientation();
+				int phoneRotation = display.getOrientation();
 
-			if(phoneRotation==0){//portrait
-				SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_Y, remappedMatrix);
-			}
-			if(phoneRotation==1){//landscape facing left
-				SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, remappedMatrix);
-			}
-			if(phoneRotation==3){//landscape facing right
-				SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_MINUS_Y, SensorManager.AXIS_X, remappedMatrix);
-			}
+				if (phoneRotation == 0) {//portrait
+					SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_Y, remappedMatrix);
+				}
+				if (phoneRotation == 1) {//landscape facing left
+					SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, remappedMatrix);
+				}
+				if (phoneRotation == 3) {//landscape facing right
+					SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_MINUS_Y, SensorManager.AXIS_X, remappedMatrix);
+				}
 
-			SensorManager.getOrientation(remappedMatrix, actual_orientation);
-			//values[0]: Azimuth, rotation around the Z axis (0<=azimuth<360). 0 = North, 90 = East, 180 = South, 270 = West
-			float azi = (float)Math.toDegrees(actual_orientation[0]);
+				SensorManager.getOrientation(remappedMatrix, actual_orientation);
+				//values[0]: Azimuth, rotation around the Z axis (0<=azimuth<360). 0 = North, 90 = East, 180 = South, 270 = West
+				float azi = (float) Math.toDegrees(actual_orientation[0]);
 
-			if(declination>=0){
-				azi-=declination;//positive declination means the magnetic field is rotated east that much from true north. if its positive subtract it, negative then add it
-			}
-			else azi+=declination;//need to do an azimuth conversion.
-			int aziDisplay = (int)azi;//for display purposes
-			if (aziDisplay < 0){
-				aziDisplay = 180 + (180 + aziDisplay);
-			}
+				if (declination >= 0) {
+					azi -= declination;//positive declination means the magnetic field is rotated east that much from true north. if its positive subtract it, negative then add it
+				} else azi += declination;//need to do an azimuth conversion.
+				int aziDisplay = (int) azi;//for display purposes
+				if (aziDisplay < 0) {
+					aziDisplay = 180 + (180 + aziDisplay);
+				}
 
-			endRotateNorth = - azi;//this is endRotate is north
-			if(image.equals(arrowImageNorth)){
-				if(defaultNorth) endRotateNorth=0;
-				RotateAnimation rotateAnimation = new RotateAnimation(startRotateNorth, endRotateNorth, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-				rotateAnimation.setDuration(500);
-				rotateAnimation.setFillAfter(true);
-				image.startAnimation(rotateAnimation);
-				startRotateNorth=endRotateNorth;
+				endRotateNorth = -azi;//this is endRotate is north
+				if (image.equals(arrowImageNorth)) {
+					if (defaultNorth) endRotateNorth = 0;
+					RotateAnimation rotateAnimation = new RotateAnimation(startRotateNorth, endRotateNorth, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+					rotateAnimation.setDuration(500);
+					rotateAnimation.setFillAfter(true);
+					image.startAnimation(rotateAnimation);
+					startRotateNorth = endRotateNorth;
+				}
+				if (image.equals(arrowImageMecca)) {
+					if (location != null) {
+						endRotateMecca = endRotateNorth + location.bearingTo(mecca);
+					}
+					if (defaultNorth || bearingToMeccaString.equals("Unavailable"))
+						endRotateMecca = 0;
+					RotateAnimation rotateAnimation = new RotateAnimation(startRotateMecca, endRotateMecca, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+					rotateAnimation.setDuration(500);
+					rotateAnimation.setFillAfter(true);
+					image.startAnimation(rotateAnimation);
+					startRotateMecca = endRotateMecca;
+				}
 			}
-			if(image.equals(arrowImageMecca)){
-				if(location!=null){
-					endRotateMecca = endRotateNorth + location.bearingTo(mecca);}
-				if(defaultNorth || bearingToMeccaString.equals("Unavailable")) endRotateMecca=0;
-				RotateAnimation rotateAnimation = new RotateAnimation(startRotateMecca, endRotateMecca, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-				rotateAnimation.setDuration(500);
-				rotateAnimation.setFillAfter(true);
-				image.startAnimation(rotateAnimation);
-				startRotateMecca=endRotateMecca;
-			}
-		} catch (Exception e){
-			AnalyticsHelper.sendEvent("Exception in makeRotation()");
+		} catch (Exception e) {
+			AnalyticsHelper.sendEvent("Exception in makeRotation() " + e.getMessage());
 		}
 	}
 
