@@ -6,17 +6,17 @@
 	<RelativeLayout android:id="@+id/misri_widget" android:layout_height="wrap_content" android:layout_width="329dp">
 		<ImageView android:layout_width="wrap_content"
 			android:id="@+id/launcher_icon" android:src="@drawable/ic_launcher1"
-			android:layout_height="wrap_content" android:paddingLeft="20dip"
+			android:layout_height="wrap_content" android:paddingStart="20dip"
 			android:maxWidth="100dip" android:minHeight="100dip"
 			android:adjustViewBounds="true" android:scaleType="fitXY"
 			 android:paddingTop="20dip" android:paddingBottom="20dip"/>
 		<TextView android:layout_width="wrap_content" 
-			android:layout_toRightOf="@id/launcher_icon"
-			android:layout_centerVertical="true" 
+			android:layout_toEndOf="@id/launcher_icon"
+			android:layout_centerVertical="true"
 			android:textSize="16sp" android:textColor="@android:color/black"
 			android:layout_height="wrap_content" android:textStyle="italic"
 			android:id="@+id/w_misri_date" 
-			android:paddingLeft="5dip" android:paddingRight="25dip" android:layout_alignParentRight="true"
+			android:paddingStart="5dip" android:paddingEnd="25dip" android:layout_alignParentEnd="true"
 			android:clickable="true"/>
 	</RelativeLayout>
 </FrameLayout>

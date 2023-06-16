@@ -16,7 +16,7 @@ import com.squizzard.misriCalendar.R;
 public class MisriAppWidgetProvider extends AppWidgetProvider{
 
 	private static final String FLIP_DATE_ACTION = "FLIP_DATE";
-	private static Misri m  = new Misri();
+	private final Misri m  = new Misri();
 	private RemoteViews remoteView;
 	private static boolean gregorian = false;
 
@@ -28,12 +28,12 @@ public class MisriAppWidgetProvider extends AppWidgetProvider{
 		remoteView.setTextViewText(R.id.w_misri_date, todayMisri);
 
 		Intent launchAppIntent = new Intent(context, ConverterActivity.class);
-		PendingIntent launchAppPendingIntent = PendingIntent.getActivity(context,0, launchAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent launchAppPendingIntent = PendingIntent.getActivity(context,0, launchAppIntent, PendingIntent.FLAG_IMMUTABLE);
 		remoteView.setOnClickPendingIntent(R.id.launcher_icon, launchAppPendingIntent);
 
 		Intent flipDateIntent = new Intent(context, MisriAppWidgetProvider.class);
 		flipDateIntent.setAction(FLIP_DATE_ACTION);
-		PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, 0, flipDateIntent, 0);
+		PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, 0, flipDateIntent, PendingIntent.FLAG_IMMUTABLE);
 		remoteView.setOnClickPendingIntent(R.id.w_misri_date, pendingIntent2);
 
 		appWidgetManager.updateAppWidget(appWidgetIds, remoteView);
