@@ -106,19 +106,19 @@
             android:id="@+id/arrow_icon_mecca"
             android:layout_width="125dip"
             android:layout_height="125dip"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:adjustViewBounds="true"
             android:padding="10dp"
             android:scaleType="fitXY"
-            android:src="@drawable/arr2" >
+            android:src="@drawable/ic_baseline_keyboard_double_arrow_up_24" >
         </ImageView>
 
         <TextView
             android:id="@+id/arrow_label_mecca"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/arrow_icon_mecca"
-            android:layout_alignRight="@+id/arrow_icon_mecca"
+            android:layout_alignStart="@+id/arrow_icon_mecca"
+            android:layout_alignEnd="@+id/arrow_icon_mecca"
             android:layout_below="@+id/arrow_icon_mecca"
             android:gravity="center"
             android:padding="5dip"
@@ -133,19 +133,19 @@
             android:layout_height="125dip"
             android:layout_alignBottom="@+id/arrow_icon_mecca"
             android:layout_alignTop="@+id/arrow_icon_mecca"
-            android:layout_toLeftOf="@+id/arrow_icon_mecca"
+            android:layout_toStartOf="@+id/arrow_icon_mecca"
             android:adjustViewBounds="true"
             android:padding="10dp"
             android:scaleType="fitXY"
-            android:src="@drawable/arr2" >
+            android:src="@drawable/ic_baseline_keyboard_double_arrow_up_24" >
         </ImageView>
 
         <TextView
             android:id="@+id/northLabel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/arrow_icon_north"
-            android:layout_alignRight="@+id/arrow_icon_north"
+            android:layout_alignStart="@+id/arrow_icon_north"
+            android:layout_alignEnd="@+id/arrow_icon_north"
             android:layout_below="@+id/arrow_icon_north"
             android:gravity="center"
             android:padding="5dip"
@@ -158,7 +158,7 @@
             android:id="@+id/dateGregorian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/convertedDate"
             android:layout_marginTop="15dip"
             android:padding="5dip"
@@ -168,7 +168,7 @@
             android:id="@+id/convertedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_marginTop="15dip"
             android:padding="5dip"
             android:textSize="16sp" />
@@ -178,9 +178,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/northLabel"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:maxWidth="300sp"
-            android:paddingLeft="5dip"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:textColor="@color/monthListNumber"
             android:textSize="14sp" />
     </RelativeLayout>
