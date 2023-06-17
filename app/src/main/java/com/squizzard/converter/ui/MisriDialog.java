@@ -12,15 +12,17 @@ import com.squizzard.converter.model.Misri;
 import com.squizzard.misriCalendar.R;
 import com.squizzard.util.DateUtil;
 
+import java.util.Locale;
+
 
 public class MisriDialog extends Dialog implements OnClickListener{
-	private EditText dayText;
-	private EditText monthText;
-	private EditText yearText;
+	private final EditText dayText;
+	private final EditText monthText;
+	private final EditText yearText;
 	private int monthCode;
 	private Integer dayCode;//30,29,30,29
 	private Integer yearCode;
-	private Misri misriConverter;
+	private final Misri misriConverter;
 	private static final int MIN_DAY = 1;
 
 	MisriDialog(Context context, Misri m) {
@@ -49,13 +51,12 @@ public class MisriDialog extends Dialog implements OnClickListener{
 		dayText = findViewById(R.id.dayText);
 		monthText = findViewById(R.id.monthText);
 		yearText = findViewById(R.id.yearText);
-		//get todays gregorian date and convert it to the 
 		dayCode = m.getTodayMisriDay();
-		dayText.setText(dayCode.toString().trim());
+		dayText.setText(String.format(Locale.getDefault(), "%d", dayCode));
 		monthText.setText(m.getTodayMisriMonth().trim());
 		monthCode = m.getTodayMisriMonthCode();
 		yearCode = m.getTodayMisriYear();
-		yearText.setText(yearCode.toString().trim());
+		yearText.setText(String.format(Locale.getDefault(), "%d", yearCode));
 		
 	}
 
@@ -64,11 +65,11 @@ public class MisriDialog extends Dialog implements OnClickListener{
 		switch(v.getId()){
 		case R.id.dayMinus:
 			subtractDay();
-			dayText.setText(dayCode.toString().trim());
+			dayText.setText(String.format(Locale.getDefault(), "%d", dayCode));
 			break;
 		case R.id.dayPlus:
 			addDay();
-			dayText.setText(dayCode.toString().trim());
+			dayText.setText(String.format(Locale.getDefault(), "%d", dayCode));
 			break;
 		case R.id.monthMinus:
 			subtractMonth();			
@@ -80,11 +81,11 @@ public class MisriDialog extends Dialog implements OnClickListener{
 			break;
 		case R.id.yearMinus:
 			subtractYear();
-			yearText.setText(yearCode.toString().trim());
+			yearText.setText(String.format(Locale.getDefault(), "%d", yearCode));
 			break;
 		case R.id.yearPlus:
 			addYear();
-			yearText.setText(yearCode.toString().trim());
+			yearText.setText(String.format(Locale.getDefault(), "%d", yearCode));
 			break;
 		case R.id.misriSet:
 			validate();
@@ -103,24 +104,24 @@ public class MisriDialog extends Dialog implements OnClickListener{
 	yearCode = Integer.parseInt(yearValue);
 		if (dayCode < 1) {
 			dayCode = 1;
-			dayText.setText(dayCode.toString());
+			dayText.setText(String.format(Locale.getDefault(), "%d", dayCode));
 		}
 		if (dayCode > 29) {
 			if (monthCode % 2 == 1){
 				dayCode = 30;
-				dayText.setText(dayCode.toString());
+				dayText.setText(String.format(Locale.getDefault(), "%d", dayCode));
 			} else {
 				dayCode = 29;
-				dayText.setText(dayCode.toString());
+				dayText.setText(String.format(Locale.getDefault(), "%d", dayCode));
 			}
 		}
 		if (yearCode > 1499) {
 			yearCode = 1499;
-			yearText.setText(yearCode.toString());
+			yearText.setText(String.format(Locale.getDefault(), "%d", yearCode));
 		}
 		if (yearCode < 1) {
 			yearCode = 1;
-			yearText.setText(yearCode.toString());
+			yearText.setText(String.format(Locale.getDefault(), "%d", yearCode));
 		}
 	}
 	
