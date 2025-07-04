@@ -1,12 +1,12 @@
-package com.squizzard;
+package com.squizzard
 
-public final class Attributes{
-	public static final String NO_MIQAAT_TODAY = "com.squizzard.MisriCalendar.NO_MIQAAT_TODAY";
-	public static final String NO_MIQAAT_TOMORROW = "com.squizzard.MisriCalendar.NO_MIQAAT_TOMORROW";
-	public static final String MIQAATS_ALERT_PREFERENCE = "miqaat_alert_preference";
-	public static final String LOCATION_SETTINGS_PREFERENCE = "location_settings_preference";
-	public static final int MORNING_ALARM_CODE = 131;
-	public static final int EVENING_ALARM_CODE = 132;
+object Attributes {
+    const val NO_MIQAAT_TODAY: String = "com.squizzard.MisriCalendar.NO_MIQAAT_TODAY"
+    const val NO_MIQAAT_TOMORROW: String = "com.squizzard.MisriCalendar.NO_MIQAAT_TOMORROW"
+    const val MIQAATS_ALERT_PREFERENCE: String = "miqaat_alert_preference"
+    const val LOCATION_SETTINGS_PREFERENCE: String = "location_settings_preference"
+    const val MORNING_ALARM_CODE: Int = 131
+    const val EVENING_ALARM_CODE: Int = 132
 
-	public static final String DEFAULT_NOTIFICATION_CHANNEL_ID = "DEFAULT_NOTIFICATION_CHANNEL";
+    const val DEFAULT_NOTIFICATION_CHANNEL_ID: String = "DEFAULT_NOTIFICATION_CHANNEL"
 }

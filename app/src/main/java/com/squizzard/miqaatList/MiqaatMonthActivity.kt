@@ -1,102 +1,105 @@
-package com.squizzard.miqaatList;
+package com.squizzard.miqaatList
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.squizzard.converter.model.Misri
+import com.squizzard.misriCalendar.R
+import com.squizzard.util.DateUtil
+import com.squizzard.util.DateUtil.getDaySuffix
 
-import com.squizzard.converter.model.Misri;
-import com.squizzard.misriCalendar.R;
-import com.squizzard.util.DateUtil;
+class MiqaatMonthActivity : AppCompatActivity() {
+    private val events = ArrayList<String>()
+    private val dates = ArrayList<String>()
 
-import java.util.ArrayList;
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        setContentView(R.layout.miqaat_event_display)
+        val month = intent.getIntExtra("MONTH", 0)
+        val list = findViewById<ListView>(R.id.miqaat_list)
+        val adapter = MiqaatListAdapter()
+        list.adapter = adapter
 
-import androidx.appcompat.app.AppCompatActivity;
+        supportActionBar!!.title = MiqaatListActivity.months[month]
 
-public class MiqaatMonthActivity extends AppCompatActivity {
-
-	private ArrayList<String> events = new ArrayList<>();
-	private ArrayList<String> dates = new ArrayList<>();
-	
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		setContentView(R.layout.miqaat_event_display);
-		int month =  getIntent().getIntExtra("MONTH", 0);
-		ListView list = findViewById(R.id.miqaat_list);
-		MiqaatListAdapter adapter = new MiqaatListAdapter();
-		list.setAdapter(adapter);
-		
-		getSupportActionBar().setTitle(MiqaatListActivity.months[month]);
-		
-		//determine start and end days for displaying events
-		int eventsStart = 0, eventsEnd = 0;
-		eventsStart= Misri.misri_month[month]+1;
-		if(month<11){
-		eventsEnd=Misri.misri_month[month+1]+1;}
-		else eventsEnd=355;
+        //determine start and end days for displaying events
+        val eventsStart: Int = Misri.misri_month[month] + 1
+        val eventsEnd: Int = if (month < 11) {
+            Misri.misri_month[month + 1] + 1
+        } else 355
 
 
-		for(int x=eventsStart;x<eventsEnd;x++){
-			if(DateUtil.priorityEventMap.containsKey(x)){
-                String[] arr = DateUtil.priorityEventMap.get(x);
-				for(int y=0;y<arr.length;y++){
-					events.add(arr[y]);
-					dates.add((x - eventsStart + 1) + DateUtil.getDaySuffix(x-eventsStart+1) + " - Notification Event");
-				}
-			}
-			if(DateUtil.eventMap.containsKey(x)){
-                String[] arr2 = DateUtil.eventMap.get(x);
-				for(int y=0;y<arr2.length;y++){
-					events.add(arr2[y]);
-					dates.add((x - eventsStart + 1) + DateUtil.getDaySuffix(x-eventsStart+1));
-				}
-			}			
-		}
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem)
-	{       
-	    onBackPressed();
-	    return true;
-	}
-	
-	private class MiqaatListAdapter extends BaseAdapter {
-		public int getCount() {
-			return events.size();
-		}
+        for (x in eventsStart until eventsEnd) {
+            if (DateUtil.priorityEventMap.containsKey(x)) {
+                val arr = DateUtil.priorityEventMap[x]!!
+                for (y in arr.indices) {
+                    events.add(arr[y])
+                    dates.add((x - eventsStart + 1).toString() + getDaySuffix(x - eventsStart + 1) + " - Notification Event")
+                }
+            }
+            if (DateUtil.eventMap.containsKey(x)) {
+                val arr2 = DateUtil.eventMap[x]!!
+                for (y in arr2.indices) {
+                    events.add(arr2[y])
+                    dates.add((x - eventsStart + 1).toString() + getDaySuffix(x - eventsStart + 1))
+                }
+            }
+        }
+    }
 
-		public Object getItem(int arg0) {
-			return null;
-		}
+    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.itemId == android.R.id.home) {
+            onBackPressedDispatcher.onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(menuItem)
+    }
 
-		public long getItemId(int position) {
-			return position;
-		}
+    private inner class MiqaatListAdapter : BaseAdapter() {
+        override fun getCount(): Int {
+            return events.size
+        }
 
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View row = convertView;
+        override fun getItem(position: Int): String {
+            return events[position]
+        }
 
-			if(row==null){
-				LayoutInflater inflater=getLayoutInflater();
-				row=inflater.inflate(R.layout.miqaat_event_row, parent, false);
-			}
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
 
-			((TextView)row.findViewById(R.id.date)).setText(dates.get(position));
-			((TextView)row.findViewById(R.id.event)).setText(events.get(position));
-			return row;
-		}
-	}
-	
-	
-	
-	
-	
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val rowView: View
+            val viewHolder: EventViewHolder
+
+            if (convertView == null) {
+                rowView = layoutInflater.inflate(R.layout.miqaat_event_row, parent, false)
+
+                viewHolder = EventViewHolder(
+                    dateTextView = rowView.findViewById(R.id.date),
+                    eventTextView = rowView.findViewById(R.id.event)
+                )
+                rowView.tag = viewHolder
+            } else {
+                rowView = convertView
+                viewHolder = rowView.tag as EventViewHolder
+            }
+
+            viewHolder.dateTextView.text = dates[position]
+            viewHolder.eventTextView.text = events[position]
+
+            return rowView
+        }
+    }
 }
+
+private class EventViewHolder(
+    val dateTextView: TextView,
+    val eventTextView: TextView
+)

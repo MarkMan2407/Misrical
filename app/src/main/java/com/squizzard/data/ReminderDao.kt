@@ -27,8 +27,8 @@ interface ReminderDao {
     fun getMisriRemindersForDayAndMonth(day: Int, month: Int): List<Reminder>?
 
     @Delete
-    fun delete(reminder: Reminder?)
+    fun delete(reminder: Reminder)
 
     @Insert
-    fun insert(reminder: Reminder?)
+    fun insert(reminder: Reminder)
 }

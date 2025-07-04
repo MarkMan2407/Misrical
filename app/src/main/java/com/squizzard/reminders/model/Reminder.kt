@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "reminders")
-data class Reminder @JvmOverloads constructor(@ColumnInfo(name = "reminderText") var reminderText: String?,
+data class Reminder (@ColumnInfo(name = "reminderText") var reminderText: String,
                     @ColumnInfo(name = "gregorianDay") var gregorianDay: Int,
                     @ColumnInfo(name = "gregorianMonth") var gregorianMonth: Int,
                     @ColumnInfo(name = "misriDay") var misriDay: Int,
